@@ -1,0 +1,64 @@
+{
+  "provinces": [
+    {
+      "name": "Punjab",
+      "aliases": ["punjab province", "pb", "punjab, pakistan"]
+    },
+    {
+      "name": "Sindh",
+      "aliases": ["sindh province", "sind"]
+    },
+    {
+      "name": "Khyber Pakhtunkhwa",
+      "aliases": ["kp", "kpk", "khyber pukhtoonkhwa", "nwfp"]
+    },
+    {
+      "name": "Balochistan",
+      "aliases": ["baluchistan"]
+    },
+    {
+      "name": "Gilgit-Baltistan",
+      "aliases": ["gb", "gilgit baltistan"]
+    },
+    {
+      "name": "Azad Jammu and Kashmir",
+      "aliases": ["ajk", "azad kashmir", "kashmir"]
+    },
+    {
+      "name": "Islamabad Capital Territory",
+      "aliases": ["islamabad", "ict", "capital territory"]
+    }
+  ],
+  "districts": [
+    {
+      "name": "Lahore",
+      "province": "Punjab",
+      "aliases": ["lahore district", "district lahore", "lhr"]
+    },
+    {
+      "name": "Karachi",
+      "province": "Sindh",
+      "aliases": ["karachi district", "karachi division", "khi", "district karachi"]
+    },
+    {
+      "name": "Peshawar",
+      "province": "Khyber Pakhtunkhwa",
+      "aliases": ["peshawar district", "district peshawar"]
+    },
+    {
+      "name": "Quetta",
+      "province": "Balochistan",
+      "aliases": ["quetta district", "district quetta"]
+    },
+    {
+      "name": "Rawalpindi",
+      "province": "Punjab",
+      "aliases": ["rawalpindi district", "district rawalpindi", "pindi"]
+    },
+    {
+      "name": "Multan",
+      "province": "Punjab",
+      "aliases": ["multan district", "district multan"]
+    }
+  ]
+}

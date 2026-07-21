@@ -1,0 +1,34 @@
+[
+    {
+        "name": "PMD Weather",
+        "description": "Pakistan Meteorological Department Weather Alerts",
+        "base_url": "https://www.pmd.gov.pk/",
+        "scrape_url": "https://www.pmd.gov.pk/en/latest-weather-alerts.php",
+        "source_type": "XML/HTML",
+        "polling_interval_minutes": 15
+    },
+    {
+        "name": "PMD Earthquake",
+        "description": "PMD National Seismic Monitoring Centre Events",
+        "base_url": "https://seismic.pmd.gov.pk/",
+        "scrape_url": "https://seismic.pmd.gov.pk/events.php",
+        "source_type": "HTML",
+        "polling_interval_minutes": 5
+    },
+    {
+        "name": "NDMA Advisories",
+        "description": "NDMA Advisories and Technical Early Warnings",
+        "base_url": "https://www.ndma.gov.pk/",
+        "scrape_url": "https://www.ndma.gov.pk/advisories",
+        "source_type": "HTML/PDF",
+        "polling_interval_minutes": 30
+    },
+    {
+        "name": "FFD Bulletins",
+        "description": "Flood Forecasting Division Bulletins",
+        "base_url": "https://ffd.pmd.gov.pk/",
+        "scrape_url": "https://ffd.pmd.gov.pk/bulletin/A",
+        "source_type": "HTML/PDF",
+        "polling_interval_minutes": 60
+    }
+]
