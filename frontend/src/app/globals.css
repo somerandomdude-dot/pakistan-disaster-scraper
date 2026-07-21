@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  /* Surface colors */
+  --background: #f8fafc; /* light neutral gray */
+  --panel: #ffffff; /* white */
+  
+  /* Text colors */
+  --text-primary: #0f172a; /* near-black navy */
+  --text-secondary: #64748b; /* muted blue-gray */
+  
+  /* Action colors */
+  --action-primary: #1e3a8a; /* dark blue */
+  --action-hover: #1e40af;
+  
+  /* Severity colors */
+  --color-critical: #b91c1c; /* deep red */
+  --color-high: #ea580c; /* orange */
+  --color-medium: #d97706; /* amber */
+  --color-low: #60a5fa; /* muted blue */
+  
+  /* Status colors */
+  --color-healthy: #16a34a; /* green */
+  --color-unhealthy: #dc2626; /* red */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-panel: var(--panel);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-action-primary: var(--action-primary);
+  --color-action-hover: var(--action-hover);
+  
+  --color-severity-critical: var(--color-critical);
+  --color-severity-high: var(--color-high);
+  --color-severity-medium: var(--color-medium);
+  --color-severity-low: var(--color-low);
+  
+  --color-status-healthy: var(--color-healthy);
+  --color-status-unhealthy: var(--color-unhealthy);
+  
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix leaflet marker rendering issues in some Next.js environments */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
