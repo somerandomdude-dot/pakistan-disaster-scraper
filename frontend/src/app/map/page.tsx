@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useActiveAlerts } from "@/lib/hooks/queries";
 import InteractiveAlertMap from "@/components/map/InteractiveAlertMap";
 import { useSearchParams } from "next/navigation";
 import AlertFilters from "@/components/alerts/AlertFilters";
 
-export default function MapPage() {
+function MapContent() {
   const searchParams = useSearchParams();
   const params: Record<string, string> = {};
   searchParams.forEach((value, key) => { params[key] = value; });
@@ -29,5 +30,13 @@ export default function MapPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function MapPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse">Loading map view...</div>}>
+      <MapContent />
+    </Suspense>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useActiveAlerts, useSources, useSummaryMetrics } from "@/lib/hooks/queries";
 import AlertSummaryBanner from "@/components/dashboard/AlertSummaryBanner";
 import ActiveAlertList from "@/components/alerts/ActiveAlertList";
@@ -9,7 +10,7 @@ import SourceHealthPanel from "@/components/sources/SourceHealthPanel";
 import RecentAlertsTable from "@/components/dashboard/RecentAlertsTable";
 import { useSearchParams } from "next/navigation";
 
-export default function Dashboard() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   
   // Convert URL search params to an object for the API
@@ -73,5 +74,13 @@ export default function Dashboard() {
         {alerts && <RecentAlertsTable alerts={alerts} />}
       </div>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse">Loading dashboard...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }

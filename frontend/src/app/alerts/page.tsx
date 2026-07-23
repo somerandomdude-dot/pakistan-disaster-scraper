@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useActiveAlerts } from "@/lib/hooks/queries";
 import ActiveAlertList from "@/components/alerts/ActiveAlertList";
 import AlertFilters from "@/components/alerts/AlertFilters";
 import { useSearchParams } from "next/navigation";
 
-export default function AlertsPage() {
+function AlertsContent() {
   const searchParams = useSearchParams();
   const params: Record<string, string> = {};
   searchParams.forEach((value, key) => { params[key] = value; });
@@ -32,5 +33,13 @@ export default function AlertsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AlertsPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse">Loading active alerts...</div>}>
+      <AlertsContent />
+    </Suspense>
   );
 }
