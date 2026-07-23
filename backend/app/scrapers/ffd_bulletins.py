@@ -1,9 +1,19 @@
 import logging
 from bs4 import BeautifulSoup
 import re
+import io
 from typing import List, Dict, Any
 from datetime import datetime, timezone
-import fitz  # PyMuPDF
+
+try:
+    import fitz  # PyMuPDF
+except ImportError:
+    fitz = None
+
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None
 
 from app.scrapers.base import BaseScraper
 from app.schemas.alert import AlertCreate, AlertLocationCreate
@@ -59,17 +69,20 @@ class FFDBulletinScraper(BaseScraper):
             retrieved_at = item["retrieved_at"]
             
             try:
-                doc = fitz.open(stream=pdf_bytes, filetype="pdf")
                 text = ""
-                for page in doc:
-                    text += page.get_text()
+                if fitz is not None:
+                    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+                    for page in doc:
+                        text += page.get_text()
+                elif PdfReader is not None:
+                    reader = PdfReader(io.BytesIO(pdf_bytes))
+                    for page in reader.pages:
+                        text += page.extract_text() or ""
+                else:
+                    logger.warning("No PDF parser library (fitz or pypdf) available.")
                     
                 # Clean up text somewhat
                 text = re.sub(r'\s+', ' ', text).strip()
-                
-                # FFD Bulletins usually have a date/time in the text, but for simplicity
-                # we'll use the current retrieval time if we can't parse it easily.
-                # We can also attempt to find "Date: <date>" or similar.
                 
                 title = "Flood Forecasting Division Bulletin"
                 if "BULLETIN No. A" in text or url.endswith("A"):
@@ -77,20 +90,18 @@ class FFDBulletinScraper(BaseScraper):
                 elif "BULLETIN No. B" in text or url.endswith("B"):
                     title = "FFD Rainfall & Flood Forecast Bulletin B"
                     
-                # Generate a unique ID based on the URL or the current day
-                # Since URLs might be static like /bulletin/A/download, we append date
                 date_str = retrieved_at.strftime("%Y-%m-%d")
                 alert_id = f"FFD-{title.replace(' ', '')}-{date_str}"
                 
                 parsed_alerts.append({
                     "source_alert_id": alert_id,
                     "title": title,
-                    "description": text[:2000] + ("..." if len(text) > 2000 else ""), # Truncate for description
+                    "description": text[:2000] + ("..." if len(text) > 2000 else ""),
                     "hazard_type": "flood",
                     "issued_at_raw": retrieved_at,
                     "source_url": url,
                     "raw_text": text,
-                    "raw_locations": ["Pakistan"] # Default location for national bulletins
+                    "raw_locations": ["Pakistan"]
                 })
             except Exception as e:
                 logger.error(f"Error parsing FFD PDF {url}: {e}")
@@ -101,7 +112,6 @@ class FFDBulletinScraper(BaseScraper):
         normalized = []
         for item in parsed_items:
             try:
-                # Treat FFD bulletins as "medium" severity by default unless keyword analysis shows "HIGH FLOOD"
                 severity = "medium"
                 text_upper = item.get("raw_text", "").upper()
                 if "VERY HIGH FLOOD" in text_upper or "EXCEPTIONALLY HIGH FLOOD" in text_upper:

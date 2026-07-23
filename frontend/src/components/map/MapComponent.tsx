@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { useEffect, useRef, useState, useMemo } from "react";
 import L from "leaflet";
 import { Alert } from "@/lib/api/schemas";
 import { Badge } from "../shared/Badge";
-import MapCityController from "./MapCityController";
 import { AlertTriangle, Droplets, Wind, ThermometerSun, Activity, Mountain, RotateCcw, Maximize2 } from "lucide-react";
 
 // Fix standard marker icons in Next.js
@@ -18,7 +16,7 @@ L.Icon.Default.mergeOptions({
 
 function HazardIcon({ type, className }: { type: string; className?: string }) {
   const props = { className: className || "h-4 w-4" };
-  switch (type.toLowerCase()) {
+  switch (type?.toLowerCase()) {
     case "flood":
     case "flash_flood":
     case "heavy_rain":
@@ -47,16 +45,6 @@ function getSeverityColor(severity: string) {
   }
 }
 
-// Controller to reset view to center of Pakistan
-function MapResetController({ onResetHandled }: { onResetHandled: () => void }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView([30.3753, 69.3451], 5, { animate: true, duration: 1.0 });
-    onResetHandled();
-  }, [map, onResetHandled]);
-  return null;
-}
-
 interface MapComponentProps {
   alerts: Alert[];
   selectedCityCoords?: { lat: number; lng: number } | null;
@@ -68,13 +56,16 @@ export default function MapComponent({
   selectedCityCoords,
   onSelectAlert,
 }: MapComponentProps) {
-  const [shouldResetView, setShouldResetView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Extract markers with valid coordinates
   const markers = useMemo(() => {
-    return alerts.flatMap((alert) => {
-      return alert.locations
+    return (alerts || []).flatMap((alert) => {
+      return (alert.locations || [])
         .filter((loc) => loc.latitude && loc.longitude)
         .map((loc) => ({
           alert,
@@ -84,6 +75,122 @@ export default function MapComponent({
     });
   }, [alerts]);
 
+  // Safely initialize Leaflet Map instance
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Clean lingering Leaflet container ID from previous mounts / Fast Refresh
+    if ((containerRef.current as any)._leaflet_id) {
+      delete (containerRef.current as any)._leaflet_id;
+    }
+
+    const map = L.map(containerRef.current, {
+      center: [30.3753, 69.3451], // Center of Pakistan
+      zoom: 5,
+      scrollWheelZoom: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    const markersLayer = L.layerGroup().addTo(map);
+    markersLayerRef.current = markersLayer;
+    mapRef.current = map;
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+      if (containerRef.current) {
+        delete (containerRef.current as any)._leaflet_id;
+      }
+    };
+  }, []);
+
+  // Handle selectedCityCoords Fly-To
+  useEffect(() => {
+    if (!mapRef.current || !selectedCityCoords) return;
+    mapRef.current.flyTo([selectedCityCoords.lat, selectedCityCoords.lng], 12, {
+      animate: true,
+      duration: 1.5,
+    });
+  }, [selectedCityCoords]);
+
+  // Handle Markers update
+  useEffect(() => {
+    const map = mapRef.current;
+    const layerGroup = markersLayerRef.current;
+    if (!map || !layerGroup) return;
+
+    layerGroup.clearLayers();
+
+    const boundsLatLngs: [number, number][] = [];
+
+    markers.forEach(({ alert, position, locationName }) => {
+      boundsLatLngs.push(position);
+      const color = getSeverityColor(alert.normalized_severity);
+
+      const iconHtml = `
+        <div style="background-color: white; border: 3px solid ${color}; width: 26px; height: 26px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
+          <div style="background-color: ${color}; width: 10px; height: 10px; border-radius: 50%;"></div>
+        </div>
+      `;
+
+      const customIcon = L.divIcon({
+        html: iconHtml,
+        className: "custom-leaflet-icon",
+        iconSize: [26, 26],
+        iconAnchor: [13, 13],
+      });
+
+      const popupDiv = document.createElement("div");
+      popupDiv.className = "flex flex-col gap-2 p-1 font-sans";
+
+      popupDiv.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+          <strong style="font-weight: 600; color: #0f172a; font-size: 12px; line-height: 1.3;">
+            ${alert.title}
+          </strong>
+        </div>
+        <div style="font-size: 12px; color: #475569; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          ${alert.description || "Not provided by source."}
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9;">
+          <span style="background-color: ${color}20; color: ${color}; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">
+            ${alert.normalized_severity}
+          </span>
+          <span style="font-size: 11px; color: #64748b; font-weight: 500;">
+            ${locationName}
+          </span>
+        </div>
+      `;
+
+      if (onSelectAlert) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "mt-2 w-full py-1 bg-blue-900 hover:bg-blue-800 text-white rounded text-xs font-medium transition-colors cursor-pointer";
+        btn.innerText = "View Full Alert Details";
+        btn.onclick = () => onSelectAlert(alert);
+        popupDiv.appendChild(btn);
+      }
+
+      const marker = L.marker(position, { icon: customIcon }).bindPopup(popupDiv, { minWidth: 260 });
+      layerGroup.addLayer(marker);
+    });
+
+    if (boundsLatLngs.length > 0 && !selectedCityCoords) {
+      const bounds = L.latLngBounds(boundsLatLngs);
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 8 });
+    }
+  }, [markers, onSelectAlert, selectedCityCoords]);
+
+  const handleResetView = () => {
+    if (!mapRef.current) return;
+    mapRef.current.setView([30.3753, 69.3451], 5, { animate: true, duration: 1.0 });
+  };
+
   return (
     <div className={`w-full h-full relative rounded-md overflow-hidden border border-slate-200 bg-slate-100 ${isFullscreen ? "fixed inset-0 z-50 rounded-none border-none" : "min-h-[450px]"}`}>
       
@@ -91,8 +198,8 @@ export default function MapComponent({
       <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-2 bg-white p-1 rounded-md shadow-md border border-slate-200">
         <button
           type="button"
-          onClick={() => setShouldResetView(true)}
-          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
+          onClick={handleResetView}
+          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
           title="Reset Map View"
           aria-label="Reset map view to Pakistan"
         >
@@ -100,8 +207,13 @@ export default function MapComponent({
         </button>
         <button
           type="button"
-          onClick={() => setIsFullscreen(!isFullscreen)}
-          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
+          onClick={() => {
+            setIsFullscreen(!isFullscreen);
+            setTimeout(() => {
+              mapRef.current?.invalidateSize();
+            }, 100);
+          }}
+          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
           title={isFullscreen ? "Exit Fullscreen" : "Fullscreen Map"}
           aria-label="Toggle map fullscreen mode"
         >
@@ -118,87 +230,7 @@ export default function MapComponent({
         <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span><span className="text-slate-600">Low</span></div>
       </div>
 
-      <MapContainer
-        center={[30.3753, 69.3451]} // Center of Pakistan
-        zoom={5}
-        className="w-full h-full"
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        {/* Dynamic City Fly-To Controller */}
-        {selectedCityCoords && (
-          <MapCityController
-            latitude={selectedCityCoords.lat}
-            longitude={selectedCityCoords.lng}
-            zoom={12}
-          />
-        )}
-
-        {/* View Reset Controller */}
-        {shouldResetView && (
-          <MapResetController onResetHandled={() => setShouldResetView(false)} />
-        )}
-
-        {/* Alert Markers */}
-        {markers.map((marker, idx) => {
-          const color = getSeverityColor(marker.alert.normalized_severity);
-
-          const iconHtml = `
-            <div style="background-color: white; border: 3px solid ${color}; width: 26px; height: 26px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; items-center; justify-content: center;">
-              <div style="background-color: ${color}; width: 10px; height: 10px; border-radius: 50%;"></div>
-            </div>
-          `;
-
-          const customIcon = L.divIcon({
-            html: iconHtml,
-            className: "custom-leaflet-icon",
-            iconSize: [26, 26],
-            iconAnchor: [13, 13],
-          });
-
-          return (
-            <Marker key={`${marker.alert.id}-${idx}`} position={marker.position} icon={customIcon}>
-              <Popup className="min-w-[260px]">
-                <div className="flex flex-col gap-2 p-1">
-                  <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
-                    <HazardIcon type={marker.alert.hazard_type} className="text-slate-700 h-5 w-5 shrink-0" />
-                    <strong className="font-semibold text-slate-900 leading-tight text-xs">
-                      {marker.alert.title}
-                    </strong>
-                  </div>
-                  
-                  <div className="text-xs text-slate-600 line-clamp-2">
-                    {marker.alert.description || "Not provided by source."}
-                  </div>
-
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
-                    <Badge variant={marker.alert.normalized_severity as any} className="text-[10px]">
-                      {marker.alert.normalized_severity.toUpperCase()}
-                    </Badge>
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      {marker.locationName}
-                    </span>
-                  </div>
-
-                  {onSelectAlert && (
-                    <button
-                      type="button"
-                      onClick={() => onSelectAlert(marker.alert)}
-                      className="mt-2 w-full py-1 bg-blue-900 hover:bg-blue-800 text-white rounded text-xs font-medium transition-colors"
-                    >
-                      View Full Alert Details
-                    </button>
-                  )}
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+      <div ref={containerRef} className="w-full h-full min-h-[450px] z-0" />
     </div>
   );
 }

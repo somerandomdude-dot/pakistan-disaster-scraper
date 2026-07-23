@@ -1,9 +1,19 @@
 import logging
 from bs4 import BeautifulSoup
 import re
+import io
 from typing import List, Dict, Any
 from datetime import datetime, timezone
-import fitz  # PyMuPDF
+
+try:
+    import fitz  # PyMuPDF
+except ImportError:
+    fitz = None
+
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None
 
 from app.scrapers.base import BaseScraper
 from app.schemas.alert import AlertCreate, AlertLocationCreate
@@ -62,10 +72,17 @@ class NDMAScraper(BaseScraper):
             retrieved_at = item["retrieved_at"]
             
             try:
-                doc = fitz.open(stream=pdf_bytes, filetype="pdf")
                 text = ""
-                for page in doc:
-                    text += page.get_text()
+                if fitz is not None:
+                    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+                    for page in doc:
+                        text += page.get_text()
+                elif PdfReader is not None:
+                    reader = PdfReader(io.BytesIO(pdf_bytes))
+                    for page in reader.pages:
+                        text += page.extract_text() or ""
+                else:
+                    logger.warning("No PDF parser library (fitz or pypdf) available.")
                     
                 # Clean up text somewhat
                 text = re.sub(r'\s+', ' ', text).strip()
