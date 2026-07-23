@@ -40,23 +40,33 @@ export function useSources() {
 export function useSummaryMetrics(alerts: Alert[] | undefined, sources: Source[] | undefined) {
   if (!alerts || !sources) return null;
 
-  const active_alerts_count = alerts.filter(a => a.status === "active").length;
-  const critical_alerts_count = alerts.filter(a => a.normalized_severity === "critical" && a.status === "active").length;
-  
+  const active_alerts_count = alerts.filter((a: Alert) => a.status === "active").length;
+  const critical_alerts_count = alerts.filter(
+    (a: Alert) => a.normalized_severity === "critical" && a.status === "active"
+  ).length;
+
   const affectedDistricts = new Set<string>();
-  alerts.forEach(alert => {
-    alert.locations?.forEach(loc => {
+  alerts.forEach((alert: Alert) => {
+    alert.locations?.forEach((loc) => {
       if (loc.district) affectedDistricts.add(loc.district);
     });
   });
 
-  const healthy_sources_count = sources.filter(s => s.consecutive_failures === 0 || s.health_status === "healthy").length;
-  const unhealthy_sources_count = sources.filter(s => s.consecutive_failures > 0 || s.health_status === "unhealthy").length;
+  const healthy_sources_count = sources.filter(
+    (s: Source) => s.consecutive_failures === 0 || s.health_status === "healthy"
+  ).length;
+  const unhealthy_sources_count = sources.filter(
+    (s: Source) => s.consecutive_failures > 0 || s.health_status === "unhealthy"
+  ).length;
 
-  let latest_update_time = null;
+  let latest_update_time: string | null | undefined = null;
   if (alerts.length > 0) {
-    const sorted = [...alerts].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
-    latest_update_time = sorted[0].updated_at;
+    const sorted = [...alerts].sort(
+      (a: Alert, b: Alert) =>
+        new Date(b.updated_at || b.issued_at || 0).getTime() -
+        new Date(a.updated_at || a.issued_at || 0).getTime()
+    );
+    latest_update_time = sorted[0].updated_at || sorted[0].issued_at;
   }
 
   return {

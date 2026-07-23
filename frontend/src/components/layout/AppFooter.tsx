@@ -1,24 +1,48 @@
 import Link from "next/link";
+import { ShieldAlert, ExternalLink } from "lucide-react";
 
 export default function AppFooter() {
   return (
-    <footer className="bg-white border-t border-slate-200 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="max-w-md">
-            <h3 className="font-semibold text-slate-900 mb-1">Disaster Alert Pakistan</h3>
-            <p className="text-sm text-slate-500">
-              Unofficial third-party platform using publicly available official advisories. 
-              Verify critical information through the original source.
-            </p>
+    <footer className="bg-white border-t border-slate-200 mt-12 py-8 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        
+        <div className="space-y-1 max-w-xl">
+          <div className="flex items-center gap-2 font-semibold text-slate-800 text-sm">
+            <ShieldAlert className="h-4 w-4 text-blue-900" />
+            <span>Disaster Alert Pakistan</span>
           </div>
-          
-          <div className="flex gap-4 text-sm text-slate-600">
-            <Link href="/sources" className="hover:text-blue-600">Sources</Link>
-            <Link href="/history" className="hover:text-blue-600">Alert History</Link>
-            <Link href="#" className="hover:text-blue-600">About the Data</Link>
+          <p className="leading-relaxed">
+            Unofficial public information platform collecting disaster advisories from publicly available official sources (NDMA, PMD, NSMC, FFD). Always verify critical emergency information through the linked official sources.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-6 text-slate-600 font-medium">
+          <div className="space-y-1">
+            <span className="block font-semibold text-slate-800 text-[11px] uppercase tracking-wider">Connected Sources</span>
+            <ul className="space-y-1">
+              <li><a href="http://www.pmd.gov.pk/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-900 inline-flex items-center gap-1">PMD Pakistan <ExternalLink className="h-3 w-3" /></a></li>
+              <li><a href="http://www.ndma.gov.pk/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-900 inline-flex items-center gap-1">NDMA Official <ExternalLink className="h-3 w-3" /></a></li>
+              <li><a href="http://ffd.pmd.gov.pk/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-900 inline-flex items-center gap-1">Flood Forecasting Division <ExternalLink className="h-3 w-3" /></a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-1">
+            <span className="block font-semibold text-slate-800 text-[11px] uppercase tracking-wider">Navigation</span>
+            <ul className="space-y-1">
+              <li><Link href="/" className="hover:text-blue-900">Dashboard</Link></li>
+              <li><Link href="/alerts" className="hover:text-blue-900">All Active Advisories</Link></li>
+              <li><Link href="/map" className="hover:text-blue-900">Interactive Map</Link></li>
+              <li><Link href="/sources" className="hover:text-blue-900">Scraper Source Health</Link></li>
+              <li><Link href="/history" className="hover:text-blue-900">Historical Log</Link></li>
+            </ul>
           </div>
         </div>
+
+      </div>
+
+      <div className="max-w-7xl mx-auto border-t border-slate-100 mt-6 pt-4 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-400 gap-2">
+        <span>Data updated directly from connected scraper backends.</span>
+        <span>Built for public safety and civic awareness.</span>
       </div>
     </footer>
   );

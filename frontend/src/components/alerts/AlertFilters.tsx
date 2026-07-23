@@ -3,118 +3,189 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent } from "../shared/Card";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import CitySearchCombobox from "../map/CitySearchCombobox";
+import { CityLocation } from "@/lib/data/pakistanLocations";
+import { SlidersHorizontal, RotateCcw } from "lucide-react";
 
-const HAZARD_TYPES = ["flood", "flash_flood", "heavy_rain", "thunderstorm", "cyclone", "heatwave", "earthquake", "landslide", "general_advisory"];
+const PROVINCES = [
+  "Punjab",
+  "Sindh",
+  "Khyber Pakhtunkhwa",
+  "Balochistan",
+  "Gilgit-Baltistan",
+  "Azad Jammu & Kashmir",
+  "Islamabad Capital Territory",
+];
+
+const HAZARD_TYPES = [
+  "flood",
+  "flash_flood",
+  "heavy_rain",
+  "thunderstorm",
+  "cyclone",
+  "heatwave",
+  "earthquake",
+  "landslide",
+  "general_advisory",
+];
+
 const SEVERITIES = ["critical", "high", "medium", "low", "unknown"];
 
-export default function AlertFilters() {
+interface AlertFiltersProps {
+  onSelectCityCoords?: (coords: { lat: number; lng: number } | null) => void;
+}
+
+export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const [district, setDistrict] = useState(searchParams.get("district") || "");
+
+  const [province, setProvince] = useState(searchParams.get("province") || "");
   const [hazardType, setHazardType] = useState(searchParams.get("hazard_type") || "");
   const [severity, setSeverity] = useState(searchParams.get("severity") || "");
-  
-  // Debounce the district search
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      applyFilters();
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [district, hazardType, severity]);
+  const [status, setStatus] = useState(searchParams.get("status") || "");
 
-  const applyFilters = () => {
+  // Update state when URL searchParams change
+  useEffect(() => {
+    setProvince(searchParams.get("province") || "");
+    setHazardType(searchParams.get("hazard_type") || "");
+    setSeverity(searchParams.get("severity") || "");
+    setStatus(searchParams.get("status") || "");
+  }, [searchParams]);
+
+  const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (district) params.set("district", district);
-    else params.delete("district");
-    
-    if (hazardType) params.set("hazard_type", hazardType);
-    else params.delete("hazard_type");
-    
-    if (severity) params.set("severity", severity);
-    else params.delete("severity");
-    
-    // Only push if params changed
-    const currentParamsStr = searchParams.toString();
-    const newParamsStr = params.toString();
-    
-    if (currentParamsStr !== newParamsStr) {
-      router.push(`/?${newParamsStr}`, { scroll: false });
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`/?${params.toString()}`, { scroll: false });
+  };
+
+  const handleCitySelect = (city: CityLocation | null) => {
+    if (city && city.latitude && city.longitude && onSelectCityCoords) {
+      onSelectCityCoords({ lat: city.latitude, lng: city.longitude });
+    } else if (onSelectCityCoords) {
+      onSelectCityCoords(null);
     }
   };
 
-  const clearFilters = () => {
-    setDistrict("");
+  const handleReset = () => {
+    setProvince("");
     setHazardType("");
     setSeverity("");
+    setStatus("");
+
     router.push("/", { scroll: false });
+
+    if (onSelectCityCoords) {
+      onSelectCityCoords(null);
+    }
   };
 
-  const hasFilters = district || hazardType || severity;
+  const hasActiveFilters =
+    searchParams.has("city") ||
+    searchParams.has("district") ||
+    searchParams.has("province") ||
+    searchParams.has("hazard_type") ||
+    searchParams.has("severity") ||
+    searchParams.has("status");
 
   return (
-    <Card>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-slate-800 font-semibold">
-            <SlidersHorizontal className="h-4 w-4" />
-            <h3>Filters</h3>
+    <Card className="bg-white border border-slate-200 shadow-2xs">
+      <CardContent className="p-4 space-y-4">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2 text-slate-900 font-semibold text-sm">
+            <SlidersHorizontal className="h-4 w-4 text-blue-600" />
+            <h3>Filter Advisories</h3>
           </div>
-          {hasFilters && (
-            <button 
-              onClick={clearFilters}
-              className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1"
+          {hasActiveFilters && (
+            <button
+              onClick={handleReset}
+              className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 font-medium transition-colors"
             >
-              <X className="h-3 w-3" /> Reset
+              <RotateCcw className="h-3 w-3" /> Reset
             </button>
           )}
         </div>
-        
-        <div className="space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">Search Location</label>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                value={district}
-                onChange={(e) => setDistrict(e.target.value)}
-                placeholder="District or City..."
-                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">Hazard Type</label>
-            <select
-              value={hazardType}
-              onChange={(e) => setHazardType(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
-            >
-              <option value="">All Hazards</option>
-              {HAZARD_TYPES.map(t => (
-                <option key={t} value={t}>{t.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">Severity</label>
-            <select
-              value={severity}
-              onChange={(e) => setSeverity(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
-            >
-              <option value="">All Severities</option>
-              {SEVERITIES.map(s => (
-                <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
-              ))}
-            </select>
-          </div>
+
+        {/* City Search Combobox */}
+        <CitySearchCombobox onSelectCity={handleCitySelect} />
+
+        {/* Province Select */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 mb-1">
+            Province / Region
+          </label>
+          <select
+            value={province}
+            onChange={(e) => updateParam("province", e.target.value)}
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+          >
+            <option value="">All Provinces</option>
+            {PROVINCES.map((p) => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
         </div>
+
+        {/* Hazard Type Select */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 mb-1">
+            Hazard Category
+          </label>
+          <select
+            value={hazardType}
+            onChange={(e) => updateParam("hazard_type", e.target.value)}
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+          >
+            <option value="">All Hazard Types</option>
+            {HAZARD_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Severity Select */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 mb-1">
+            Severity Level
+          </label>
+          <select
+            value={severity}
+            onChange={(e) => updateParam("severity", e.target.value)}
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+          >
+            <option value="">All Severities</option>
+            {SEVERITIES.map((s) => (
+              <option key={s} value={s}>
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Status Select */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 mb-1">
+            Alert Status
+          </label>
+          <select
+            value={status}
+            onChange={(e) => updateParam("status", e.target.value)}
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+          >
+            <option value="">All Statuses</option>
+            <option value="active">Active Only</option>
+            <option value="expired">Expired</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
       </CardContent>
     </Card>
   );

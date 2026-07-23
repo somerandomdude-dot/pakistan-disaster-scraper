@@ -3,16 +3,32 @@
 import dynamic from "next/dynamic";
 import { Alert } from "@/lib/api/schemas";
 
-// Dynamic import with ssr: false to prevent Next.js from rendering Leaflet on the server
 const MapWithNoSSR = dynamic(() => import("./MapComponent"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full min-h-[400px] bg-slate-100 flex items-center justify-center border border-slate-200 rounded-md">
-      <div className="text-slate-500 animate-pulse font-medium">Loading Map...</div>
+    <div className="w-full h-full min-h-[450px] bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-md p-6">
+      <div className="text-slate-500 animate-pulse font-medium text-sm">Loading Interactive Alert Map...</div>
+      <span className="text-xs text-slate-400 mt-1">Initializing Leaflet map layers</span>
     </div>
   ),
 });
 
-export default function InteractiveAlertMap({ alerts }: { alerts: Alert[] }) {
-  return <MapWithNoSSR alerts={alerts} />;
+interface InteractiveAlertMapProps {
+  alerts: Alert[];
+  selectedCityCoords?: { lat: number; lng: number } | null;
+  onSelectAlert?: (alert: Alert) => void;
+}
+
+export default function InteractiveAlertMap({
+  alerts,
+  selectedCityCoords,
+  onSelectAlert,
+}: InteractiveAlertMapProps) {
+  return (
+    <MapWithNoSSR
+      alerts={alerts}
+      selectedCityCoords={selectedCityCoords}
+      onSelectAlert={onSelectAlert}
+    />
+  );
 }

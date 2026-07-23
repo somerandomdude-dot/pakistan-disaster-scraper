@@ -1,19 +1,23 @@
 "use client";
 
-import { Suspense } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useActiveAlerts, useSources, useSummaryMetrics } from "@/lib/hooks/queries";
+import { Alert } from "@/lib/api/schemas";
+
 import AlertSummaryBanner from "@/components/dashboard/AlertSummaryBanner";
 import ActiveAlertList from "@/components/alerts/ActiveAlertList";
 import InteractiveAlertMap from "@/components/map/InteractiveAlertMap";
 import AlertFilters from "@/components/alerts/AlertFilters";
 import SourceHealthPanel from "@/components/sources/SourceHealthPanel";
 import RecentAlertsTable from "@/components/dashboard/RecentAlertsTable";
-import { useSearchParams } from "next/navigation";
+import SituationMetrics from "@/components/dashboard/SituationMetrics";
+import AlertDetailsDrawer from "@/components/alerts/AlertDetailsDrawer";
 
 function DashboardContent() {
   const searchParams = useSearchParams();
-  
-  // Convert URL search params to an object for the API
+
+  // Convert URL search params for React Query API client
   const params: Record<string, string> = {};
   searchParams.forEach((value, key) => {
     params[key] = value;
@@ -23,22 +27,35 @@ function DashboardContent() {
   const { data: sources, isLoading: isLoadingSources } = useSources();
   const metrics = useSummaryMetrics(alerts, sources);
 
+  const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [selectedCityCoords, setSelectedCityCoords] = useState<{ lat: number; lng: number } | null>(null);
+
   return (
     <div className="flex-1 flex flex-col">
-      <AlertSummaryBanner metrics={metrics} />
       
-      <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Top Banner */}
+      <AlertSummaryBanner metrics={metrics} />
+
+      <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        
+        {/* Main Three-Column Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
-          {/* Left Column: Active Alerts */}
-          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[600px] bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
-              <h2 className="font-semibold text-slate-800">Active Alerts</h2>
+          {/* Column 1: Active Alerts Vertical List */}
+          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[650px] bg-white border border-slate-200 rounded-md shadow-2xs overflow-hidden">
+            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+              <h2 className="font-semibold text-slate-900 text-sm">Active Advisories</h2>
+              {alerts && (
+                <span className="text-xs text-slate-500 font-mono font-medium bg-slate-200/60 px-2 py-0.5 rounded">
+                  {alerts.length}
+                </span>
+              )}
             </div>
+
             <div className="flex-1 overflow-y-auto">
               {isLoadingAlerts ? (
                 <div className="p-4 space-y-4">
-                  {[1,2,3,4].map(i => (
+                  {[1, 2, 3, 4, 5].map((i) => (
                     <div key={i} className="animate-pulse flex gap-3">
                       <div className="w-5 h-5 bg-slate-200 rounded-full shrink-0"></div>
                       <div className="flex-1 space-y-2">
@@ -50,36 +67,73 @@ function DashboardContent() {
                   ))}
                 </div>
               ) : alertsError ? (
-                <div className="p-4 text-center text-red-500">Failed to load alerts.</div>
+                <div className="p-6 text-center text-red-600 text-xs">
+                  Failed to load active advisories. Please check backend status.
+                </div>
               ) : (
-                <ActiveAlertList alerts={alerts || []} />
+                <ActiveAlertList
+                  alerts={alerts || []}
+                  onSelectAlert={(alert) => setSelectedAlert(alert)}
+                />
               )}
             </div>
           </div>
 
-          {/* Middle Column: Interactive Map */}
-          <div className="lg:col-span-8 xl:col-span-6 h-[400px] lg:h-[600px]">
-            {alerts && <InteractiveAlertMap alerts={alerts} />}
+          {/* Column 2: Interactive Alert Map */}
+          <div className="lg:col-span-8 xl:col-span-6 h-[450px] lg:h-[650px]">
+            {isLoadingAlerts ? (
+              <div className="w-full h-full bg-slate-100 border border-slate-200 rounded-md flex items-center justify-center text-slate-400 text-xs animate-pulse">
+                Initializing Alert Map...
+              </div>
+            ) : (
+              <InteractiveAlertMap
+                alerts={alerts || []}
+                selectedCityCoords={selectedCityCoords}
+                onSelectAlert={(alert) => setSelectedAlert(alert)}
+              />
+            )}
           </div>
 
-          {/* Right Column: Filters & Sources */}
+          {/* Column 3: Filters & Source Health Panel */}
           <div className="lg:col-span-12 xl:col-span-3 flex flex-col gap-6">
-            <AlertFilters />
+            <AlertFilters onSelectCityCoords={setSelectedCityCoords} />
             {sources && <SourceHealthPanel sources={sources} />}
           </div>
-          
+
         </div>
 
-        {/* Bottom Section: Recent Alerts Table */}
-        {alerts && <RecentAlertsTable alerts={alerts} />}
+        {/* Lower Dashboard Section: Recent Alerts Table */}
+        <RecentAlertsTable
+          alerts={alerts || []}
+          onSelectAlert={(alert) => setSelectedAlert(alert)}
+        />
+
+        {/* Calculated Situation Metrics */}
+        <SituationMetrics metrics={metrics} />
+
       </div>
+
+      {/* Slide-Over Alert Details Drawer */}
+      {selectedAlert && (
+        <AlertDetailsDrawer
+          alert={selectedAlert}
+          onClose={() => setSelectedAlert(null)}
+        />
+      )}
+
     </div>
   );
 }
 
 export default function Dashboard() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse">Loading dashboard...</div>}>
+    <Suspense
+      fallback={
+        <div className="p-8 text-center text-slate-500 animate-pulse text-sm font-medium">
+          Loading Pakistan Disaster Alert Dashboard...
+        </div>
+      }
+    >
       <DashboardContent />
     </Suspense>
   );
