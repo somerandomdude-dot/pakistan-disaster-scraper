@@ -75,8 +75,11 @@ class PMDWeatherScraper(BaseScraper):
             xml_str = item["content"]
             source_url = item["url"]
             
-            # Using BeautifulSoup's xml parser
-            soup = BeautifulSoup(xml_str, "xml")
+            # Use lxml XML parser (now installed). Fallback to html.parser if lxml errors.
+            try:
+                soup = BeautifulSoup(xml_str, "lxml-xml")
+            except Exception:
+                soup = BeautifulSoup(xml_str, "html.parser")
             
             alert = soup.find("alert")
             if not alert:

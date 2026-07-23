@@ -1,11 +1,32 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldAlert } from "lucide-react";
+import { ShieldAlert, Clock } from "lucide-react";
 
 export default function AppHeader() {
   const pathname = usePathname();
+  const [pktTime, setPktTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      // Format to Pakistan Standard Time (Asia/Karachi)
+      const formatted = new Intl.DateTimeFormat("en-PK", {
+        timeZone: "Asia/Karachi",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      }).format(now);
+      setPktTime(formatted);
+    };
+
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const navItems = [
     { label: "Dashboard", href: "/" },
@@ -36,25 +57,34 @@ export default function AppHeader() {
           </Link>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                  isActive
-                    ? "bg-slate-100 text-blue-900"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Desktop Navigation Links & PKT Clock */}
+        <div className="flex items-center gap-4">
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                    isActive
+                      ? "bg-slate-100 text-blue-900"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {pktTime && (
+            <div className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded">
+              <Clock className="h-3 w-3 text-slate-500" />
+              <span>{pktTime} PKT</span>
+            </div>
+          )}
+        </div>
 
       </div>
     </header>
