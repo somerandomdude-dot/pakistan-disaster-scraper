@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     HTTP_PROXY: Optional[str] = None
     
     # Scheduler Config
+    SCRAPER_MAX_POLL_INTERVAL_MINUTES: int = 5
     SCHEDULER_EARTHQUAKE_INTERVAL_MINUTES: int = 5
     SCHEDULER_FFD_INTERVAL_MINUTES: int = 10
     SCHEDULER_NDMA_INTERVAL_MINUTES: int = 10

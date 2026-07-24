@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from contextlib import asynccontextmanager
-from app.jobs.scheduler import start_scheduler, scheduler
+from app.jobs.scheduler import start_scheduler, stop_scheduler
 from app.database.session import SessionLocal, engine
 from app.database.base import Base
 from app.database.models.source import Source
@@ -44,10 +44,10 @@ def init_sources():
 async def lifespan(app: FastAPI):
     # Startup
     init_sources()
-    start_scheduler()
+    scheduler = start_scheduler()
     yield
     # Shutdown
-    scheduler.shutdown()
+    stop_scheduler(scheduler)
 
 app = FastAPI(
     title="Pakistan Natural Disaster Alerts API",
