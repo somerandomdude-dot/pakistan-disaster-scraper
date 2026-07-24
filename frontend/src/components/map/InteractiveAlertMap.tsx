@@ -8,7 +8,7 @@ const MapWithNoSSR = dynamic(() => import("./MapComponent"), {
   loading: () => (
     <div className="w-full h-full min-h-[450px] bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-md p-6">
       <div className="text-slate-500 animate-pulse font-medium text-sm">Loading Interactive Alert Map...</div>
-      <span className="text-xs text-slate-400 mt-1">Initializing Leaflet map layers</span>
+      <span className="text-xs text-slate-400 mt-1">Initializing MapLibre GL vector engine</span>
     </div>
   ),
 });

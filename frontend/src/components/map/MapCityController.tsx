@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useMap } from "react-leaflet";
+import { useMap } from "react-map-gl/maplibre";
 import { clampZoom, CITY_ZOOM } from "@/lib/utils/mapUtils";
 
 interface MapCityControllerProps {
@@ -14,10 +14,10 @@ interface MapCityControllerProps {
 export default function MapCityController({
   latitude,
   longitude,
-  zoom = CITY_ZOOM,
+  zoom = 11,
   locationId,
 }: MapCityControllerProps) {
-  const map = useMap();
+  const { current: map } = useMap();
   const lastLocationRef = useRef<{ id?: string | null; lat: number | null; lng: number | null }>({
     id: null,
     lat: null,
@@ -26,6 +26,7 @@ export default function MapCityController({
 
   useEffect(() => {
     if (
+      !map ||
       latitude === null ||
       longitude === null ||
       !Number.isFinite(latitude) ||
@@ -34,7 +35,6 @@ export default function MapCityController({
       return;
     }
 
-    // Ignore duplicate searches / movements if coordinates or location ID haven't changed
     if (
       lastLocationRef.current.lat === latitude &&
       lastLocationRef.current.lng === longitude &&
@@ -45,14 +45,12 @@ export default function MapCityController({
 
     lastLocationRef.current = { id: locationId, lat: latitude, lng: longitude };
 
-    const targetZoom = clampZoom(zoom);
-
-    // Stop active map animations before starting new single-flight flyTo
-    map.stop();
-
-    map.flyTo([latitude, longitude], targetZoom, {
-      animate: true,
-      duration: 0.8,
+    map.flyTo({
+      center: [longitude, latitude], // MapLibre: [lng, lat]
+      zoom: clampZoom(zoom),
+      speed: 2.2,
+      curve: 1.2,
+      essential: true,
     });
   }, [map, latitude, longitude, zoom, locationId]);
 
