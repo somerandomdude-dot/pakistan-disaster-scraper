@@ -2,20 +2,24 @@
 
 import { useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
+import { clampZoom, CITY_ZOOM } from "@/lib/utils/mapUtils";
 
 interface MapCityControllerProps {
   latitude: number | null;
   longitude: number | null;
   zoom?: number;
+  locationId?: string | null;
 }
 
 export default function MapCityController({
   latitude,
   longitude,
-  zoom = 12,
+  zoom = CITY_ZOOM,
+  locationId,
 }: MapCityControllerProps) {
   const map = useMap();
-  const prevCoordsRef = useRef<{ lat: number | null; lng: number | null }>({
+  const lastLocationRef = useRef<{ id?: string | null; lat: number | null; lng: number | null }>({
+    id: null,
     lat: null,
     lng: null,
   });
@@ -30,21 +34,27 @@ export default function MapCityController({
       return;
     }
 
-    // Prevent re-triggering flyTo if coordinates haven't changed
+    // Ignore duplicate searches / movements if coordinates or location ID haven't changed
     if (
-      prevCoordsRef.current.lat === latitude &&
-      prevCoordsRef.current.lng === longitude
+      lastLocationRef.current.lat === latitude &&
+      lastLocationRef.current.lng === longitude &&
+      lastLocationRef.current.id === locationId
     ) {
       return;
     }
 
-    prevCoordsRef.current = { lat: latitude, lng: longitude };
+    lastLocationRef.current = { id: locationId, lat: latitude, lng: longitude };
 
-    map.flyTo([latitude, longitude], zoom, {
+    const targetZoom = clampZoom(zoom);
+
+    // Stop active map animations before starting new single-flight flyTo
+    map.stop();
+
+    map.flyTo([latitude, longitude], targetZoom, {
       animate: true,
-      duration: 1.2,
+      duration: 0.8,
     });
-  }, [map, latitude, longitude, zoom]);
+  }, [map, latitude, longitude, zoom, locationId]);
 
   return null;
 }

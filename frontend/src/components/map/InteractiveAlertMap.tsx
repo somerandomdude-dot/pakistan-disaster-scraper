@@ -16,18 +16,21 @@ const MapWithNoSSR = dynamic(() => import("./MapComponent"), {
 interface InteractiveAlertMapProps {
   alerts: Alert[];
   selectedCityCoords?: { lat: number; lng: number } | null;
+  selectedCityZoom?: number;
   onSelectAlert?: (alert: Alert) => void;
 }
 
 export default function InteractiveAlertMap({
   alerts,
   selectedCityCoords,
+  selectedCityZoom,
   onSelectAlert,
 }: InteractiveAlertMapProps) {
   return (
     <MapWithNoSSR
       alerts={alerts}
       selectedCityCoords={selectedCityCoords}
+      selectedCityZoom={selectedCityZoom}
       onSelectAlert={onSelectAlert}
     />
   );
