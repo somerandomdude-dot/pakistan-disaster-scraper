@@ -16,6 +16,24 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Map configuration
+
+The dashboard uses MapLibre GL JS with the no-key OpenFreeMap Bright vector style by default.
+`npm run dev` and `npm run build` copy MapLibre's module worker to
+`public/maplibre-gl-worker.js` and its shared module so Next.js serves both from stable
+same-origin URLs.
+
+Optional environment variables:
+
+```bash
+NEXT_PUBLIC_MAP_STYLE_URL=https://tiles.openfreemap.org/styles/bright
+NEXT_PUBLIC_MAPTILER_KEY=
+NEXT_PUBLIC_MAP_DIAGNOSTICS=false
+```
+
+`NEXT_PUBLIC_MAPTILER_KEY` is required only when a configured provider URL contains a
+`{key}` placeholder. Diagnostics never display provider keys.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -8,6 +8,7 @@ import AlertFilters from "@/components/alerts/AlertFilters";
 import AlertDetailsDrawer from "@/components/alerts/AlertDetailsDrawer";
 import { Alert } from "@/lib/api/schemas";
 import { SlidersHorizontal, MapPin } from "lucide-react";
+import { findPakistanCity } from "@/lib/data/pakistanLocations";
 
 function MapContent() {
   const searchParams = useSearchParams();
@@ -17,8 +18,12 @@ function MapContent() {
   });
 
   const { data: alerts, isLoading } = useActiveAlerts(params);
+  const selectedCity = findPakistanCity(
+    searchParams.get("city"),
+    searchParams.get("district"),
+    searchParams.get("province"),
+  );
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
-  const [selectedCityCoords, setSelectedCityCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
   return (
@@ -41,13 +46,13 @@ function MapContent() {
       {/* Mobile Filter Sheet */}
       {showFiltersMobile && (
         <div className="lg:hidden p-4 bg-white border-b border-slate-200 z-30 shadow-md max-h-[50vh] overflow-y-auto">
-          <AlertFilters onSelectCityCoords={setSelectedCityCoords} />
+          <AlertFilters />
         </div>
       )}
 
       {/* Desktop Filters Overlay Panel */}
       <div className="hidden lg:block absolute top-4 right-4 z-20 w-80 shadow-xl rounded-md overflow-hidden">
-        <AlertFilters onSelectCityCoords={setSelectedCityCoords} />
+        <AlertFilters />
       </div>
 
       {/* Interactive Map Component */}
@@ -59,7 +64,11 @@ function MapContent() {
         ) : (
           <InteractiveAlertMap
             alerts={alerts || []}
-            selectedCityCoords={selectedCityCoords}
+            selectedCityCoords={
+              selectedCity
+                ? { lat: selectedCity.latitude, lng: selectedCity.longitude }
+                : null
+            }
             onSelectAlert={(alert) => setSelectedAlert(alert)}
           />
         )}

@@ -1,17 +1,39 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { Alert } from "@/lib/api/schemas";
-import { 
-  clampZoom, MIN_ZOOM, MAX_ZOOM, DEFAULT_ZOOM, 
-  PAKISTAN_CENTER, PAKISTAN_BOUNDS, alertsToGeoJSON, isWebGLSupported 
+import { AlertCircle, Maximize2, Minimize2, RotateCcw } from "lucide-react";
+import type { Alert } from "@/lib/api/schemas";
+import {
+  alertsToGeoJSON,
+  clampZoom,
+  DEFAULT_ZOOM,
+  isValidPakistanCoordinate,
+  isWebGLSupported,
+  MAX_ZOOM,
+  MIN_ZOOM,
+  PAKISTAN_BOUNDS,
+  PAKISTAN_CENTER,
 } from "@/lib/utils/mapUtils";
-import { RotateCcw, Maximize2, AlertCircle } from "lucide-react";
-
-// Default lightweight vector basemap style (OpenFreeMap Bright / MapLibre Demotiles)
-const MAP_STYLE_URL = process.env.NEXT_PUBLIC_MAP_STYLE_URL || "https://tiles.openfreemap.org/styles/bright";
+import {
+  ALERT_POINTS_LAYER_ID,
+  ALERT_SOURCE_ID,
+  CLUSTERS_LAYER_ID,
+  ensureAlertSourceAndLayers,
+  selectAlertFeature,
+  setAlertData,
+} from "@/lib/maps/alertLayers";
+import {
+  classifyMapLibreError,
+  MAP_WORKER_SHARED_URL,
+  MAP_WORKER_URL,
+  MapConfigurationError,
+  type MapErrorCode,
+  redactMapStyleUrl,
+  resolveMapStyleUrl,
+  validateMapStyleWithRetry,
+  validateWorkerAsset,
+} from "@/lib/maps/mapConfig";
 
 interface MapComponentProps {
   alerts: Alert[];
@@ -20,297 +42,448 @@ interface MapComponentProps {
   onSelectAlert?: (alert: Alert) => void;
 }
 
+interface DiagnosticState {
+  initialized: boolean;
+  webglAvailable: boolean | null;
+  styleLoaded: boolean;
+  zoom: number;
+  center: [number, number];
+  styleUrl: string;
+  tileSourceState: "pending" | "ready" | "degraded";
+  alertSourceLoaded: boolean;
+  alertFeatureCount: number;
+  lastMapError: string;
+  pmtilesRegistered: false;
+}
+
+interface VisibleMapError {
+  code: MapErrorCode;
+  message: string;
+  fatal: boolean;
+}
+
+const SHOW_DIAGNOSTICS = process.env.NEXT_PUBLIC_MAP_DIAGNOSTICS === "true";
+
+function createTextElement(tag: keyof HTMLElementTagNameMap, text: string, className: string): HTMLElement {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  element.className = className;
+  return element;
+}
+
+function buildAlertPopup(
+  properties: Record<string, unknown>,
+  onViewDetails: (() => void) | null,
+): HTMLDivElement {
+  const wrapper = document.createElement("div");
+  wrapper.className = "map-alert-popup";
+
+  wrapper.appendChild(
+    createTextElement("strong", String(properties.title || "Disaster advisory"), "map-alert-popup__title"),
+  );
+  wrapper.appendChild(
+    createTextElement(
+      "p",
+      String(properties.description || "No description provided by the source."),
+      "map-alert-popup__description",
+    ),
+  );
+
+  const meta = document.createElement("div");
+  meta.className = "map-alert-popup__meta";
+  meta.appendChild(
+    createTextElement("span", String(properties.severity || "unknown").toUpperCase(), "map-alert-popup__severity"),
+  );
+  meta.appendChild(
+    createTextElement("span", String(properties.location_name || "Pakistan"), "map-alert-popup__location"),
+  );
+  wrapper.appendChild(meta);
+
+  if (onViewDetails) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "map-alert-popup__button";
+    button.textContent = "View Full Advisory Details";
+    button.addEventListener("click", onViewDetails);
+    wrapper.appendChild(button);
+  }
+
+  return wrapper;
+}
+
 export default function MapComponent({
   alerts,
   selectedCityCoords,
   selectedCityZoom,
   onSelectAlert,
 }: MapComponentProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
+  const latestAlertsRef = useRef(alerts || []);
+  const latestSelectAlertRef = useRef(onSelectAlert);
+  const latestGeoJsonRef = useRef(alertsToGeoJSON(alerts || []));
   const lastFlyCoordsRef = useRef<string | null>(null);
+  const interactionsBoundRef = useRef(false);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [webGlSupported, setWebGlSupported] = useState(true);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState<VisibleMapError | null>(null);
+  const [diagnostics, setDiagnostics] = useState<DiagnosticState>({
+    initialized: false,
+    webglAvailable: null,
+    styleLoaded: false,
+    zoom: DEFAULT_ZOOM,
+    center: PAKISTAN_CENTER,
+    styleUrl: "",
+    tileSourceState: "pending",
+    alertSourceLoaded: false,
+    alertFeatureCount: latestGeoJsonRef.current.features.length,
+    lastMapError: "",
+    pmtilesRegistered: false,
+  });
 
-  // Convert alerts to GeoJSON FeatureCollection
-  const geojsonData = useMemo(() => {
-    return alertsToGeoJSON(alerts || []);
-  }, [alerts]);
+  const geojsonData = useMemo(() => alertsToGeoJSON(alerts || []), [alerts]);
+  latestAlertsRef.current = alerts || [];
+  latestSelectAlertRef.current = onSelectAlert;
+  latestGeoJsonRef.current = geojsonData;
 
-  // Check WebGL support on mount
   useEffect(() => {
-    setWebGlSupported(isWebGLSupported());
-  }, []);
+    if (!containerRef.current || mapRef.current) return;
 
-  // Initialize MapLibre GL instance
-  useEffect(() => {
-    if (!containerRef.current || mapRef.current || !webGlSupported) return;
+    let cancelled = false;
+    let resizeObserver: ResizeObserver | null = null;
+    let map: maplibregl.Map | null = null;
 
-    const map = new maplibregl.Map({
-      container: containerRef.current,
-      style: MAP_STYLE_URL,
-      center: PAKISTAN_CENTER, // [longitude, latitude]
-      zoom: clampZoom(DEFAULT_ZOOM),
-      minZoom: MIN_ZOOM,
-      maxZoom: MAX_ZOOM,
-      maxBounds: PAKISTAN_BOUNDS,
-    });
+    const updateCameraDiagnostics = () => {
+      if (!map) return;
+      const center = map.getCenter();
+      const nextCenter: [number, number] = [
+        Number(center.lng.toFixed(4)),
+        Number(center.lat.toFixed(4)),
+      ];
+      setDiagnostics((current) => ({
+        ...current,
+        zoom: Number(map!.getZoom().toFixed(2)),
+        center: nextCenter,
+      }));
+    };
 
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    const handleFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement === rootRef.current);
+      requestAnimationFrame(() => map?.resize());
+    };
 
-    map.on("load", () => {
-      setIsMapLoaded(true);
+    const bindLayerInteractions = () => {
+      if (!map || interactionsBoundRef.current) return;
+      interactionsBoundRef.current = true;
 
-      // Add Alerts GeoJSON Source with Clustering enabled
-      map.addSource("alerts-source", {
-        type: "geojson",
-        data: geojsonData,
-        cluster: true,
-        clusterMaxZoom: 10,
-        clusterRadius: 45,
+      map.on("mouseenter", CLUSTERS_LAYER_ID, () => {
+        if (map) map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", CLUSTERS_LAYER_ID, () => {
+        if (map) map.getCanvas().style.cursor = "";
+      });
+      map.on("mouseenter", ALERT_POINTS_LAYER_ID, () => {
+        if (map) map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", ALERT_POINTS_LAYER_ID, () => {
+        if (map) map.getCanvas().style.cursor = "";
       });
 
-      // Cluster Circle Layer
-      map.addLayer({
-        id: "clusters-layer",
-        type: "circle",
-        source: "alerts-source",
-        filter: ["has", "point_count"],
-        paint: {
-          "circle-color": [
-            "step",
-            ["get", "point_count"],
-            "#1e3a8a", // 0-5 items
-            5,
-            "#d97706", // 5-15 items
-            15,
-            "#dc2626", // 15+ items
-          ],
-          "circle-radius": [
-            "step",
-            ["get", "point_count"],
-            18,
-            5,
-            24,
-            15,
-            30,
-          ],
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#ffffff",
-        },
-      });
+      map.on("click", CLUSTERS_LAYER_ID, async (event) => {
+        if (!map) return;
+        const feature = map.queryRenderedFeatures(event.point, { layers: [CLUSTERS_LAYER_ID] })[0];
+        const clusterId = feature?.properties?.cluster_id;
+        const source = map.getSource(ALERT_SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
+        if (!source || clusterId === undefined || feature.geometry.type !== "Point") return;
 
-      // Cluster Count Text Layer
-      map.addLayer({
-        id: "cluster-count-layer",
-        type: "symbol",
-        source: "alerts-source",
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": "{point_count_abbreviated}",
-          "text-font": ["Metropolis Regular", "Noto Sans Regular", "sans-serif"],
-          "text-size": 12,
-        },
-        paint: {
-          "text-color": "#ffffff",
-        },
-      });
-
-      // Unclustered Hazard Point Markers
-      map.addLayer({
-        id: "unclustered-point-layer",
-        type: "circle",
-        source: "alerts-source",
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": [
-            "match",
-            ["get", "severity"],
-            "critical", "#dc2626",
-            "high", "#ea580c",
-            "medium", "#d97706",
-            "low", "#2563eb",
-            "#64748b",
-          ],
-          "circle-radius": 8,
-          "circle-stroke-width": 3,
-          "circle-stroke-color": "#ffffff",
-        },
-      });
-
-      // Cursor styling on hover
-      map.on("mouseenter", "clusters-layer", () => {
-        map.getCanvas().style.cursor = "pointer";
-      });
-      map.on("mouseleave", "clusters-layer", () => {
-        map.getCanvas().style.cursor = "";
-      });
-      map.on("mouseenter", "unclustered-point-layer", () => {
-        map.getCanvas().style.cursor = "pointer";
-      });
-      map.on("mouseleave", "unclustered-point-layer", () => {
-        map.getCanvas().style.cursor = "";
-      });
-
-      // Handle Cluster Click - Ease to Cluster Expansion Zoom (clamped to max 12)
-      map.on("click", "clusters-layer", (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: ["clusters-layer"] });
-        const clusterId = features[0]?.properties?.cluster_id;
-        const source = map.getSource("alerts-source") as maplibregl.GeoJSONSource;
-
-        if (source && clusterId !== undefined) {
-          source.getClusterExpansionZoom(clusterId).then((expansionZoom) => {
-            if (expansionZoom === undefined) return;
-
-            const targetZoom = clampZoom(expansionZoom);
-            const geometry = features[0].geometry as GeoJSON.Point;
-
-            map.easeTo({
-              center: geometry.coordinates as [number, number],
-              zoom: targetZoom,
-              duration: 500,
-            });
-          }).catch(() => {});
+        try {
+          const expansionZoom = await source.getClusterExpansionZoom(clusterId);
+          map.easeTo({
+            center: feature.geometry.coordinates as [number, number],
+            zoom: clampZoom(expansionZoom),
+            duration: 500,
+          });
+        } catch (error) {
+          console.error("MapLibre cluster expansion error", error);
         }
       });
 
-      // Handle Unclustered Marker Click - Display Popup
-      map.on("click", "unclustered-point-layer", (e) => {
-        const feature = e.features?.[0];
-        if (!feature || !feature.geometry) return;
+      map.on("click", ALERT_POINTS_LAYER_ID, (event) => {
+        if (!map) return;
+        const feature = event.features?.[0];
+        if (!feature || feature.geometry.type !== "Point") return;
 
-        const coordinates = (feature.geometry as GeoJSON.Point).coordinates.slice() as [number, number];
-        const props = feature.properties || {};
+        const properties = (feature.properties || {}) as Record<string, unknown>;
+        const alertId = Number(properties.alert_id);
+        const matchedAlert = latestAlertsRef.current.find((alert) => alert.id === alertId);
+        selectAlertFeature(map, Number.isFinite(alertId) ? alertId : null);
+        popupRef.current?.remove();
 
-        if (popupRef.current) {
-          popupRef.current.remove();
-        }
-
-        const popupDiv = document.createElement("div");
-        popupDiv.className = "flex flex-col gap-2 p-1 font-sans text-slate-900";
-
-        const color = props.severity === "critical" ? "#dc2626" : props.severity === "high" ? "#ea580c" : props.severity === "medium" ? "#d97706" : "#2563eb";
-
-        popupDiv.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
-            <strong style="font-weight: 600; color: #0f172a; font-size: 13px; line-height: 1.3;">
-              ${props.title}
-            </strong>
-          </div>
-          <div style="font-size: 12px; color: #475569; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px;">
-            ${props.description}
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9;">
-            <span style="background-color: ${color}20; color: ${color}; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">
-              ${props.severity}
-            </span>
-            <span style="font-size: 11px; color: #64748b; font-weight: 500;">
-              ${props.location_name}
-            </span>
-          </div>
-        `;
-
-        if (onSelectAlert) {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "mt-2 w-full py-1.5 bg-blue-900 hover:bg-blue-800 text-white rounded text-xs font-medium transition-colors cursor-pointer";
-          btn.innerText = "View Full Advisory Details";
-          btn.onclick = () => {
-            const matchedAlert = (alerts || []).find((a) => a.id === props.alert_id);
-            if (matchedAlert) onSelectAlert(matchedAlert);
-          };
-          popupDiv.appendChild(btn);
-        }
-
+        const popupContent = buildAlertPopup(
+          properties,
+          matchedAlert && latestSelectAlertRef.current
+            ? () => latestSelectAlertRef.current?.(matchedAlert)
+            : null,
+        );
         popupRef.current = new maplibregl.Popup({ closeButton: true, offset: 12 })
-          .setLngLat(coordinates)
-          .setDOMContent(popupDiv)
+          .setLngLat(feature.geometry.coordinates as [number, number])
+          .setDOMContent(popupContent)
           .addTo(map);
       });
-    });
+    };
 
-    mapRef.current = map;
-
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
+    const restoreRequiredLayers = () => {
+      if (!map) return;
+      try {
+        ensureAlertSourceAndLayers(map, latestGeoJsonRef.current);
+        bindLayerInteractions();
+        setDiagnostics((current) => ({
+          ...current,
+          alertSourceLoaded: Boolean(map?.getSource(ALERT_SOURCE_ID)),
+          alertFeatureCount: latestGeoJsonRef.current.features.length,
+        }));
+      } catch (error) {
+        const code = classifyMapLibreError(error);
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("MapLibre alert layer error", error);
+        setMapError({ code, message: "Some alert map layers could not be loaded.", fatal: false });
+        setDiagnostics((current) => ({ ...current, lastMapError: `${code}: ${message}` }));
       }
     };
-  }, [webGlSupported]);
 
-  // Update GeoJSON Source data dynamically without remounting the map
+    const initializeMap = async () => {
+      const webglAvailable = isWebGLSupported();
+      setDiagnostics((current) => ({ ...current, webglAvailable }));
+      if (!webglAvailable) {
+        setMapError({
+          code: "WEBGL_UNAVAILABLE",
+          message: "Interactive map acceleration is unavailable on this device.",
+          fatal: true,
+        });
+        return;
+      }
+
+      let styleUrl: string;
+      try {
+        styleUrl = resolveMapStyleUrl();
+        setDiagnostics((current) => ({
+          ...current,
+          styleUrl: redactMapStyleUrl(styleUrl),
+        }));
+        const [style] = await Promise.all([
+          validateMapStyleWithRetry(styleUrl),
+          validateWorkerAsset(MAP_WORKER_URL),
+          validateWorkerAsset(MAP_WORKER_SHARED_URL),
+        ]);
+        if (cancelled || !containerRef.current) return;
+
+        maplibregl.setWorkerUrl(MAP_WORKER_URL);
+        map = new maplibregl.Map({
+          container: containerRef.current,
+          style,
+          center: PAKISTAN_CENTER,
+          zoom: DEFAULT_ZOOM,
+          minZoom: MIN_ZOOM,
+          maxZoom: MAX_ZOOM,
+          maxBounds: PAKISTAN_BOUNDS,
+          attributionControl: { compact: true },
+        });
+        mapRef.current = map;
+        setDiagnostics((current) => ({ ...current, initialized: true }));
+
+        map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+
+        map.on("error", (event) => {
+          const error = event.error;
+          const code = classifyMapLibreError(error);
+          const detail = error instanceof Error ? error.message : String(error);
+          console.error("MapLibre error", error);
+          setMapError({
+            code,
+            message:
+              code === "TILE_SOURCE_FAILED"
+                ? "Vector tiles are temporarily unavailable."
+                : "Some map layers failed to load.",
+            fatal: false,
+          });
+          setDiagnostics((current) => ({
+            ...current,
+            tileSourceState: "degraded",
+            lastMapError: `${code}: ${detail}`,
+          }));
+        });
+
+        map.on("style.load", restoreRequiredLayers);
+        map.on("load", () => {
+          restoreRequiredLayers();
+          map?.resize();
+          setMapError((current) => (current?.fatal ? current : null));
+          setDiagnostics((current) => ({
+            ...current,
+            styleLoaded: true,
+            tileSourceState: "ready",
+          }));
+        });
+        map.on("moveend", updateCameraDiagnostics);
+        map.on("zoomend", updateCameraDiagnostics);
+
+        if (typeof ResizeObserver !== "undefined") {
+          resizeObserver = new ResizeObserver(() => map?.resize());
+          resizeObserver.observe(containerRef.current);
+        } else {
+          window.addEventListener("resize", map.resize);
+        }
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+      } catch (error) {
+        if (cancelled) return;
+        const configurationError =
+          error instanceof MapConfigurationError
+            ? error
+            : new MapConfigurationError(
+                classifyMapLibreError(error),
+                error instanceof Error ? error.message : String(error),
+              );
+        console.error("MapLibre initialization error", configurationError);
+        setMapError({
+          code: configurationError.code,
+          message:
+            configurationError.code === "WORKER_SOURCE_FAILED"
+              ? "The interactive map worker could not be loaded."
+              : "The map style could not be loaded.",
+          fatal: true,
+        });
+        setDiagnostics((current) => ({
+          ...current,
+          lastMapError: `${configurationError.code}: ${configurationError.message}`,
+        }));
+      }
+    };
+
+    void initializeMap();
+
+    return () => {
+      cancelled = true;
+      resizeObserver?.disconnect();
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      if (map && typeof ResizeObserver === "undefined") {
+        window.removeEventListener("resize", map.resize);
+      }
+      popupRef.current?.remove();
+      popupRef.current = null;
+      map?.remove();
+      mapRef.current = null;
+      interactionsBoundRef.current = false;
+    };
+  }, []);
+
   useEffect(() => {
+    setDiagnostics((current) => ({
+      ...current,
+      alertFeatureCount: geojsonData.features.length,
+    }));
     const map = mapRef.current;
-    if (!map || !isMapLoaded) return;
-
-    const source = map.getSource("alerts-source") as maplibregl.GeoJSONSource;
-    if (source) {
-      source.setData(geojsonData);
+    if (!map || !map.isStyleLoaded()) return;
+    if (!setAlertData(map, geojsonData)) {
+      ensureAlertSourceAndLayers(map, geojsonData);
     }
-  }, [geojsonData, isMapLoaded]);
+  }, [geojsonData]);
 
-  // Handle instant City Fly-To single-flight execution (coordinates: [lng, lat])
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !selectedCityCoords) return;
+    if (
+      !map ||
+      !diagnostics.styleLoaded ||
+      !selectedCityCoords ||
+      !isValidPakistanCoordinate(selectedCityCoords.lat, selectedCityCoords.lng)
+    ) {
+      return;
+    }
 
-    const coordKey = `${selectedCityCoords.lng.toFixed(4)},${selectedCityCoords.lat.toFixed(4)}`;
-    if (lastFlyCoordsRef.current === coordKey) return;
-    lastFlyCoordsRef.current = coordKey;
-
-    const targetZoom = clampZoom(selectedCityZoom ?? 11);
+    const zoom = clampZoom(selectedCityZoom ?? 11);
+    const coordinateKey = `${selectedCityCoords.lng.toFixed(4)},${selectedCityCoords.lat.toFixed(4)},${zoom}`;
+    if (lastFlyCoordsRef.current === coordinateKey) return;
+    lastFlyCoordsRef.current = coordinateKey;
 
     map.flyTo({
-      center: [selectedCityCoords.lng, selectedCityCoords.lat], // MapLibre: [longitude, latitude]
-      zoom: targetZoom,
-      speed: 2.2,
+      center: [selectedCityCoords.lng, selectedCityCoords.lat],
+      zoom,
+      speed: 2,
       curve: 1.2,
       essential: true,
     });
-  }, [selectedCityCoords, selectedCityZoom]);
+  }, [selectedCityCoords, selectedCityZoom, diagnostics.styleLoaded]);
 
-  // Immediate Reset Map control
   const handleResetView = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
-
+    map.stop();
+    popupRef.current?.remove();
+    selectAlertFeature(map, null);
     lastFlyCoordsRef.current = null;
-    if (popupRef.current) {
-      popupRef.current.remove();
-    }
-
-    map.jumpTo({
-      center: PAKISTAN_CENTER, // [longitude, latitude]
-      zoom: clampZoom(DEFAULT_ZOOM),
-    });
+    map.jumpTo({ center: PAKISTAN_CENTER, zoom: DEFAULT_ZOOM });
   }, []);
 
-  // Render WebGL failure fallback if WebGL context is not supported
-  if (!webGlSupported) {
-    return (
-      <div className="w-full h-full min-h-[450px] bg-slate-100 border border-slate-200 rounded-md p-6 flex flex-col items-center justify-center text-center">
-        <AlertCircle className="h-10 w-10 text-amber-500 mb-2" />
-        <h4 className="font-semibold text-slate-800 text-sm">WebGL Acceleration Unavailable</h4>
-        <p className="text-xs text-slate-600 max-w-sm mt-1">
-          Interactive map acceleration is unavailable on this device or browser. Alert information is still fully accessible in the advisory list.
-        </p>
-      </div>
-    );
-  }
+  const handleFullscreen = useCallback(async () => {
+    if (!rootRef.current) return;
+    try {
+      if (document.fullscreenElement === rootRef.current) {
+        await document.exitFullscreen();
+      } else {
+        await rootRef.current.requestFullscreen();
+      }
+    } catch (error) {
+      console.error("Map fullscreen error", error);
+      setMapError({
+        code: "MAP_INITIALIZATION_FAILED",
+        message: "Fullscreen mode is unavailable in this browser.",
+        fatal: false,
+      });
+    } finally {
+      requestAnimationFrame(() => mapRef.current?.resize());
+    }
+  }, []);
 
   return (
-    <div className={`w-full h-full relative rounded-md overflow-hidden border border-slate-200 bg-slate-100 ${isFullscreen ? "fixed inset-0 z-50 rounded-none border-none" : "min-h-[450px]"}`}>
-      
-      {/* Map Control Buttons */}
-      <div className="absolute top-3 right-3 z-[10] flex flex-col gap-2 bg-white p-1 rounded-md shadow-md border border-slate-200">
+    <div
+      ref={rootRef}
+      className="map-shell"
+      data-map-initialized={diagnostics.initialized}
+      data-map-style-loaded={diagnostics.styleLoaded}
+      data-map-alert-source-loaded={diagnostics.alertSourceLoaded}
+      data-map-feature-count={diagnostics.alertFeatureCount}
+      data-map-zoom={diagnostics.zoom}
+      data-map-center={`${diagnostics.center[0]},${diagnostics.center[1]}`}
+    >
+      <div ref={containerRef} className="map-container" aria-label="Interactive disaster alert map" />
+
+      {!diagnostics.styleLoaded && !mapError?.fatal && (
+        <div className="map-loading" role="status">
+          Loading verified vector basemap…
+        </div>
+      )}
+
+      {mapError?.fatal && (
+        <div className="map-fallback" role="alert">
+          <AlertCircle className="h-8 w-8 text-amber-500" />
+          <strong>{mapError.message}</strong>
+          <span>Alert information and search remain available.</span>
+          <code>{mapError.code}</code>
+        </div>
+      )}
+
+      {mapError && !mapError.fatal && (
+        <div className="map-warning" role="status">
+          {mapError.message}
+          {SHOW_DIAGNOSTICS && <code>{mapError.code}</code>}
+        </div>
+      )}
+
+      <div className="map-actions">
         <button
           type="button"
           onClick={handleResetView}
-          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
           title="Reset Map View"
           aria-label="Reset map view to Pakistan center"
         >
@@ -318,31 +491,41 @@ export default function MapComponent({
         </button>
         <button
           type="button"
-          onClick={() => {
-            setIsFullscreen(!isFullscreen);
-            setTimeout(() => {
-              mapRef.current?.resize();
-            }, 100);
-          }}
-          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
+          onClick={handleFullscreen}
           title={isFullscreen ? "Exit Fullscreen" : "Fullscreen Map"}
           aria-label="Toggle map fullscreen mode"
         >
-          <Maximize2 className="h-4 w-4" />
+          {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
         </button>
       </div>
 
-      {/* Severity Legend */}
-      <div className="absolute bottom-3 left-3 z-[10] bg-white/95 backdrop-blur-xs p-2.5 rounded-md shadow-md border border-slate-200 text-xs flex flex-wrap items-center gap-3">
-        <span className="font-semibold text-slate-700">Severity:</span>
-        <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-600 inline-block"></span><span className="text-slate-600">Critical</span></div>
-        <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600 inline-block"></span><span className="text-slate-600">High</span></div>
-        <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-600 inline-block"></span><span className="text-slate-600">Golden</span></div>
-        <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span><span className="text-slate-600">Low</span></div>
+      <div className="map-legend" aria-label="Alert severity legend">
+        <strong>Severity:</strong>
+        <span><i className="bg-red-800" />Critical</span>
+        <span><i className="bg-orange-600" />High</span>
+        <span><i className="bg-amber-600" />Medium</span>
+        <span><i className="bg-blue-600" />Low</span>
+        <span><i className="bg-slate-500" />Unknown</span>
       </div>
 
-      {/* MapLibre Container */}
-      <div ref={containerRef} className="w-full h-full min-h-[450px] z-0" />
+      {SHOW_DIAGNOSTICS && (
+        <details className="map-diagnostics">
+          <summary>Map diagnostics</summary>
+          <dl>
+            <dt>Initialized</dt><dd>{String(diagnostics.initialized)}</dd>
+            <dt>WebGL</dt><dd>{String(diagnostics.webglAvailable)}</dd>
+            <dt>Style loaded</dt><dd>{String(diagnostics.styleLoaded)}</dd>
+            <dt>Zoom</dt><dd>{diagnostics.zoom}</dd>
+            <dt>Center</dt><dd>{diagnostics.center.join(", ")}</dd>
+            <dt>Style URL</dt><dd>{diagnostics.styleUrl}</dd>
+            <dt>Tile source</dt><dd>{diagnostics.tileSourceState}</dd>
+            <dt>Alert source</dt><dd>{String(diagnostics.alertSourceLoaded)}</dd>
+            <dt>Alert features</dt><dd>{diagnostics.alertFeatureCount}</dd>
+            <dt>Last error</dt><dd>{diagnostics.lastMapError || "None"}</dd>
+            <dt>PMTiles</dt><dd>{String(diagnostics.pmtilesRegistered)}</dd>
+          </dl>
+        </details>
+      )}
     </div>
   );
 }

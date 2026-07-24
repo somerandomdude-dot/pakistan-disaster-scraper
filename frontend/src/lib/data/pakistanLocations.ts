@@ -274,3 +274,23 @@ export function searchPakistanCities(query: string, limit = 8): CityLocation[] {
     return city.aliases.some((alias) => alias.toLowerCase().includes(trimmed));
   }).slice(0, limit);
 }
+
+export function findPakistanCity(
+  name: string | null,
+  district?: string | null,
+  province?: string | null,
+): CityLocation | null {
+  const normalizedName = name?.trim().toLowerCase();
+  if (!normalizedName) return null;
+
+  return (
+    PAKISTAN_CITIES.find((city) => {
+      const nameMatches =
+        city.name.toLowerCase() === normalizedName ||
+        city.aliases.some((alias) => alias.toLowerCase() === normalizedName);
+      const districtMatches = !district || city.district === district;
+      const provinceMatches = !province || city.province === province;
+      return nameMatches && districtMatches && provinceMatches;
+    }) || null
+  );
+}

@@ -13,6 +13,7 @@ import SourceHealthPanel from "@/components/sources/SourceHealthPanel";
 import RecentAlertsTable from "@/components/dashboard/RecentAlertsTable";
 import SituationMetrics from "@/components/dashboard/SituationMetrics";
 import AlertDetailsDrawer from "@/components/alerts/AlertDetailsDrawer";
+import { findPakistanCity } from "@/lib/data/pakistanLocations";
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -26,9 +27,13 @@ function DashboardContent() {
   const { data: alerts, isLoading: isLoadingAlerts, error: alertsError } = useActiveAlerts(params);
   const { data: sources, isLoading: isLoadingSources } = useSources();
   const metrics = useSummaryMetrics(alerts, sources);
+  const selectedCity = findPakistanCity(
+    searchParams.get("city"),
+    searchParams.get("district"),
+    searchParams.get("province"),
+  );
 
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
-  const [selectedCityCoords, setSelectedCityCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   return (
     <div className="flex-1 flex flex-col">
@@ -88,7 +93,11 @@ function DashboardContent() {
             ) : (
               <InteractiveAlertMap
                 alerts={alerts || []}
-                selectedCityCoords={selectedCityCoords}
+                selectedCityCoords={
+                  selectedCity
+                    ? { lat: selectedCity.latitude, lng: selectedCity.longitude }
+                    : null
+                }
                 onSelectAlert={(alert) => setSelectedAlert(alert)}
               />
             )}
@@ -96,7 +105,7 @@ function DashboardContent() {
 
           {/* Column 3: Filters & Source Health Panel */}
           <div className="lg:col-span-12 xl:col-span-3 flex flex-col gap-6">
-            <AlertFilters onSelectCityCoords={setSelectedCityCoords} />
+            <AlertFilters />
             {sources && <SourceHealthPanel sources={sources} />}
           </div>
 

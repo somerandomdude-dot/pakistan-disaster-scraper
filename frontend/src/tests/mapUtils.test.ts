@@ -2,12 +2,14 @@ import {
   clampZoom, 
   getTargetZoomForType, 
   alertsToGeoJSON,
+  isValidPakistanCoordinate,
   MIN_ZOOM, 
   MAX_ZOOM, 
   DEFAULT_ZOOM,
   PAKISTAN_CENTER
 } from "../lib/utils/mapUtils";
 import { Alert } from "../lib/api/schemas";
+import { findPakistanCity } from "../lib/data/pakistanLocations";
 
 describe("MapLibre GL Map Utility & Rule Tests", () => {
   test("Hard MAX_ZOOM is strictly set to 12", () => {
@@ -56,7 +58,6 @@ describe("MapLibre GL Map Utility & Rule Tests", () => {
       hazard_type: "flood",
       normalized_severity: "high",
       source_id: 1,
-      source_name: "PMD Weather",
       source_url: "https://www.pmd.gov.pk",
       status: "active",
       issued_at: "2026-07-24T12:00:00Z",
@@ -84,5 +85,28 @@ describe("MapLibre GL Map Utility & Rule Tests", () => {
     expect(feature.geometry.coordinates[1]).toBeCloseTo(32.4945);
     expect(feature.properties.severity).toBe("high");
     expect(feature.properties.hazard_type).toBe("flood");
+  });
+
+  test("invalid, missing, and out-of-region coordinates are ignored without guessing", () => {
+    expect(isValidPakistanCoordinate(31.5204, 74.3587)).toBe(true);
+    expect(isValidPakistanCoordinate(null, 74.3587)).toBe(false);
+    expect(isValidPakistanCoordinate(91, 74.3587)).toBe(false);
+    expect(isValidPakistanCoordinate(31.5204, 120)).toBe(false);
+
+    const invalidAlert = {
+      id: 2,
+      title: "Invalid location",
+      hazard_type: "flood",
+      normalized_severity: "unknown",
+      status: "active",
+      locations: [{ latitude: 0, longitude: 0 }],
+    } as Alert;
+    expect(alertsToGeoJSON([invalidAlert]).features).toEqual([]);
+  });
+
+  test("city navigation resolves only exact known selections", () => {
+    expect(findPakistanCity("Lahore", "Lahore District", "Punjab")?.longitude).toBe(74.3587);
+    expect(findPakistanCity("Lah", null, null)).toBeNull();
+    expect(findPakistanCity("Lahore", "Karachi Division", "Sindh")).toBeNull();
   });
 });
