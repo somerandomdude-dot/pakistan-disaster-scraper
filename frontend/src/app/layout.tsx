@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+      <body className="min-h-screen flex flex-col bg-[#f5f6f8] text-slate-900">
         <QueryProvider>
           <AppHeader />
           <main className="flex-1 flex flex-col">

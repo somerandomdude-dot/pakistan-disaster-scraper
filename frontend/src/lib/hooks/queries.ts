@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../api/client";
 import { Alert, Source } from "../api/schemas";
+import { parseApiDate } from "../utils";
 
 export function useActiveAlerts(params?: Record<string, string | number>) {
   return useQuery({
@@ -53,7 +54,7 @@ export function useSummaryMetrics(alerts: Alert[] | undefined, sources: Source[]
   });
 
   const healthy_sources_count = sources.filter(
-    (s: Source) => s.consecutive_failures === 0 || s.health_status === "healthy"
+    (s: Source) => s.consecutive_failures === 0 && s.health_status !== "unhealthy"
   ).length;
   const unhealthy_sources_count = sources.filter(
     (s: Source) => s.consecutive_failures > 0 || s.health_status === "unhealthy"
@@ -67,7 +68,7 @@ export function useSummaryMetrics(alerts: Alert[] | undefined, sources: Source[]
 
   if (checkedTimes.length > 0) {
     const sorted = [...checkedTimes].sort(
-      (a, b) => new Date(b).getTime() - new Date(a).getTime()
+      (a, b) => parseApiDate(b).getTime() - parseApiDate(a).getTime()
     );
     latest_update_time = sorted[0];
   } else if (alerts.length > 0) {

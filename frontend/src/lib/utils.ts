@@ -5,10 +5,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function parseApiDate(dateString: string): Date {
+  const hasTimezone = /(?:z|[+-]\d{2}:?\d{2})$/i.test(dateString);
+  return new Date(hasTimezone ? dateString : `${dateString}Z`);
+}
+
 export function formatDate(dateString: string | null | undefined): string {
   if (!dateString) return "Not provided";
   try {
-    const date = new Date(dateString);
+    const date = parseApiDate(dateString);
     return new Intl.DateTimeFormat("en-PK", {
       year: "numeric",
       month: "short",
@@ -24,7 +29,7 @@ export function formatDate(dateString: string | null | undefined): string {
 export function getRelativeTime(dateString: string | null | undefined): string {
   if (!dateString) return "Not provided";
   try {
-    const date = new Date(dateString);
+    const date = parseApiDate(dateString);
     const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
     const daysDifference = Math.round(
       (date.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)

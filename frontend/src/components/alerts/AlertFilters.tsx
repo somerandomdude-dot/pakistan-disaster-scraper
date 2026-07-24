@@ -92,14 +92,14 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
     searchParams.has("status");
 
   return (
-    <Card className="bg-white border border-slate-200 shadow-2xs">
-      <CardContent className="p-4 space-y-4">
+    <Card>
+      <CardContent className="p-5 space-y-4">
         
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2 text-slate-900 font-semibold text-sm">
-            <SlidersHorizontal className="h-4 w-4 text-blue-600" />
-            <h3>Filter Advisories</h3>
+            <SlidersHorizontal className="h-4 w-4 text-slate-500" />
+            <h3>Filter advisories</h3>
           </div>
           {hasActiveFilters && (
             <button
@@ -122,7 +122,7 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
           <select
             value={province}
             onChange={(e) => updateParam("province", e.target.value)}
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Provinces</option>
             {PROVINCES.map((p) => (
@@ -139,7 +139,7 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
           <select
             value={hazardType}
             onChange={(e) => updateParam("hazard_type", e.target.value)}
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Hazard Types</option>
             {HAZARD_TYPES.map((t) => (
@@ -158,7 +158,7 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
           <select
             value={severity}
             onChange={(e) => updateParam("severity", e.target.value)}
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Severities</option>
             {SEVERITIES.map((s) => (
@@ -177,7 +177,7 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
           <select
             value={status}
             onChange={(e) => updateParam("status", e.target.value)}
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Statuses</option>
             <option value="active">Active Only</option>

@@ -7,19 +7,19 @@ export default function AlertSummaryBanner({ metrics }: { metrics: SummaryMetric
   if (!metrics) return null;
 
   return (
-    <div className="bg-white border-b border-slate-200 py-3.5 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex flex-wrap gap-4 items-center justify-between">
+    <div className="bg-white border-b border-slate-200/80 py-3 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto flex flex-wrap gap-4 items-center justify-between">
         
         {/* Metric Summaries */}
         <div className="flex items-center gap-6 flex-wrap text-xs">
           
           {/* Active Alerts */}
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-blue-50 border border-blue-100 rounded-md">
-              <AlertTriangle className="h-4 w-4 text-blue-900" />
+            <div className="p-2 bg-slate-100 rounded-lg">
+              <AlertTriangle className="h-4 w-4 text-slate-700" />
             </div>
             <div>
-              <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Active Alerts</p>
+              <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-[.1em]">Active alerts</p>
               <div className="flex items-baseline gap-2">
                 <span className="text-base font-bold text-slate-900">{metrics.active_alerts_count}</span>
                 {metrics.critical_alerts_count > 0 ? (
@@ -39,7 +39,7 @@ export default function AlertSummaryBanner({ metrics }: { metrics: SummaryMetric
 
           {/* Affected Districts */}
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-slate-50 border border-slate-200 rounded-md">
+            <div className="p-2 bg-slate-100 rounded-lg">
               <MapPin className="h-4 w-4 text-slate-700" />
             </div>
             <div>
@@ -52,7 +52,7 @@ export default function AlertSummaryBanner({ metrics }: { metrics: SummaryMetric
 
           {/* Scraper Source Health */}
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-slate-50 border border-slate-200 rounded-md">
+            <div className="p-2 bg-slate-100 rounded-lg">
               <RadioTower className="h-4 w-4 text-slate-700" />
             </div>
             <div>
@@ -76,7 +76,7 @@ export default function AlertSummaryBanner({ metrics }: { metrics: SummaryMetric
 
         {/* Latest Update Timestamp */}
         {metrics.latest_update_time ? (
-          <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium bg-slate-50 px-3 py-1.5 rounded border border-slate-200">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
             <Clock className="h-3.5 w-3.5 text-slate-400" />
             <span>Latest update <strong className="text-slate-800 font-semibold">{getRelativeTime(metrics.latest_update_time)}</strong></span>
           </div>

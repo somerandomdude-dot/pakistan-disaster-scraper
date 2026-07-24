@@ -11,14 +11,15 @@ export default function HistoryPage() {
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
 
   return (
-    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1 flex flex-col space-y-6">
+    <div className="max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 lg:py-10 flex-1 flex flex-col space-y-7">
       
       {/* Header */}
-      <div className="border-b border-slate-200 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Advisory History Log</h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Complete historical log of all natural-disaster alerts extracted by scrapers across Pakistan
+          <p className="section-kicker">Archive</p>
+          <h1 className="page-title">Advisory history</h1>
+          <p className="page-description">
+            Searchable historical record of public disaster advisories collected across Pakistan.
           </p>
         </div>
         {alerts && (

@@ -39,7 +39,7 @@ export function AlertListItem({ alert, onSelect }: AlertListItemProps) {
   return (
     <div
       onClick={() => onSelect && onSelect(alert)}
-      className="block border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors p-3.5 group cursor-pointer"
+      className="block border-b border-slate-100 last:border-0 hover:bg-slate-50/80 transition-colors px-4 py-4 group cursor-pointer"
     >
       <div className="flex gap-3">
         <div className="mt-0.5 text-slate-500 group-hover:text-blue-900 transition-colors shrink-0">
@@ -56,7 +56,7 @@ export function AlertListItem({ alert, onSelect }: AlertListItemProps) {
             </Badge>
           </div>
           
-          <p className="text-[11px] text-slate-600 mb-2 line-clamp-2 leading-relaxed">
+          <p className="text-xs text-slate-600 mb-2.5 line-clamp-2 leading-relaxed">
             {alert.description || "Not provided by source."}
           </p>
           

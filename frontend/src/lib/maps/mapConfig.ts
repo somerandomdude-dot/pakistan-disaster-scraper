@@ -4,6 +4,41 @@ export const DEFAULT_MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/brigh
 export const MAP_WORKER_URL = "/maplibre-gl-worker.js";
 export const MAP_WORKER_SHARED_URL = "/maplibre-gl-shared.mjs";
 
+const pakistanRegions = {
+  type: "FeatureCollection" as const,
+  features: [
+    { type: "Feature" as const, properties: { name: "Balochistan" }, geometry: { type: "Polygon" as const, coordinates: [[[61,25],[67,24.8],[70.3,28.4],[69.7,31.6],[66,32.1],[61,29.5],[61,25]]] } },
+    { type: "Feature" as const, properties: { name: "Sindh" }, geometry: { type: "Polygon" as const, coordinates: [[[66.7,24],[71.1,24.4],[70.3,28.4],[68,28.2],[66.7,25],[66.7,24]]] } },
+    { type: "Feature" as const, properties: { name: "Punjab" }, geometry: { type: "Polygon" as const, coordinates: [[[70.3,28.4],[74.7,28.4],[75,32.5],[71.4,33.1],[69.7,31.6],[70.3,28.4]]] } },
+    { type: "Feature" as const, properties: { name: "Khyber Pakhtunkhwa" }, geometry: { type: "Polygon" as const, coordinates: [[[69.7,31.6],[71.4,33.1],[73.5,35.5],[71.4,36.4],[69.4,33.5],[69.7,31.6]]] } },
+    { type: "Feature" as const, properties: { name: "Gilgit-Baltistan" }, geometry: { type: "Polygon" as const, coordinates: [[[73.3,34.8],[77.5,35],[76.5,37],[72.8,37],[71.4,36.4],[73.3,34.8]]] } },
+    { type: "Feature" as const, properties: { name: "Azad Jammu & Kashmir" }, geometry: { type: "Polygon" as const, coordinates: [[[73.2,33],[75,32.5],[75.2,35],[73.5,35.5],[73.2,33]]] } },
+  ],
+};
+
+export const OFFLINE_MAP_STYLE: StyleSpecification = {
+  version: 8,
+  name: "Pakistan offline basemap",
+  sources: {
+    "pakistan-regions": { type: "geojson", data: pakistanRegions },
+  },
+  layers: [
+    { id: "offline-background", type: "background", paint: { "background-color": "#eef2f5" } },
+    {
+      id: "offline-regions-fill",
+      type: "fill",
+      source: "pakistan-regions",
+      paint: { "fill-color": "#dce5e9", "fill-opacity": 0.88 },
+    },
+    {
+      id: "offline-regions-outline",
+      type: "line",
+      source: "pakistan-regions",
+      paint: { "line-color": "#91a4ae", "line-width": 1.2 },
+    },
+  ],
+};
+
 export type MapErrorCode =
   | "STYLE_URL_MISSING"
   | "STYLE_HTTP_ERROR"

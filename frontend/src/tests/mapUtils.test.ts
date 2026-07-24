@@ -10,8 +10,13 @@ import {
 } from "../lib/utils/mapUtils";
 import { Alert } from "../lib/api/schemas";
 import { findPakistanCity } from "../lib/data/pakistanLocations";
+import { parseApiDate } from "../lib/utils";
 
 describe("MapLibre GL Map Utility & Rule Tests", () => {
+  test("timezone-less API timestamps are interpreted as UTC", () => {
+    expect(parseApiDate("2026-07-24T19:42:57").toISOString()).toBe("2026-07-24T19:42:57.000Z");
+  });
+
   test("Hard MAX_ZOOM is strictly set to 12", () => {
     expect(MAX_ZOOM).toBe(12);
   });

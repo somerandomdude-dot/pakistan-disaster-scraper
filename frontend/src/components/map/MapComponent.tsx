@@ -28,6 +28,7 @@ import {
   MAP_WORKER_SHARED_URL,
   MAP_WORKER_URL,
   MapConfigurationError,
+  OFFLINE_MAP_STYLE,
   type MapErrorCode,
   redactMapStyleUrl,
   resolveMapStyleUrl,
@@ -128,6 +129,7 @@ export default function MapComponent({
   const interactionsBoundRef = useRef(false);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [offlineBasemapActive, setOfflineBasemapActive] = useState(false);
   const [mapError, setMapError] = useState<VisibleMapError | null>(null);
   const [diagnostics, setDiagnostics] = useState<DiagnosticState>({
     initialized: false,
@@ -266,17 +268,36 @@ export default function MapComponent({
       }
 
       let styleUrl: string;
+      let usingOfflineStyle = false;
       try {
         styleUrl = resolveMapStyleUrl();
         setDiagnostics((current) => ({
           ...current,
           styleUrl: redactMapStyleUrl(styleUrl),
         }));
-        const [style] = await Promise.all([
-          validateMapStyleWithRetry(styleUrl),
+        await Promise.all([
           validateWorkerAsset(MAP_WORKER_URL),
           validateWorkerAsset(MAP_WORKER_SHARED_URL),
         ]);
+        let style;
+        try {
+          style = await validateMapStyleWithRetry(styleUrl);
+        } catch (styleError) {
+          usingOfflineStyle = true;
+          setOfflineBasemapActive(true);
+          style = OFFLINE_MAP_STYLE;
+          const code = classifyMapLibreError(styleError);
+          setMapError({
+            code,
+            message: "Offline basemap active — live map tiles are currently unavailable.",
+            fatal: false,
+          });
+          setDiagnostics((current) => ({
+            ...current,
+            tileSourceState: "degraded",
+            lastMapError: `${code}: external basemap unavailable`,
+          }));
+        }
         if (cancelled || !containerRef.current) return;
 
         maplibregl.setWorkerUrl(MAP_WORKER_URL);
@@ -319,11 +340,11 @@ export default function MapComponent({
         map.on("load", () => {
           restoreRequiredLayers();
           map?.resize();
-          setMapError((current) => (current?.fatal ? current : null));
+          setMapError((current) => (usingOfflineStyle || current?.fatal ? current : null));
           setDiagnostics((current) => ({
             ...current,
             styleLoaded: true,
-            tileSourceState: "ready",
+            tileSourceState: usingOfflineStyle ? "degraded" : "ready",
           }));
         });
         map.on("moveend", updateCameraDiagnostics);
@@ -457,10 +478,25 @@ export default function MapComponent({
       data-map-center={`${diagnostics.center[0]},${diagnostics.center[1]}`}
     >
       <div ref={containerRef} className="map-container" aria-label="Interactive disaster alert map" />
+      {offlineBasemapActive && (
+        <div className="offline-basemap" aria-hidden="true">
+          <svg viewBox="60 23 18 15" role="presentation">
+            <g className="offline-basemap__regions">
+              <polygon points="61,25 67,24.8 70.3,28.4 69.7,31.6 66,32.1 61,29.5" />
+              <polygon points="66.7,24 71.1,24.4 70.3,28.4 68,28.2 66.7,25" />
+              <polygon points="70.3,28.4 74.7,28.4 75,32.5 71.4,33.1 69.7,31.6" />
+              <polygon points="69.7,31.6 71.4,33.1 73.5,35.5 71.4,36.4 69.4,33.5" />
+              <polygon points="73.3,34.8 77.5,35 76.5,37 72.8,37 71.4,36.4" />
+              <polygon points="73.2,33 75,32.5 75.2,35 73.5,35.5" />
+            </g>
+          </svg>
+          <span>Pakistan regional overview</span>
+        </div>
+      )}
 
       {!diagnostics.styleLoaded && !mapError?.fatal && (
         <div className="map-loading" role="status">
-          Loading verified vector basemap…
+          Loading map…
         </div>
       )}
 

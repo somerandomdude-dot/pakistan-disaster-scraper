@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldAlert, Clock } from "lucide-react";
+import { ShieldAlert, Clock, Menu, X } from "lucide-react";
 
 export default function AppHeader() {
   const pathname = usePathname();
   const [pktTime, setPktTime] = useState<string>("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const updateClock = () => {
@@ -37,21 +38,21 @@ export default function AppHeader() {
   ];
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="bg-[#0b172a] text-white sticky top-0 z-40 shadow-[0_1px_0_rgba(255,255,255,.08)]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         
         {/* Brand & Disclaimer */}
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="p-1.5 bg-blue-900 text-white rounded-md group-hover:bg-blue-800 transition-colors">
-              <ShieldAlert className="h-5 w-5" />
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-red-600 text-white shadow-sm">
+              <ShieldAlert className="h-[19px] w-[19px]" strokeWidth={2} />
             </div>
             <div>
-              <h1 className="font-bold text-slate-900 text-base leading-none tracking-tight">
-                Disaster Alert Pakistan
+              <h1 className="font-semibold text-white text-[15px] leading-none tracking-[-0.01em]">
+                Pakistan Disaster Monitor
               </h1>
-              <p className="text-[10px] text-slate-500 font-medium tracking-wide mt-0.5">
-                Unofficial alert dashboard using publicly available official sources
+              <p className="text-[10px] text-slate-400 font-medium tracking-[0.08em] uppercase mt-1.5">
+                Public advisory intelligence
               </p>
             </div>
           </Link>
@@ -59,17 +60,17 @@ export default function AppHeader() {
 
         {/* Desktop Navigation Links & PKT Clock */}
         <div className="flex items-center gap-4">
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-0.5">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                  className={`px-3 py-2 rounded-md text-[13px] font-medium transition-colors ${
                     isActive
-                      ? "bg-slate-100 text-blue-900"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      ? "bg-white/10 text-white"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.06]"
                   }`}
                 >
                   {item.label}
@@ -79,14 +80,41 @@ export default function AppHeader() {
           </nav>
 
           {pktTime && (
-            <div className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded">
-              <Clock className="h-3 w-3 text-slate-500" />
+            <div className="hidden xl:flex items-center gap-2 text-[11px] tabular-nums text-slate-300 border-l border-white/10 pl-4 ml-1">
+              <Clock className="h-3.5 w-3.5 text-slate-500" />
               <span>{pktTime} PKT</span>
             </div>
           )}
+          <button
+            type="button"
+            className="md:hidden grid h-9 w-9 place-items-center rounded-md text-slate-300 hover:bg-white/10 hover:text-white"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
 
       </div>
+      {menuOpen && (
+        <nav className="md:hidden border-t border-white/10 px-4 py-3">
+          <div className="max-w-[1440px] mx-auto grid grid-cols-2 gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={`rounded-md px-3 py-2.5 text-sm font-medium ${
+                  pathname === item.href ? "bg-white/10 text-white" : "text-slate-300"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

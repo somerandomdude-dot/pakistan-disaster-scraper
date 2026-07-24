@@ -19,11 +19,12 @@ function AlertsContent() {
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
 
   return (
-    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1 flex flex-col">
-      <div className="mb-6 flex justify-between items-baseline">
+    <div className="max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 lg:py-10 flex-1 flex flex-col">
+      <div className="mb-7 flex justify-between items-end">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Active Advisories</h1>
-          <p className="text-xs text-slate-500 mt-1">Full index of currently active disaster alerts across Pakistan</p>
+          <p className="section-kicker">Alert feed</p>
+          <h1 className="page-title">Active advisories</h1>
+          <p className="page-description">Current public alerts across Pakistan, consolidated from monitored official sources.</p>
         </div>
         {alerts && (
           <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded border border-slate-200">
@@ -37,7 +38,7 @@ function AlertsContent() {
           <AlertFilters />
         </div>
 
-        <div className="lg:col-span-3 bg-white border border-slate-200 rounded-md shadow-2xs overflow-hidden">
+        <div className="lg:col-span-3 bg-white border border-slate-200/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
           {isLoading ? (
             <div className="p-12 text-center text-slate-500 text-xs animate-pulse">Loading active advisories...</div>
           ) : error ? (

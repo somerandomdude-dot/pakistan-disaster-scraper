@@ -41,18 +41,34 @@ function DashboardContent() {
       {/* Top Banner */}
       <AlertSummaryBanner metrics={metrics} />
 
-      <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <div className="flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-7 lg:py-9 space-y-7">
+        <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="section-kicker">National overview</p>
+            <h1 className="page-title">Current situation</h1>
+            <p className="page-description">
+              Verified public advisories, affected areas, and source status in one operational view.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <span className="status-dot status-dot--live" />
+            Live monitoring enabled
+          </div>
+        </section>
         
         {/* Main Three-Column Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* Column 1: Active Alerts Vertical List */}
-          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[650px] bg-white border border-slate-200 rounded-md shadow-2xs overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-              <h2 className="font-semibold text-slate-900 text-sm">Active Advisories</h2>
+          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[650px] bg-white border border-slate-200/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
+            <div className="px-4 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h2 className="font-semibold text-slate-900 text-sm">Active advisories</h2>
+                <p className="text-[11px] text-slate-500 mt-0.5">Newest reports first</p>
+              </div>
               {alerts && (
                 <span className="text-xs text-slate-500 font-mono font-medium bg-slate-200/60 px-2 py-0.5 rounded">
-                  {alerts.length}
+                  {alerts.length} active
                 </span>
               )}
             </div>
@@ -85,7 +101,7 @@ function DashboardContent() {
           </div>
 
           {/* Column 2: Interactive Alert Map */}
-          <div className="lg:col-span-8 xl:col-span-6 h-[450px] lg:h-[650px]">
+          <div className="lg:col-span-8 xl:col-span-6 h-[480px] lg:h-[650px]">
             {isLoadingAlerts ? (
               <div className="w-full h-full bg-slate-100 border border-slate-200 rounded-md flex items-center justify-center text-slate-400 text-xs animate-pulse">
                 Initializing Alert Map...

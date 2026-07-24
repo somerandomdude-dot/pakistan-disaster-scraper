@@ -2,6 +2,7 @@ import {
   classifyMapLibreError,
   DEFAULT_MAP_STYLE_URL,
   MapConfigurationError,
+  OFFLINE_MAP_STYLE,
   redactMapStyleUrl,
   resolveMapStyleUrl,
   validateMapStyle,
@@ -15,6 +16,12 @@ function response(body: BodyInit, init?: ResponseInit): Response {
 describe("MapLibre configuration validation", () => {
   test("uses the verified no-key vector style by default", () => {
     expect(resolveMapStyleUrl(undefined, undefined)).toBe(DEFAULT_MAP_STYLE_URL);
+  });
+
+  test("ships a self-contained offline Pakistan basemap", () => {
+    expect(OFFLINE_MAP_STYLE.version).toBe(8);
+    expect(OFFLINE_MAP_STYLE.sources).toHaveProperty("pakistan-regions");
+    expect(OFFLINE_MAP_STYLE.layers.length).toBeGreaterThanOrEqual(3);
   });
 
   test("reports a missing style URL clearly", async () => {

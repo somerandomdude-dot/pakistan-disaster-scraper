@@ -13,18 +13,18 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
   return (
     <div className="mt-8">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-wide">
-          Calculated Situation Metrics
+        <h3 className="text-sm font-semibold text-slate-900">
+          Situation at a glance
         </h3>
-        <span className="text-xs text-slate-500">
-          Live statistics computed from official connected scrapers
+        <span className="text-xs text-slate-500 hidden sm:block">
+          Automatically calculated from current advisory data
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         
         {/* Metric 1: Total Active Alerts */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Active Alerts</span>
@@ -36,7 +36,7 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
         </Card>
 
         {/* Metric 2: Critical Severity Alerts */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Critical</span>
@@ -48,7 +48,7 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
         </Card>
 
         {/* Metric 3: Affected Districts */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Districts</span>
@@ -60,7 +60,7 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
         </Card>
 
         {/* Metric 4: Active Sources */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Healthy Sources</span>
@@ -72,7 +72,7 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
         </Card>
 
         {/* Metric 5: Unhealthy Sources */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Source Failures</span>
@@ -84,7 +84,7 @@ export default function SituationMetrics({ metrics }: SituationMetricsProps) {
         </Card>
 
         {/* Metric 6: Update Pulse */}
-        <Card className="bg-white border border-slate-200 shadow-2xs">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-slate-500 mb-2">
               <span className="text-xs font-medium uppercase tracking-wider">Sync Interval</span>

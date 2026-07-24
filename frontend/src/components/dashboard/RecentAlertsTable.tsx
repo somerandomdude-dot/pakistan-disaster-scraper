@@ -31,19 +31,19 @@ export default function RecentAlertsTable({ alerts, onSelectAlert }: RecentAlert
   const paginatedAlerts = sortedAlerts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-md shadow-2xs overflow-hidden mt-8">
+    <div className="bg-white border border-slate-200/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden mt-8">
       
       {/* Table Header */}
-      <div className="px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex flex-wrap justify-between items-center gap-2">
+      <div className="px-5 py-4 border-b border-slate-100 flex flex-wrap justify-between items-center gap-2">
         <div>
-          <h3 className="font-semibold text-slate-900 text-sm">Recent Official Advisories</h3>
-          <p className="text-xs text-slate-500">Live feed of extracted alerts across Pakistan</p>
+          <h3 className="font-semibold text-slate-900 text-sm">Recent advisories</h3>
+          <p className="text-xs text-slate-500 mt-0.5">Latest reports from monitored public sources</p>
         </div>
         
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
-            className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1 font-medium bg-white border border-slate-200 px-2.5 py-1 rounded transition-colors"
+            className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-medium bg-white border border-slate-300 px-3 py-2 rounded-lg transition-colors"
           >
             <ArrowUpDown className="h-3 w-3" />
             Sort: {sortOrder === "desc" ? "Newest First" : "Oldest First"}

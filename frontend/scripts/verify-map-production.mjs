@@ -12,6 +12,7 @@ const viewport = {
   height: Number(process.env.MAP_TEST_VIEWPORT_HEIGHT || 1000),
 };
 const browserEngine = process.env.MAP_TEST_BROWSER_ENGINE || "chromium";
+const forceOffline = process.env.MAP_TEST_FORCE_OFFLINE === "true";
 
 const validAlert = {
   id: 999001,
@@ -56,6 +57,11 @@ async function openScenario(browser, alerts) {
       headers: { "Access-Control-Allow-Origin": "*" },
     }),
   );
+  if (forceOffline) {
+    await page.route("https://tiles.openfreemap.org/**", (route) =>
+      route.fulfill({ status: 200, contentType: "text/plain", body: "offline test" }),
+    );
+  }
 
   page.on("console", (message) => {
     if (message.type() === "error") consoleErrors.push(message.text());
@@ -74,7 +80,9 @@ async function openScenario(browser, alerts) {
       status: response.status(),
       contentType: response.headers()["content-type"] || "",
     };
-    if (response.status() >= 400) badResponses.push(entry);
+    if (response.status() >= 400 && !(forceOffline && entry.url.includes("tiles.openfreemap.org"))) {
+      badResponses.push(entry);
+    }
     if (
       entry.url.includes("openfreemap") ||
       entry.url.includes("maplibre-gl-worker") ||
@@ -153,10 +161,18 @@ try {
     zero.mapResponses.some((response) => response.url.includes("maplibre-gl-shared.mjs")),
     "MapLibre worker shared module was not requested",
   );
-  assert.ok(
-    zero.mapResponses.some((response) => response.url.endsWith(".pbf")),
-    "no vector tile or glyph PBF request completed",
-  );
+  if (!forceOffline) {
+    assert.ok(
+      zero.mapResponses.some((response) => response.url.endsWith(".pbf")),
+      "no vector tile or glyph PBF request completed",
+    );
+  } else {
+    assert.match(
+      await zero.page.locator(".map-warning").textContent(),
+      /Offline basemap active/i,
+      "offline fallback warning was not shown",
+    );
+  }
   await zero.page.close();
 
   const marker = await openScenario(browser, [validAlert]);
