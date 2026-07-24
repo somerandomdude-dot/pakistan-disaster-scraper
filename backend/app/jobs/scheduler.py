@@ -32,18 +32,20 @@ def setup_scheduler():
         for source in sources:
             job_id = f"scraper_source_{source.id}"
             
-            # Prevent overlapping executions with max_instances=1
+            from datetime import datetime, timezone
+            # Run immediately on startup, then at standard interval
             scheduler.add_job(
                 scheduled_scraper_job,
                 'interval',
                 minutes=source.polling_interval_minutes,
+                next_run_time=datetime.now(timezone.utc),
                 id=job_id,
                 args=[source.id],
                 replace_existing=True,
                 max_instances=1,
                 coalesce=True
             )
-            logger.info(f"Scheduled job {job_id} every {source.polling_interval_minutes} minutes")
+            logger.info(f"Scheduled job {job_id} every {source.polling_interval_minutes} minutes (initial run now)")
     except Exception as e:
         logger.error(f"Failed to setup scheduler jobs: {e}")
     finally:

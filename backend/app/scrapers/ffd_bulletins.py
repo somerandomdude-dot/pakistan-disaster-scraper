@@ -70,16 +70,29 @@ class FFDBulletinScraper(BaseScraper):
             
             try:
                 text = ""
-                if fitz is not None:
+                # Attempt 1: PyMuPDF (fitz) - best for complex/null-byte PDFs
+                try:
+                    import fitz
                     doc = fitz.open(stream=pdf_bytes, filetype="pdf")
                     for page in doc:
                         text += page.get_text()
-                elif PdfReader is not None:
-                    reader = PdfReader(io.BytesIO(pdf_bytes))
-                    for page in reader.pages:
-                        text += page.extract_text() or ""
-                else:
-                    logger.warning("No PDF parser library (fitz or pypdf) available.")
+                except Exception as fitz_err:
+                    logger.debug(f"fitz PDF parse failed: {fitz_err}")
+
+                # Attempt 2: PyPDF with null-byte sanitization if fitz returned no text
+                if not text.strip() and PdfReader is not None:
+                    try:
+                        clean_bytes = pdf_bytes.replace(b'\x00', b'')
+                        reader = PdfReader(io.BytesIO(clean_bytes))
+                        for page in reader.pages:
+                            text += page.extract_text() or ""
+                    except Exception as pypdf_err:
+                        logger.warning(f"pypdf parse failed for {url}: {pypdf_err}")
+
+                # Attempt 3: Raw string extraction fallback if PDF text is binary-encoded
+                if not text.strip():
+                    raw_strings = re.findall(rb'[A-Za-z0-9\s.,;:\-/()]{4,}', pdf_bytes)
+                    text = " ".join(s.decode('latin-1', errors='ignore') for s in raw_strings)
                     
                 # Clean up text somewhat
                 text = re.sub(r'\s+', ' ', text).strip()

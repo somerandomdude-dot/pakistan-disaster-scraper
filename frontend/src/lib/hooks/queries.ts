@@ -6,8 +6,8 @@ export function useActiveAlerts(params?: Record<string, string | number>) {
   return useQuery({
     queryKey: ["alerts", "active", params],
     queryFn: () => api.getAlerts(params),
-    refetchInterval: 60 * 1000, // Refresh every 60 seconds as per requirements
-    staleTime: 30 * 1000,
+    refetchInterval: 10 * 1000, // Near instant auto-refetch every 10 seconds
+    staleTime: 5 * 1000,
   });
 }
 
@@ -15,7 +15,7 @@ export function useAlertHistory(params?: Record<string, string | number>) {
   return useQuery({
     queryKey: ["alerts", "history", params],
     queryFn: () => api.getAlertHistory(params),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 30 * 1000,
   });
 }
 
@@ -24,7 +24,7 @@ export function useAlertDetails(id: string | number) {
     queryKey: ["alerts", "detail", id],
     queryFn: () => api.getAlertDetails(id),
     enabled: !!id,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 30 * 1000,
   });
 }
 
@@ -32,8 +32,8 @@ export function useSources() {
   return useQuery({
     queryKey: ["sources"],
     queryFn: () => api.getSources(),
-    refetchInterval: 2 * 60 * 1000, // Refresh every 2 minutes
-    staleTime: 60 * 1000,
+    refetchInterval: 15 * 1000, // Auto-refetch source health every 15 seconds
+    staleTime: 5 * 1000,
   });
 }
 
@@ -60,7 +60,17 @@ export function useSummaryMetrics(alerts: Alert[] | undefined, sources: Source[]
   ).length;
 
   let latest_update_time: string | null | undefined = null;
-  if (alerts.length > 0) {
+  // Use the most recent last_checked_at timestamp across active sources
+  const checkedTimes = sources
+    .map((s: Source) => s.last_checked_at)
+    .filter((t): t is string => Boolean(t));
+
+  if (checkedTimes.length > 0) {
+    const sorted = [...checkedTimes].sort(
+      (a, b) => new Date(b).getTime() - new Date(a).getTime()
+    );
+    latest_update_time = sorted[0];
+  } else if (alerts.length > 0) {
     const sorted = [...alerts].sort(
       (a: Alert, b: Alert) =>
         new Date(b.updated_at || b.issued_at || 0).getTime() -

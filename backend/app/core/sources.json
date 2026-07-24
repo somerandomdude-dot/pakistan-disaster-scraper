@@ -5,7 +5,7 @@
         "base_url": "https://www.pmd.gov.pk/",
         "scrape_url": "https://www.pmd.gov.pk/en/latest-weather-alerts.php",
         "source_type": "XML/HTML",
-        "polling_interval_minutes": 15
+        "polling_interval_minutes": 2
     },
     {
         "name": "PMD Earthquake",
@@ -13,7 +13,7 @@
         "base_url": "https://seismic.pmd.gov.pk/",
         "scrape_url": "https://seismic.pmd.gov.pk/events.php",
         "source_type": "HTML",
-        "polling_interval_minutes": 5
+        "polling_interval_minutes": 1
     },
     {
         "name": "NDMA Advisories",
@@ -21,7 +21,7 @@
         "base_url": "https://www.ndma.gov.pk/",
         "scrape_url": "https://www.ndma.gov.pk/advisories",
         "source_type": "HTML/PDF",
-        "polling_interval_minutes": 30
+        "polling_interval_minutes": 3
     },
     {
         "name": "FFD Bulletins",
@@ -29,6 +29,6 @@
         "base_url": "https://ffd.pmd.gov.pk/",
         "scrape_url": "https://ffd.pmd.gov.pk/bulletin/A",
         "source_type": "HTML/PDF",
-        "polling_interval_minutes": 60
+        "polling_interval_minutes": 5
     }
 ]
