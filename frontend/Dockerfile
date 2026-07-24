@@ -5,7 +5,7 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install --legacy-peer-deps --no-audit --no-fund --loglevel verbose
+RUN npm install
 
 # Rebuild the source code only when needed
 FROM base AS builder
