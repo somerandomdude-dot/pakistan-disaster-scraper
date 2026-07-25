@@ -1,127 +1,72 @@
-import json
-import os
-import re
-from typing import List, Dict, Optional
-from app.schemas.alert import AlertCreate, AlertLocationCreate
-import logging
+"""Compatibility adapter from scraper AlertCreate objects to typed extraction."""
 
-logger = logging.getLogger(__name__)
+from app.locations.matcher import TypedLocationMatcher
+from app.schemas.alert import AlertCreate, AlertLocationCreate
+
 
 class LocationMatcher:
-    def __init__(self, mapping_file: str = "app/core/locations.json"):
-        self.provinces = []
-        self.districts = []
-        self._load_mappings(mapping_file)
-
-    def _load_mappings(self, mapping_file: str):
-        try:
-            if not os.path.exists(mapping_file):
-                # Try relative to project root
-                mapping_file = os.path.join(os.path.dirname(__file__), "..", "core", "locations.json")
-                
-            with open(mapping_file, "r") as f:
-                data = json.load(f)
-                self.provinces = data.get("provinces", [])
-                self.districts = data.get("districts", [])
-        except Exception as e:
-            logger.error(f"Failed to load location mappings: {e}")
-
-    def _clean_location(self, loc: str) -> str:
-        return re.sub(r'[^a-zA-Z0-9]', ' ', loc.lower()).strip()
+    def __init__(self):
+        self.matcher = TypedLocationMatcher()
 
     def match_location(self, raw_loc: str) -> AlertLocationCreate:
-        cleaned_raw = self._clean_location(raw_loc)
-        
-        # Exact match district
-        for dist in self.districts:
-            if dist["name"].lower() == cleaned_raw:
-                return AlertLocationCreate(
-                    raw_location=raw_loc,
-                    city=dist["name"],
-                    district=dist["name"],
-                    province=dist["province"],
-                    match_confidence="exact"
-                )
-        
-        # Alias match district
-        for dist in self.districts:
-            for alias in dist.get("aliases", []):
-                if alias.lower() == cleaned_raw:
-                    return AlertLocationCreate(
-                        raw_location=raw_loc,
-                        city=dist["name"],
-                        district=dist["name"],
-                        province=dist["province"],
-                        match_confidence="alias"
-                    )
-                    
-        # Substring/Conservative fuzzy match district
-        # Only if the district name is a distinct word in the raw string
-        words = set(cleaned_raw.split())
-        for dist in self.districts:
-            dist_lower = dist["name"].lower()
-            if dist_lower in words:
-                return AlertLocationCreate(
-                    raw_location=raw_loc,
-                    city=dist["name"],
-                    district=dist["name"],
-                    province=dist["province"],
-                    match_confidence="fuzzy"
-                )
-
-        # Exact match province
-        for prov in self.provinces:
-            if prov["name"].lower() == cleaned_raw:
-                return AlertLocationCreate(
-                    raw_location=raw_loc,
-                    province=prov["name"],
-                    match_confidence="exact"
-                )
-                
-        # Alias match province
-        for prov in self.provinces:
-            for alias in prov.get("aliases", []):
-                if alias.lower() == cleaned_raw:
-                    return AlertLocationCreate(
-                        raw_location=raw_loc,
-                        province=prov["name"],
-                        match_confidence="alias"
-                    )
-
-        # Substring/Conservative fuzzy match province
-        for prov in self.provinces:
-            prov_lower = prov["name"].lower()
-            if prov_lower in words:
-                return AlertLocationCreate(
-                    raw_location=raw_loc,
-                    province=prov["name"],
-                    match_confidence="fuzzy"
-                )
-
-        # Unmatched
+        result = self.matcher.extract(
+            structured_locations=[AlertLocationCreate(raw_location=raw_loc)]
+        )
+        locations = self._to_alert_locations(result)
+        if locations:
+            location = locations[0]
+            location.match_confidence = (
+                "exact" if location.match_method == "EXACT_CANONICAL" else "alias"
+            )
+            return location
         return AlertLocationCreate(
             raw_location=raw_loc,
-            match_confidence="manual"
+            match_confidence="manual",
         )
 
     def process(self, alert: AlertCreate) -> AlertCreate:
-        matched_locations = []
-        
-        # The PMD scraper might dump a long string into a single location if it couldn't parse it well.
-        # We should try to split by comma or "and" if it's long.
-        raw_list = []
-        for loc in alert.locations:
-            parts = re.split(r',| and |&', loc.raw_location)
-            for p in parts:
-                p = p.strip()
-                if p:
-                    raw_list.append(p)
-                    
-        for raw in raw_list:
-            matched_loc = self.match_location(raw)
-            matched_locations.append(matched_loc)
-            
-        alert.locations = matched_locations
+        result = self.matcher.extract(
+            structured_locations=alert.locations,
+            title=alert.title,
+            description=alert.description or "",
+            raw_text=alert.raw_text or "",
+        )
+        alert.locations = self._to_alert_locations(result)
+        alert.location_resolution = result
+        alert.location_cache_key = self.matcher.cache_key(alert.content_hash or "")
         return alert
+
+    @staticmethod
+    def _to_alert_locations(result: dict) -> list[AlertLocationCreate]:
+        output: list[AlertLocationCreate] = []
+        for collection in ("cities", "tehsils", "districts", "divisions", "provinces", "geographic_features"):
+            for item in result[collection]:
+                output.append(AlertLocationCreate(
+                    location_id=item["location_id"],
+                    entity_type=item["entity_type"],
+                    canonical_name=item["canonical_name"],
+                    province=item.get("province") or (
+                        item["canonical_name"] if item["entity_type"] in {"PROVINCE", "TERRITORY"} else None
+                    ),
+                    district=item.get("district") or (
+                        item["canonical_name"] if item["entity_type"] == "DISTRICT" else None
+                    ),
+                    tehsil=item.get("tehsil") or (
+                        item["canonical_name"] if item["entity_type"] == "TEHSIL" else None
+                    ),
+                    city=item["canonical_name"] if item["entity_type"] in {"CITY", "TOWN", "VILLAGE", "LOCALITY"} else None,
+                    raw_location=item["matched_text"],
+                    matched_text=item["matched_text"],
+                    latitude=item.get("latitude"),
+                    longitude=item.get("longitude"),
+                    match_confidence=str(item["confidence"]),
+                    text_source=item["text_source"],
+                    match_method=item["match_method"],
+                    start_offset=item["start_offset"],
+                    end_offset=item["end_offset"],
+                    evidence_score=item["evidence_score"],
+                ))
+        return output
+
 
 matcher_instance = LocationMatcher()

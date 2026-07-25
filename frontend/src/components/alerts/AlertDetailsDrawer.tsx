@@ -128,20 +128,34 @@ export default function AlertDetailsDrawer({ alert, onClose }: AlertDetailsDrawe
                 <table className="w-full text-left text-xs whitespace-nowrap">
                   <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-medium">
                     <tr>
+                      <th className="px-3 py-2">Type</th>
                       <th className="px-3 py-2">Province</th>
                       <th className="px-3 py-2">District</th>
+                      <th className="px-3 py-2">Tehsil</th>
                       <th className="px-3 py-2">City</th>
                       <th className="px-3 py-2">Coordinates</th>
+                      <th className="px-3 py-2">Location Source</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {alert.locations.map((loc: AlertLocation, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50">
+                        <td className="px-3 py-2">
+                          <Badge variant="outline" className="text-[10px]">
+                            {(loc.entity_type || "UNKNOWN").replace(/_/g, " ")}
+                          </Badge>
+                        </td>
                         <td className="px-3 py-2 text-slate-700">{loc.province || "Not provided"}</td>
                         <td className="px-3 py-2 text-slate-900 font-medium">{loc.district || "Not provided"}</td>
+                        <td className="px-3 py-2 text-slate-700">{loc.tehsil || "Not provided"}</td>
                         <td className="px-3 py-2 text-slate-700">{loc.city || "Not provided"}</td>
                         <td className="px-3 py-2 text-slate-500 font-mono text-[11px]">
-                          {loc.latitude && loc.longitude ? `${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}` : "Not provided"}
+                          {loc.latitude != null && loc.longitude != null
+                            ? `${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}`
+                            : "Coordinates not available"}
+                        </td>
+                        <td className="px-3 py-2 text-slate-500">
+                          {(loc.text_source || "Not provided").replace(/_/g, " ").toLowerCase()}
                         </td>
                       </tr>
                     ))}

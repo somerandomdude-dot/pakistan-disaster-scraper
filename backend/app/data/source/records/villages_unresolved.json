@@ -1,0 +1,32 @@
+[
+ {
+  "admin_codes": [
+   null,
+   null,
+   null,
+   null
+  ],
+  "aliases": [],
+  "canonical_name": "Ayoob Kandra Chowk",
+  "district_id": null,
+  "division_id": null,
+  "feature_code": "PPL",
+  "geonames_id": 8740067,
+  "hierarchy_exception": "GeoNames source has no ADM2 code for this populated place",
+  "id": "geonames_8740067",
+  "latitude": 25.12761,
+  "longitude": 66.56337,
+  "normalized_name": "ayoob kandra chowk",
+  "parent_id": null,
+  "population_is_estimate": null,
+  "population_source": "GeoNames gazetteer",
+  "population_value": null,
+  "population_year": null,
+  "province_id": null,
+  "review_notes": null,
+  "source": "GeoNames PK country dump, CC BY 4.0",
+  "tehsil_id": null,
+  "type": "VILLAGE",
+  "urdu_name": null
+ }
+]

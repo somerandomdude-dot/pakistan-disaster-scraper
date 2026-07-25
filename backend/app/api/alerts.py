@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import or_
 from typing import List, Optional
 from datetime import datetime, timezone
@@ -30,7 +30,10 @@ def get_active_alerts(
     Expired alerts are excluded automatically.
     Results are sorted by severity (critical → low) then newest first.
     """
-    query = db.query(Alert).filter(Alert.status.in_(["active", "pending"]))
+    query = db.query(Alert).options(
+        selectinload(Alert.locations),
+        selectinload(Alert.location_resolution_record),
+    ).filter(Alert.status.in_(["active", "pending"]))
 
     # Filter out expired alerts
     now = datetime.now(timezone.utc)
@@ -70,7 +73,10 @@ def get_alert_history(
     db: Session = Depends(get_db),
 ):
     """Return all alerts regardless of status/expiry — useful for historical review."""
-    query = db.query(Alert)
+    query = db.query(Alert).options(
+        selectinload(Alert.locations),
+        selectinload(Alert.location_resolution_record),
+    )
 
     if hazard_type:
         query = query.filter(Alert.hazard_type == hazard_type)
@@ -92,7 +98,10 @@ from app.services.text_export_service import TextExportService, LATEST_DIR
 
 @router.get("/{alert_id}/export")
 def get_alert_text_export(alert_id: int, db: Session = Depends(get_db)):
-    alert = db.query(Alert).filter(Alert.id == alert_id).first()
+    alert = db.query(Alert).options(
+        selectinload(Alert.locations),
+        selectinload(Alert.location_resolution_record),
+    ).filter(Alert.id == alert_id).first()
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
 
@@ -113,7 +122,10 @@ def get_alert_text_export(alert_id: int, db: Session = Depends(get_db)):
 
 @router.get("/{alert_id}", response_model=AlertSchema)
 def get_alert(alert_id: int, db: Session = Depends(get_db)):
-    alert = db.query(Alert).filter(Alert.id == alert_id).first()
+    alert = db.query(Alert).options(
+        selectinload(Alert.locations),
+        selectinload(Alert.location_resolution_record),
+    ).filter(Alert.id == alert_id).first()
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
     return alert

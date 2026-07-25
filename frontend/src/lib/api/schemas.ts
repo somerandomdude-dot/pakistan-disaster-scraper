@@ -10,6 +10,16 @@ export const AlertLocationSchema = z.object({
   latitude: z.number().nullable().optional(),
   longitude: z.number().nullable().optional(),
   match_confidence: z.string().nullable().optional(),
+  location_id: z.string().nullable().optional(),
+  entity_type: z.string().nullable().optional(),
+  canonical_name: z.string().nullable().optional(),
+  tehsil: z.string().nullable().optional(),
+  matched_text: z.string().nullable().optional(),
+  text_source: z.string().nullable().optional(),
+  match_method: z.string().nullable().optional(),
+  start_offset: z.number().nullable().optional(),
+  end_offset: z.number().nullable().optional(),
+  evidence_score: z.number().nullable().optional(),
 });
 
 export const AlertSchema = z.object({
@@ -32,6 +42,7 @@ export const AlertSchema = z.object({
   created_at: z.string().nullable().optional(),
   updated_at: z.string().nullable().optional(),
   locations: z.array(AlertLocationSchema).default([]),
+  location_resolution: z.record(z.any()).nullable().optional(),
   source: z.object({
     name: z.string(),
     base_url: z.string(),

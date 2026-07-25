@@ -30,3 +30,13 @@ class Alert(Base):
     source = relationship("Source")
     locations = relationship("AlertLocation", back_populates="alert", cascade="all, delete-orphan")
     revisions = relationship("AlertRevision", back_populates="alert", cascade="all, delete-orphan")
+    location_mentions = relationship(
+        "AlertLocationMention", back_populates="alert", cascade="all, delete-orphan"
+    )
+    location_resolution_record = relationship(
+        "AlertLocationResolution", back_populates="alert", cascade="all, delete-orphan", uselist=False
+    )
+
+    @property
+    def location_resolution(self):
+        return self.location_resolution_record.as_dict() if self.location_resolution_record else None

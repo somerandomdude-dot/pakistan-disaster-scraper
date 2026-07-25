@@ -1,0 +1,44 @@
+{
+  "benchmark": {
+    "average_scan_ms": 0.01418,
+    "iterations": 1000,
+    "matches_observed": 48000,
+    "pattern_count": 236751,
+    "total_ms": 14.179
+  },
+  "compressed_bytes": 13453616,
+  "compression": "MessagePack + Zstandard level 19",
+  "dataset_version": "geonames-pk-2026.07+curated-3",
+  "extraction_benchmark": {
+    "average_ms": 0.07987,
+    "iterations": 250,
+    "maximum_ms": 0.4268,
+    "p95_ms": 0.1234
+  },
+  "msgpack_bytes": 44419453,
+  "record_count": 187736,
+  "runtime_sha256": "dbcf06cb7bf9b4ed45610536071e9c18cd6a8e5ad61845433e21d00e38307034",
+  "source_sha256": "ddf366cf2fbe3f563d6c3c37b5929e1adf2125a5929d7fb770126f6fa13b852b",
+  "type_counts": {
+    "BARRAGE": 10,
+    "CITY": 201,
+    "COASTAL_AREA": 10,
+    "COUNTRY": 2,
+    "DAM": 63,
+    "DISTRICT": 157,
+    "GOVERNMENT_AGENCY": 3,
+    "ISSUING_OFFICE": 1,
+    "LOCALITY": 4512,
+    "PROVINCE": 4,
+    "REGION": 7066,
+    "RIVER": 30002,
+    "TEHSIL": 3,
+    "TERRITORY": 3,
+    "TOWN": 242,
+    "UNKNOWN": 13,
+    "VILLAGE": 145443,
+    "WEATHER_OFFICE": 1
+  },
+  "uncompressed_source_bytes": 137762156,
+  "validation_report": "location_validation_report.json"
+}

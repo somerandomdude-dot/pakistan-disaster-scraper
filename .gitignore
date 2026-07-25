@@ -48,3 +48,4 @@ postgres_data/
 *.csv
 *.sqlite3
 *.db
+backend/storage/

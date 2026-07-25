@@ -9,6 +9,8 @@ from app.database.models.alert import Alert
 from app.database.models.alert_location import AlertLocation
 from app.database.models.alert_revision import AlertRevision
 from app.database.models.raw_document import RawDocument
+from app.database.models.alert_location_mention import AlertLocationMention
+from app.database.models.alert_location_resolution import AlertLocationResolution
 
 from app.processing.normalizer import Normalizer
 from app.processing.validator import Validator
@@ -49,6 +51,7 @@ class AlertProcessor:
                     
                 # 4. Deduplication / Hash Generation
                 alert_data = Deduplicator.process(alert_data)
+                alert_data.location_cache_key = matcher_instance.matcher.cache_key(alert_data.content_hash)
                 
                 # 5. Database interaction
                 result = self._save_alert(alert_data, raw_document)
@@ -90,9 +93,19 @@ class AlertProcessor:
                 logger.error(f"Error calling text export service for alert {new_alert.id}: {e}")
             return "created"
 
-        if existing_alert.content_hash == alert_data.content_hash:
+        resolution_record = existing_alert.location_resolution_record
+        if (
+            existing_alert.content_hash == alert_data.content_hash
+            and resolution_record
+            and resolution_record.cache_key == alert_data.location_cache_key
+        ):
             # Exact duplicate
             return "ignored"
+        if existing_alert.content_hash == alert_data.content_hash:
+            self._replace_locations(existing_alert, alert_data)
+            self._save_resolution(existing_alert, alert_data)
+            self.db.commit()
+            return "updated"
 
         # Content changed, update existing and create revision
         changed_fields = []
@@ -131,19 +144,8 @@ class AlertProcessor:
         existing_alert.validation_errors = alert_data.validation_errors
 
         # Update locations (replace)
-        self.db.query(AlertLocation).filter(AlertLocation.alert_id == existing_alert.id).delete()
-        for loc in alert_data.locations:
-            db_loc = AlertLocation(
-                alert_id=existing_alert.id,
-                province=loc.province,
-                district=loc.district,
-                city=loc.city,
-                raw_location=loc.raw_location,
-                latitude=loc.latitude,
-                longitude=loc.longitude,
-                match_confidence=loc.match_confidence
-            )
-            self.db.add(db_loc)
+        self._replace_locations(existing_alert, alert_data)
+        self._save_resolution(existing_alert, alert_data)
 
         self.db.commit()
         try:
@@ -173,16 +175,66 @@ class AlertProcessor:
         self.db.add(db_alert)
         self.db.flush() # Get ID
         
-        for loc in alert_data.locations:
-            db_loc = AlertLocation(
-                alert_id=db_alert.id,
-                province=loc.province,
-                district=loc.district,
-                city=loc.city,
-                raw_location=loc.raw_location,
-                latitude=loc.latitude,
-                longitude=loc.longitude,
-                match_confidence=loc.match_confidence
-            )
-            self.db.add(db_loc)
+        self._replace_locations(db_alert, alert_data)
+        self._save_resolution(db_alert, alert_data)
         return db_alert
+
+    @staticmethod
+    def _location_kwargs(loc):
+        return {
+            "province": loc.province,
+            "district": loc.district,
+            "city": loc.city,
+            "tehsil": loc.tehsil,
+            "raw_location": loc.raw_location,
+            "latitude": loc.latitude,
+            "longitude": loc.longitude,
+            "match_confidence": loc.match_confidence,
+            "location_id": loc.location_id,
+            "entity_type": loc.entity_type,
+            "canonical_name": loc.canonical_name,
+            "matched_text": loc.matched_text,
+            "text_source": loc.text_source,
+            "match_method": loc.match_method,
+            "start_offset": loc.start_offset,
+            "end_offset": loc.end_offset,
+            "evidence_score": loc.evidence_score,
+        }
+
+    def _replace_locations(self, db_alert: Alert, alert_data: AlertCreate):
+        self.db.query(AlertLocation).filter(AlertLocation.alert_id == db_alert.id).delete()
+        for loc in alert_data.locations:
+            self.db.add(AlertLocation(alert_id=db_alert.id, **self._location_kwargs(loc)))
+
+    def _save_resolution(self, db_alert: Alert, alert_data: AlertCreate):
+        resolution = alert_data.location_resolution or {}
+        self.db.query(AlertLocationMention).filter(
+            AlertLocationMention.alert_id == db_alert.id
+        ).delete()
+        ignored_ids = {
+            item["location_id"] for item in resolution.get("ignored_entities", [])
+        }
+        for mention in resolution.get("mentions", []):
+            self.db.add(AlertLocationMention(
+                alert_id=db_alert.id,
+                location_id=mention.get("location_id"),
+                canonical_name=mention.get("canonical_name"),
+                entity_type=mention.get("entity_type"),
+                matched_text=mention.get("matched_text") or "",
+                text_source=mention.get("text_source") or "RAW_TEXT",
+                match_method=mention.get("match_method") or "NORMALISED_EXACT",
+                start_offset=mention.get("start_offset") or 0,
+                end_offset=mention.get("end_offset") or 0,
+                evidence_score=mention.get("evidence_score") or 0,
+                confidence=mention.get("confidence") or 0.0,
+                ignored=1 if mention.get("location_id") in ignored_ids else 0,
+            ))
+        payload = json.dumps(resolution, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+        record = db_alert.location_resolution_record
+        if record is None:
+            record = AlertLocationResolution(alert_id=db_alert.id)
+            self.db.add(record)
+        record.resolution_json = payload
+        record.algorithm_version = resolution.get("algorithm_version", "unknown")
+        record.dataset_version = resolution.get("dataset_version", "unknown")
+        record.cache_key = alert_data.location_cache_key or ""

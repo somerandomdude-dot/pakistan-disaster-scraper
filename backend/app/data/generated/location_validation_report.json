@@ -1,0 +1,3322 @@
+{
+  "ambiguous_alias_count": 29396,
+  "ambiguous_aliases": {
+    "1 r minor": [
+      "geonames_7110534",
+      "geonames_7635001"
+    ],
+    "3 r minor": [
+      "geonames_1332140",
+      "geonames_1332204",
+      "geonames_8534179"
+    ],
+    "ab i gul": [
+      "geonames_11272264",
+      "geonames_11272278",
+      "geonames_7326758"
+    ],
+    "ab i hayat distributary": [
+      "geonames_11547417",
+      "geonames_1355933"
+    ],
+    "aba khel": [
+      "geonames_1185066",
+      "geonames_1333559",
+      "geonames_1339273",
+      "geonames_1339282",
+      "geonames_1340172",
+      "geonames_1345230",
+      "geonames_7091666",
+      "geonames_9634019"
+    ],
+    "aba shahid": [
+      "geonames_1185070",
+      "geonames_1426921",
+      "geonames_1426922"
+    ],
+    "ababaki": [
+      "geonames_1185088",
+      "geonames_7074200"
+    ],
+    "ababakri": [
+      "geonames_1185087",
+      "geonames_1375471"
+    ],
+    "abad": [
+      "geonames_10988689",
+      "geonames_10988721",
+      "geonames_11117595",
+      "geonames_11117650",
+      "geonames_11244984",
+      "geonames_11245000",
+      "geonames_11507219",
+      "geonames_11559122",
+      "geonames_1185078",
+      "geonames_1185079",
+      "geonames_1185080",
+      "geonames_1185081",
+      "geonames_1185082",
+      "geonames_1185083",
+      "geonames_1185085",
+      "geonames_1185086",
+      "geonames_13439452",
+      "geonames_1344716",
+      "geonames_1344719",
+      "geonames_1359229",
+      "geonames_1361446",
+      "geonames_1364957",
+      "geonames_1365004",
+      "geonames_1399407",
+      "geonames_1402542",
+      "geonames_1402744",
+      "geonames_1403298",
+      "geonames_1411650",
+      "geonames_7374826"
+    ],
+    "abad jagir": [
+      "geonames_1185082",
+      "geonames_1403362"
+    ],
+    "abad khel": [
+      "geonames_1334584",
+      "geonames_7068486"
+    ],
+    "abad minor": [
+      "geonames_11723366",
+      "geonames_1355463",
+      "geonames_1403449"
+    ],
+    "abadpur": [
+      "geonames_11022686",
+      "geonames_11722706",
+      "geonames_1185073"
+    ],
+    "abazai": [
+      "geonames_1185067",
+      "geonames_1185069"
+    ],
+    "abazo dheri": [
+      "geonames_1334352",
+      "geonames_1384998"
+    ],
+    "abba khel": [
+      "geonames_1185066",
+      "geonames_1345230"
+    ],
+    "abbal": [
+      "geonames_1185065",
+      "geonames_1417443"
+    ],
+    "abbal wah": [
+      "geonames_1185064",
+      "geonames_1402507",
+      "geonames_1411828"
+    ],
+    "abbal wāh": [
+      "geonames_1185064",
+      "geonames_1411828"
+    ],
+    "abbar": [
+      "geonames_10996933",
+      "geonames_10996966"
+    ],
+    "abbas": [
+      "geonames_1179223",
+      "geonames_1363560"
+    ],
+    "abbas banda": [
+      "geonames_1107300",
+      "geonames_1389480"
+    ],
+    "abbas kalle": [
+      "geonames_1332822",
+      "geonames_1333069",
+      "geonames_1449491"
+    ],
+    "abbas khan": [
+      "geonames_11146159",
+      "geonames_1334475"
+    ],
+    "abbas kili": [
+      "geonames_1107346",
+      "geonames_1332822",
+      "geonames_1449491"
+    ],
+    "abbas nagar": [
+      "geonames_11459853",
+      "geonames_11459858",
+      "geonames_11508168",
+      "geonames_11688987",
+      "geonames_11765604"
+    ],
+    "abbasabad": [
+      "geonames_11080440",
+      "geonames_1331626"
+    ],
+    "abbasnagar": [
+      "geonames_11086135",
+      "geonames_11539879",
+      "geonames_11540520",
+      "geonames_11785806",
+      "geonames_1418579",
+      "geonames_1418581"
+    ],
+    "abbaspur": [
+      "geonames_11348907",
+      "geonames_11365711",
+      "geonames_11464236",
+      "geonames_11567768",
+      "geonames_11567833",
+      "geonames_11571251",
+      "geonames_1166441",
+      "geonames_11689091",
+      "geonames_1185057",
+      "geonames_1185058",
+      "geonames_1185059",
+      "geonames_1389226",
+      "geonames_1414672",
+      "geonames_1416733",
+      "geonames_7109600",
+      "geonames_7346833"
+    ],
+    "abbaspura": [
+      "geonames_11482269",
+      "geonames_1416733"
+    ],
+    "abbaswala": [
+      "geonames_11180750",
+      "geonames_11717833",
+      "geonames_1354723",
+      "geonames_1368055",
+      "geonames_1381108",
+      "geonames_1403129",
+      "geonames_1405031",
+      "geonames_7390867",
+      "geonames_7392300"
+    ],
+    "abbottabad": [
+      "geonames_1185055",
+      "geonames_1185056",
+      "geonames_1416299"
+    ],
+    "abbottābād": [
+      "geonames_1185055",
+      "geonames_1416299"
+    ],
+    "abbās kili": [
+      "geonames_1332822",
+      "geonames_1449491"
+    ],
+    "abbāsnagar": [
+      "geonames_11785806",
+      "geonames_1418581"
+    ],
+    "abbāspur": [
+      "geonames_1166441",
+      "geonames_1185057",
+      "geonames_1185058",
+      "geonames_1185059",
+      "geonames_1389226",
+      "geonames_1416733"
+    ],
+    "abd i khas": [
+      "geonames_11088050",
+      "geonames_1185046"
+    ],
+    "abdakai": [
+      "geonames_1391369",
+      "geonames_1393678"
+    ],
+    "abdakai manda": [
+      "geonames_1372963",
+      "geonames_1373002"
+    ],
+    "abdal": [
+      "geonames_1185050",
+      "geonames_1185051",
+      "geonames_1185052",
+      "geonames_1185065",
+      "geonames_13430423",
+      "geonames_1393667",
+      "geonames_1396843",
+      "geonames_1406855"
+    ],
+    "abdal minor": [
+      "geonames_1379787",
+      "geonames_1381308"
+    ],
+    "abdalke": [
+      "geonames_1417039",
+      "geonames_1417046"
+    ],
+    "abdar": [
+      "geonames_11675150",
+      "geonames_11675151",
+      "geonames_1399916",
+      "geonames_1404748"
+    ],
+    "abdar dhoro": [
+      "geonames_11507216",
+      "geonames_1343336"
+    ],
+    "abdar jhal": [
+      "geonames_1407081",
+      "geonames_1407110"
+    ],
+    "abdar kaur": [
+      "geonames_1336618",
+      "geonames_1374704"
+    ],
+    "abdari jhal": [
+      "geonames_1351942",
+      "geonames_1351955",
+      "geonames_1407081"
+    ],
+    "abdari kaur": [
+      "geonames_11044743",
+      "geonames_11234231",
+      "geonames_1185048",
+      "geonames_1374591",
+      "geonames_7540486"
+    ],
+    "abdewala": [
+      "geonames_1367631",
+      "geonames_1367632"
+    ],
+    "abdu goth": [
+      "geonames_11254333",
+      "geonames_1185045"
+    ],
+    "abdul": [
+      "geonames_13435749",
+      "geonames_1391741"
+    ],
+    "abdul aziz": [
+      "geonames_11070630",
+      "geonames_11243416",
+      "geonames_1400367"
+    ],
+    "abdul aziz arain": [
+      "geonames_1369082",
+      "geonames_7353471"
+    ],
+    "abdul azīz arāīn": [
+      "geonames_1369082",
+      "geonames_7353471"
+    ],
+    "abdul ghafur": [
+      "geonames_11234610",
+      "geonames_11245909",
+      "geonames_11577662",
+      "geonames_11652145",
+      "geonames_1368894"
+    ],
+    "abdul ghafur kili": [
+      "geonames_11147430",
+      "geonames_11234619"
+    ],
+    "abdul ghafur laghari": [
+      "geonames_13438291",
+      "geonames_7378383"
+    ],
+    "abdul ghafur punjabi": [
+      "geonames_11408543",
+      "geonames_1384116"
+    ],
+    "abdul ghani": [
+      "geonames_11069403",
+      "geonames_11095217",
+      "geonames_1397897"
+    ],
+    "abdul ghani khosa": [
+      "geonames_1397927",
+      "geonames_7422170"
+    ],
+    "abdul hakim": [
+      "geonames_11093244",
+      "geonames_11097810",
+      "geonames_11200908",
+      "geonames_11350564",
+      "geonames_1185042",
+      "geonames_1332645",
+      "geonames_1362312",
+      "geonames_1362446",
+      "geonames_1363010",
+      "geonames_7390383"
+    ],
+    "abdul hakim brahui": [
+      "geonames_1403875",
+      "geonames_7371751"
+    ],
+    "abdul hakim distributary": [
+      "geonames_11369655",
+      "geonames_1185041"
+    ],
+    "abdul hakīm": [
+      "geonames_1362312",
+      "geonames_1362446"
+    ],
+    "abdul haq khosa": [
+      "geonames_11254804",
+      "geonames_11254838"
+    ],
+    "abdul jabbar": [
+      "geonames_11093114",
+      "geonames_11599853"
+    ],
+    "abdul karim": [
+      "geonames_11230028",
+      "geonames_11243346",
+      "geonames_11253653",
+      "geonames_1185039",
+      "geonames_1352495",
+      "geonames_1394732",
+      "geonames_1397668",
+      "geonames_1397698",
+      "geonames_7101736",
+      "geonames_8354864"
+    ],
+    "abdul karim brahui": [
+      "geonames_11577732",
+      "geonames_7565557"
+    ],
+    "abdul karim chanal": [
+      "geonames_11093589",
+      "geonames_11093599"
+    ],
+    "abdul karim shah": [
+      "geonames_1334432",
+      "geonames_7371243"
+    ],
+    "abdul karīm": [
+      "geonames_11230028",
+      "geonames_1185039",
+      "geonames_1394732",
+      "geonames_1397668"
+    ],
+    "abdul khalid": [
+      "geonames_7074290",
+      "geonames_7074325"
+    ],
+    "abdul khaliq": [
+      "geonames_11080400",
+      "geonames_11253669",
+      "geonames_11408639",
+      "geonames_1185037",
+      "geonames_1345032",
+      "geonames_1397931",
+      "geonames_6280909",
+      "geonames_7074283",
+      "geonames_7074325"
+    ],
+    "abdul khan": [
+      "geonames_1334338",
+      "geonames_1399237"
+    ],
+    "abdul khel": [
+      "geonames_1185036",
+      "geonames_1340606",
+      "geonames_1340682",
+      "geonames_1446670"
+    ],
+    "abdul khālid": [
+      "geonames_7074290",
+      "geonames_7074325"
+    ],
+    "abdul latif": [
+      "geonames_11376154",
+      "geonames_11682750",
+      "geonames_1358630"
+    ],
+    "abdul majid arain": [
+      "geonames_11569107",
+      "geonames_1393390"
+    ],
+    "abdul majid kalhoro": [
+      "geonames_1368669",
+      "geonames_1411936"
+    ],
+    "abdul malik": [
+      "geonames_11143839",
+      "geonames_11464178"
+    ],
+    "abdul manan": [
+      "geonames_11143853",
+      "geonames_1335569"
+    ],
+    "abdul manan kalle": [
+      "geonames_1335524",
+      "geonames_1335569"
+    ],
+    "abdul nabi": [
+      "geonames_11254898",
+      "geonames_1342367",
+      "geonames_1351917"
+    ],
+    "abdul nabi brahui": [
+      "geonames_11279152",
+      "geonames_1376722"
+    ],
+    "abdul qadir khosa": [
+      "geonames_11254646",
+      "geonames_7422012"
+    ],
+    "abdul rahim": [
+      "geonames_11093567",
+      "geonames_1185024",
+      "geonames_1410623"
+    ],
+    "abdul rahim khan": [
+      "geonames_1397684",
+      "geonames_1397917",
+      "geonames_1404935"
+    ],
+    "abdul rahman": [
+      "geonames_11098311",
+      "geonames_11243775",
+      "geonames_11243779",
+      "geonames_11279135",
+      "geonames_1332849",
+      "geonames_1344823",
+      "geonames_1351401"
+    ],
+    "abdul ramzan": [
+      "geonames_11091341",
+      "geonames_11376055"
+    ],
+    "abdul rasul": [
+      "geonames_11093597",
+      "geonames_1351404"
+    ],
+    "abdul razaq": [
+      "geonames_1418683",
+      "geonames_7318724"
+    ],
+    "abdul razaq khosa": [
+      "geonames_11254644",
+      "geonames_1397719"
+    ],
+    "abdul razzaq": [
+      "geonames_11230053",
+      "geonames_1352480"
+    ],
+    "abdul rehman": [
+      "geonames_10988023",
+      "geonames_1361702",
+      "geonames_1397578"
+    ],
+    "abdul rehman brahui": [
+      "geonames_11112239",
+      "geonames_1397616"
+    ],
+    "abdul samad": [
+      "geonames_11117552",
+      "geonames_1397925"
+    ],
+    "abdul sattar": [
+      "geonames_11143850",
+      "geonames_11330339"
+    ],
+    "abdul wahab": [
+      "geonames_11146557",
+      "geonames_11682754"
+    ],
+    "abdul wahid": [
+      "geonames_1185025",
+      "geonames_1400366",
+      "geonames_7098575",
+      "geonames_7379185"
+    ],
+    "abdulla khan": [
+      "geonames_1334481",
+      "geonames_1334580"
+    ],
+    "abdulla khān": [
+      "geonames_1334481",
+      "geonames_1334580"
+    ],
+    "abdullah": [
+      "geonames_11243774",
+      "geonames_11254723",
+      "geonames_13432841",
+      "geonames_13438497",
+      "geonames_1391533",
+      "geonames_1395225"
+    ],
+    "abdullah abro": [
+      "geonames_11600090",
+      "geonames_1359999"
+    ],
+    "abdullah baloch": [
+      "geonames_1108622",
+      "geonames_1108725"
+    ],
+    "abdullah bazar": [
+      "geonames_10989150",
+      "geonames_11184001"
+    ],
+    "abdullah chang": [
+      "geonames_11371685",
+      "geonames_11600134"
+    ],
+    "abdullah di basti": [
+      "geonames_11726573",
+      "geonames_7423883"
+    ],
+    "abdullah goth": [
+      "geonames_11254331",
+      "geonames_7045671"
+    ],
+    "abdullah halq": [
+      "geonames_11201957",
+      "geonames_7430337"
+    ],
+    "abdullah jan": [
+      "geonames_1185034",
+      "geonames_1351406"
+    ],
+    "abdullah jat": [
+      "geonames_1108228",
+      "geonames_1108550"
+    ],
+    "abdullah khan": [
+      "geonames_10994305",
+      "geonames_11152367",
+      "geonames_11376597",
+      "geonames_11652814",
+      "geonames_11654598",
+      "geonames_1332684",
+      "geonames_1334481",
+      "geonames_1334580",
+      "geonames_1342183",
+      "geonames_13443806",
+      "geonames_1396899",
+      "geonames_1397122",
+      "geonames_1405420",
+      "geonames_7092322"
+    ],
+    "abdullah khaskheli": [
+      "geonames_11782559",
+      "geonames_1358513",
+      "geonames_1362261",
+      "geonames_7352524",
+      "geonames_7381745"
+    ],
+    "abdullah khore": [
+      "geonames_11375996",
+      "geonames_11376181"
+    ],
+    "abdullah khān": [
+      "geonames_11652814",
+      "geonames_1334481",
+      "geonames_1334580"
+    ],
+    "abdullah kili": [
+      "geonames_11279170",
+      "geonames_1343810"
+    ],
+    "abdullah laghari": [
+      "geonames_7379209",
+      "geonames_7379652"
+    ],
+    "abdullah machhi": [
+      "geonames_11254776",
+      "geonames_1359401"
+    ],
+    "abdullah punjabi": [
+      "geonames_11408601",
+      "geonames_11599349"
+    ],
+    "abdullah rajar": [
+      "geonames_11600826",
+      "geonames_1376725"
+    ],
+    "abdullah shah": [
+      "geonames_11120830",
+      "geonames_11146272",
+      "geonames_11376065",
+      "geonames_11539292",
+      "geonames_7346979",
+      "geonames_7352929"
+    ],
+    "abdullah town": [
+      "geonames_11118419",
+      "geonames_11457056",
+      "geonames_7038470",
+      "geonames_9111920"
+    ],
+    "abdullahabad": [
+      "geonames_11457084",
+      "geonames_1333108",
+      "geonames_7041388",
+      "geonames_7393098",
+      "geonames_8624186"
+    ],
+    "abdullahpur": [
+      "geonames_11453332",
+      "geonames_11641607",
+      "geonames_1185031",
+      "geonames_1185032",
+      "geonames_1338828",
+      "geonames_1355606",
+      "geonames_1355630",
+      "geonames_1372809",
+      "geonames_1413243",
+      "geonames_1414538",
+      "geonames_7101474",
+      "geonames_7110737",
+      "geonames_7322796",
+      "geonames_7407455"
+    ],
+    "abdullahwala": [
+      "geonames_11181053",
+      "geonames_1354570",
+      "geonames_1354922",
+      "geonames_1391998",
+      "geonames_1409385",
+      "geonames_1426820",
+      "geonames_7325213",
+      "geonames_7336139"
+    ],
+    "abdullahzai": [
+      "geonames_11266490",
+      "geonames_11271069",
+      "geonames_11335102",
+      "geonames_11899611",
+      "geonames_1353517"
+    ],
+    "abdullāhpur": [
+      "geonames_1185031",
+      "geonames_1185032",
+      "geonames_1338828",
+      "geonames_1355630",
+      "geonames_1414538"
+    ],
+    "abdullāhwāla": [
+      "geonames_1354570",
+      "geonames_1354922",
+      "geonames_1409385",
+      "geonames_1426820"
+    ],
+    "abdur rahman": [
+      "geonames_11234343",
+      "geonames_1332601",
+      "geonames_1332849",
+      "geonames_1339507",
+      "geonames_1342143",
+      "geonames_1363416",
+      "geonames_1375746"
+    ],
+    "abdur rahmanzai": [
+      "geonames_1185021",
+      "geonames_1351513"
+    ],
+    "abdur rahmān": [
+      "geonames_1332601",
+      "geonames_1332849",
+      "geonames_1342143",
+      "geonames_1363416"
+    ],
+    "abdur rehman": [
+      "geonames_1342143",
+      "geonames_7540484",
+      "geonames_7544025"
+    ],
+    "abdālke": [
+      "geonames_1417039",
+      "geonames_1417046"
+    ],
+    "abezar": [
+      "geonames_1185010",
+      "geonames_1332868"
+    ],
+    "abgarch": [
+      "geonames_1185020",
+      "geonames_8301283"
+    ],
+    "abgir": [
+      "geonames_1185019",
+      "geonames_7584320"
+    ],
+    "abgir kaur": [
+      "geonames_1341625",
+      "geonames_7584320"
+    ],
+    "abgul": [
+      "geonames_11272333",
+      "geonames_1185018"
+    ],
+    "abid markhiani": [
+      "geonames_1185013",
+      "geonames_1411365"
+    ],
+    "abid park": [
+      "geonames_11510723",
+      "geonames_11510744"
+    ],
+    "abidabad": [
+      "geonames_11526580",
+      "geonames_11719372",
+      "geonames_7045696"
+    ],
+    "abra": [
+      "geonames_11117613",
+      "geonames_11598394",
+      "geonames_1185007",
+      "geonames_1185008",
+      "geonames_1352292",
+      "geonames_1357588",
+      "geonames_1361435",
+      "geonames_1397455",
+      "geonames_7371984"
+    ],
+    "abral": [
+      "geonames_11597707",
+      "geonames_7354015"
+    ],
+    "abran": [
+      "geonames_1361531",
+      "geonames_1368678",
+      "geonames_1368681"
+    ],
+    "abri": [
+      "geonames_11375968",
+      "geonames_1185004",
+      "geonames_1185005",
+      "geonames_1185006"
+    ],
+    "abrind": [
+      "geonames_1185003",
+      "geonames_1392789",
+      "geonames_1403279"
+    ],
+    "abro": [
+      "geonames_11599834",
+      "geonames_1352292",
+      "geonames_7027564"
+    ],
+    "abrīnd": [
+      "geonames_1185003",
+      "geonames_1392789"
+    ],
+    "abtari kaur": [
+      "geonames_10994604",
+      "geonames_7417808"
+    ],
+    "abtaro kaur": [
+      "geonames_10994417",
+      "geonames_10994418"
+    ],
+    "abu": [
+      "geonames_11785729",
+      "geonames_1185002"
+    ],
+    "abu bakar park": [
+      "geonames_7043220",
+      "geonames_7043483"
+    ],
+    "abu mallo": [
+      "geonames_1171333",
+      "geonames_7380496"
+    ],
+    "abu said": [
+      "geonames_1184998",
+      "geonames_1184999",
+      "geonames_1391525"
+    ],
+    "abu samand begu khel": [
+      "geonames_1334476",
+      "geonames_1347213"
+    ],
+    "abubakar": [
+      "geonames_1369680",
+      "geonames_7090646"
+    ],
+    "abābaki": [
+      "geonames_1185088",
+      "geonames_7074200"
+    ],
+    "abād": [
+      "geonames_1185080",
+      "geonames_1359229"
+    ],
+    "abāzai": [
+      "geonames_1185067",
+      "geonames_1185069"
+    ],
+    "ach": [
+      "geonames_11123479",
+      "geonames_1344625"
+    ],
+    "achalwali": [
+      "geonames_1184995",
+      "geonames_13431347"
+    ],
+    "achar": [
+      "geonames_1184992",
+      "geonames_1184993",
+      "geonames_1344799",
+      "geonames_1395495",
+      "geonames_1400574",
+      "geonames_1420996",
+      "geonames_1478203",
+      "geonames_7041321"
+    ],
+    "achar dal": [
+      "geonames_1108375",
+      "geonames_7381644",
+      "geonames_7381727"
+    ],
+    "achar dars": [
+      "geonames_11030030",
+      "geonames_11408581",
+      "geonames_11409224"
+    ],
+    "achar jat": [
+      "geonames_1108615",
+      "geonames_7380454",
+      "geonames_7380491",
+      "geonames_7381792"
+    ],
+    "achar jo goth": [
+      "geonames_11039459",
+      "geonames_7098245"
+    ],
+    "achar khaskheli": [
+      "geonames_1361190",
+      "geonames_7353695",
+      "geonames_7371278"
+    ],
+    "achar mallah": [
+      "geonames_11375849",
+      "geonames_11584319",
+      "geonames_7379204"
+    ],
+    "achar mohano": [
+      "geonames_7379129",
+      "geonames_7379204"
+    ],
+    "achh": [
+      "geonames_1184989",
+      "geonames_7374352"
+    ],
+    "achhar": [
+      "geonames_1176718",
+      "geonames_7041321"
+    ],
+    "achhral": [
+      "geonames_1184988",
+      "geonames_1385905"
+    ],
+    "achār": [
+      "geonames_1184993",
+      "geonames_1344799"
+    ],
+    "ada": [
+      "geonames_11040896",
+      "geonames_1184984",
+      "geonames_1184985",
+      "geonames_7323927"
+    ],
+    "adaga lahar": [
+      "geonames_1184983",
+      "geonames_1353511"
+    ],
+    "adai": [
+      "geonames_1353115",
+      "geonames_1383633",
+      "geonames_1420787",
+      "geonames_1420798",
+      "geonames_1452763"
+    ],
+    "adalatgarh": [
+      "geonames_1380664",
+      "geonames_1386807"
+    ],
+    "adam": [
+      "geonames_11234088",
+      "geonames_11253643",
+      "geonames_1334587",
+      "geonames_1362929",
+      "geonames_1420648"
+    ],
+    "adam khan": [
+      "geonames_10501391",
+      "geonames_11234347",
+      "geonames_13439453",
+      "geonames_1397109",
+      "geonames_1449495"
+    ],
+    "adam khan darra": [
+      "geonames_11414838",
+      "geonames_9276796"
+    ],
+    "adam khan kili": [
+      "geonames_1338202",
+      "geonames_1339749",
+      "geonames_1342365"
+    ],
+    "adam khelanwala": [
+      "geonames_1333481",
+      "geonames_1333575"
+    ],
+    "adam khelānwāla": [
+      "geonames_1333481",
+      "geonames_1333575"
+    ],
+    "adam kili": [
+      "geonames_1110178",
+      "geonames_1337788"
+    ],
+    "adam phanwar": [
+      "geonames_1404551",
+      "geonames_1404566"
+    ],
+    "adamke": [
+      "geonames_1184980",
+      "geonames_1380490"
+    ],
+    "adampur": [
+      "geonames_11020338",
+      "geonames_1418914",
+      "geonames_1419780"
+    ],
+    "adamwala": [
+      "geonames_1368236",
+      "geonames_1405980"
+    ],
+    "adamzai": [
+      "geonames_1180630",
+      "geonames_1184975",
+      "geonames_1342172",
+      "geonames_13431358",
+      "geonames_13434667",
+      "geonames_1353614",
+      "geonames_1399281",
+      "geonames_1413457"
+    ],
+    "adamzai kili": [
+      "geonames_1337660",
+      "geonames_1337663"
+    ],
+    "adan khurd": [
+      "geonames_1182041",
+      "geonames_1184232"
+    ],
+    "adanwala": [
+      "geonames_11347088",
+      "geonames_1392648"
+    ],
+    "adanzai": [
+      "geonames_1398070",
+      "geonames_1398072"
+    ],
+    "adbul qadir dahri": [
+      "geonames_1369518",
+      "geonames_7352188"
+    ],
+    "adbul qādir dāhri": [
+      "geonames_1369518",
+      "geonames_7352188"
+    ],
+    "adda": [
+      "geonames_1184972",
+      "geonames_1481937"
+    ],
+    "addowagai nala": [
+      "geonames_1334454",
+      "geonames_7102295"
+    ],
+    "adduwala": [
+      "geonames_1367919",
+      "geonames_1368142",
+      "geonames_1380960"
+    ],
+    "adduwāla": [
+      "geonames_1367919",
+      "geonames_1380960"
+    ],
+    "adewala": [
+      "geonames_1408786",
+      "geonames_1419501"
+    ],
+    "adezai": [
+      "geonames_1184969",
+      "geonames_1184970",
+      "geonames_1333921"
+    ],
+    "adha": [
+      "geonames_11081730",
+      "geonames_1184968",
+      "geonames_1412859",
+      "geonames_1412880"
+    ],
+    "adhach wahan": [
+      "geonames_7329852",
+      "geonames_7329965"
+    ],
+    "adhi": [
+      "geonames_1184959",
+      "geonames_1184966"
+    ],
+    "adhowal": [
+      "geonames_1184940",
+      "geonames_1184963"
+    ],
+    "adi": [
+      "geonames_1184959",
+      "geonames_1184960"
+    ],
+    "adil sipra": [
+      "geonames_1184952",
+      "geonames_1418956"
+    ],
+    "adilabad": [
+      "geonames_10032985",
+      "geonames_11093549",
+      "geonames_1392318"
+    ],
+    "adilgarh": [
+      "geonames_1184953",
+      "geonames_1184954"
+    ],
+    "adilwala": [
+      "geonames_1366242",
+      "geonames_1367659",
+      "geonames_1402968",
+      "geonames_1419577",
+      "geonames_6377034"
+    ],
+    "adin aghbargai": [
+      "geonames_11330659",
+      "geonames_1363323",
+      "geonames_1365864"
+    ],
+    "adin khel": [
+      "geonames_1107188",
+      "geonames_11680143"
+    ],
+    "adio wah": [
+      "geonames_1184950",
+      "geonames_1401143"
+    ],
+    "adiwala": [
+      "geonames_1408786",
+      "geonames_7324989"
+    ],
+    "adlana": [
+      "geonames_1176714",
+      "geonames_1184947"
+    ],
+    "admal": [
+      "geonames_1388526",
+      "geonames_7081536",
+      "geonames_7081552"
+    ],
+    "admani": [
+      "geonames_1352446",
+      "geonames_1371262",
+      "geonames_1404551"
+    ],
+    "admāni": [
+      "geonames_1352446",
+      "geonames_1404551"
+    ],
+    "ado": [
+      "geonames_1110989",
+      "geonames_11147452",
+      "geonames_1184934",
+      "geonames_1341972",
+      "geonames_1452763",
+      "geonames_1482456",
+      "geonames_8305614"
+    ],
+    "adoke": [
+      "geonames_1184942",
+      "geonames_1184943",
+      "geonames_1381837"
+    ],
+    "adosh": [
+      "geonames_1184941",
+      "geonames_1375917"
+    ],
+    "adowal": [
+      "geonames_1184940",
+      "geonames_1398404"
+    ],
+    "adozai": [
+      "geonames_1333781",
+      "geonames_1337748",
+      "geonames_1398062"
+    ],
+    "adozai kili": [
+      "geonames_1337666",
+      "geonames_1353474"
+    ],
+    "adra": [
+      "geonames_1184937",
+      "geonames_1413606"
+    ],
+    "adrakzai": [
+      "geonames_11070586",
+      "geonames_11070587"
+    ],
+    "adrana": [
+      "geonames_1184935",
+      "geonames_1184936"
+    ],
+    "adri dhoro": [
+      "geonames_1343324",
+      "geonames_7094658"
+    ],
+    "adu": [
+      "geonames_1184934",
+      "geonames_1416559"
+    ],
+    "afghan colony": [
+      "geonames_1436556",
+      "geonames_7041381"
+    ],
+    "afghan colony no 2": [
+      "geonames_7041381",
+      "geonames_7041382"
+    ],
+    "afghan colony number two": [
+      "geonames_7041381",
+      "geonames_7041382"
+    ],
+    "afghan refugees camp": [
+      "geonames_1385039",
+      "geonames_9815388"
+    ],
+    "afghanabad": [
+      "geonames_11068729",
+      "geonames_1382705",
+      "geonames_7110712"
+    ],
+    "afghān colony no 2": [
+      "geonames_7041381",
+      "geonames_7041382"
+    ],
+    "afghān colony number two": [
+      "geonames_7041381",
+      "geonames_7041382"
+    ],
+    "afghān refugees camp": [
+      "geonames_1385039",
+      "geonames_9815388"
+    ],
+    "afridi kalle": [
+      "geonames_1333039",
+      "geonames_8624162"
+    ],
+    "afridiabad": [
+      "geonames_7041331",
+      "geonames_7067636"
+    ],
+    "afshan colony": [
+      "geonames_7038462",
+      "geonames_7041247"
+    ],
+    "aftari kaur": [
+      "geonames_1336782",
+      "geonames_1374461",
+      "geonames_7026806"
+    ],
+    "afzal": [
+      "geonames_1351075",
+      "geonames_1351105"
+    ],
+    "afzal khan": [
+      "geonames_11229717",
+      "geonames_1395162"
+    ],
+    "afzal park": [
+      "geonames_7043255",
+      "geonames_7043506"
+    ],
+    "afzalabad": [
+      "geonames_10999663",
+      "geonames_11424818",
+      "geonames_1165686",
+      "geonames_11689101",
+      "geonames_1178350",
+      "geonames_1184926",
+      "geonames_13415741",
+      "geonames_1347011",
+      "geonames_7326223"
+    ],
+    "afzalpur": [
+      "geonames_11491103",
+      "geonames_11917374"
+    ],
+    "afzalpura": [
+      "geonames_11081699",
+      "geonames_11466174"
+    ],
+    "agara": [
+      "geonames_1107157",
+      "geonames_1184923"
+    ],
+    "agha gul": [
+      "geonames_1341837",
+      "geonames_13443805"
+    ],
+    "agha muhammad": [
+      "geonames_1342128",
+      "geonames_1376096"
+    ],
+    "aghal": [
+      "geonames_1390955",
+      "geonames_1446396"
+    ],
+    "agham": [
+      "geonames_1368563",
+      "geonames_1411616"
+    ],
+    "aghani": [
+      "geonames_1411552",
+      "geonames_1411555"
+    ],
+    "aghbarg": [
+      "geonames_11272524",
+      "geonames_11276524",
+      "geonames_1184763",
+      "geonames_1184916",
+      "geonames_1184918",
+      "geonames_1184919",
+      "geonames_1184920",
+      "geonames_1184921",
+      "geonames_1347451",
+      "geonames_1351519",
+      "geonames_1363703",
+      "geonames_1366052",
+      "geonames_1397416",
+      "geonames_1398056",
+      "geonames_6305609"
+    ],
+    "aghbarg manda": [
+      "geonames_11183882",
+      "geonames_11334053"
+    ],
+    "aghbarg nala": [
+      "geonames_1347451",
+      "geonames_1347820",
+      "geonames_1351020",
+      "geonames_1351519",
+      "geonames_1363703",
+      "geonames_1393868"
+    ],
+    "aghbarga": [
+      "geonames_11329727",
+      "geonames_1351530"
+    ],
+    "aghbargai": [
+      "geonames_11147471",
+      "geonames_11147473",
+      "geonames_11232821",
+      "geonames_11272599",
+      "geonames_1184914",
+      "geonames_1184915",
+      "geonames_1184916",
+      "geonames_1184917",
+      "geonames_1184920",
+      "geonames_1342017",
+      "geonames_1342100",
+      "geonames_1342103",
+      "geonames_1342116",
+      "geonames_1347781",
+      "geonames_1347820",
+      "geonames_1347953",
+      "geonames_1348006",
+      "geonames_1348115",
+      "geonames_1348122",
+      "geonames_1348289",
+      "geonames_1348295",
+      "geonames_1350951",
+      "geonames_1351107",
+      "geonames_1351178",
+      "geonames_1351452",
+      "geonames_1365878",
+      "geonames_1365926",
+      "geonames_1372878",
+      "geonames_1375886",
+      "geonames_1375952",
+      "geonames_1376003",
+      "geonames_1376024",
+      "geonames_1391402",
+      "geonames_1391414",
+      "geonames_1391497",
+      "geonames_1391547",
+      "geonames_1391552",
+      "geonames_1391562",
+      "geonames_1391730",
+      "geonames_1393658",
+      "geonames_1393670",
+      "geonames_1393686",
+      "geonames_1393691",
+      "geonames_1393699",
+      "geonames_1393715",
+      "geonames_1393720",
+      "geonames_1393735",
+      "geonames_1393744",
+      "geonames_1393758",
+      "geonames_1393961",
+      "geonames_1393966",
+      "geonames_1394013",
+      "geonames_1394020",
+      "geonames_1394024",
+      "geonames_1394084",
+      "geonames_1396696",
+      "geonames_1425697",
+      "geonames_1425861",
+      "geonames_1453481",
+      "geonames_6273567",
+      "geonames_6273596",
+      "geonames_6282041",
+      "geonames_6305609",
+      "geonames_6307865",
+      "geonames_6367915"
+    ],
+    "aghbargai algad": [
+      "geonames_1373103",
+      "geonames_1476165"
+    ],
+    "aghbargai khwar": [
+      "geonames_1373163",
+      "geonames_1397262",
+      "geonames_1397306",
+      "geonames_1453481"
+    ],
+    "aghbargai khwara": [
+      "geonames_1337935",
+      "geonames_1337960",
+      "geonames_6305588"
+    ],
+    "aghbargai kili": [
+      "geonames_1184913",
+      "geonames_1338221",
+      "geonames_13432479",
+      "geonames_1396222",
+      "geonames_1396487",
+      "geonames_1396511",
+      "geonames_6302170"
+    ],
+    "aghbargai lahar": [
+      "geonames_11334066",
+      "geonames_1353659",
+      "geonames_1365960",
+      "geonames_1398180",
+      "geonames_6384684"
+    ],
+    "aghbargai lāhar": [
+      "geonames_1353659",
+      "geonames_1398180"
+    ],
+    "aghbargai manda": [
+      "geonames_1339365",
+      "geonames_1351442",
+      "geonames_1353458",
+      "geonames_1365887",
+      "geonames_1365926",
+      "geonames_1365936",
+      "geonames_1372878",
+      "geonames_1393691",
+      "geonames_1396122",
+      "geonames_1396223",
+      "geonames_1396405",
+      "geonames_1397309"
+    ],
+    "aghbargai nadi": [
+      "geonames_1391387",
+      "geonames_1391402",
+      "geonames_1391414",
+      "geonames_1391497"
+    ],
+    "aghbargai nala": [
+      "geonames_13435187",
+      "geonames_1347953",
+      "geonames_1348006",
+      "geonames_1348036",
+      "geonames_1348115",
+      "geonames_1348122",
+      "geonames_1348295",
+      "geonames_1350951",
+      "geonames_1351107",
+      "geonames_1351178",
+      "geonames_1375886",
+      "geonames_1375952",
+      "geonames_1376003",
+      "geonames_1376024",
+      "geonames_1391547",
+      "geonames_1391562",
+      "geonames_1391730",
+      "geonames_1393735",
+      "geonames_1394013",
+      "geonames_1394020",
+      "geonames_1394024",
+      "geonames_6367915"
+    ],
+    "aghzan": [
+      "geonames_1365309",
+      "geonames_1365686"
+    ],
+    "agra": [
+      "geonames_1107157",
+      "geonames_1184904",
+      "geonames_1184905",
+      "geonames_1184906",
+      "geonames_1353111"
+    ],
+    "agram gol": [
+      "geonames_10997625",
+      "geonames_1184903"
+    ],
+    "agro": [
+      "geonames_1184900",
+      "geonames_1481538"
+    ],
+    "agror": [
+      "geonames_1390302",
+      "geonames_1482396"
+    ],
+    "agwal": [
+      "geonames_11081426",
+      "geonames_7465545"
+    ],
+    "ahal": [
+      "geonames_1184898",
+      "geonames_1390153"
+    ],
+    "ahari": [
+      "geonames_1384265",
+      "geonames_8305003"
+    ],
+    "ahata": [
+      "geonames_1387733",
+      "geonames_7322263"
+    ],
+    "ahata khai": [
+      "geonames_11538998",
+      "geonames_11538999"
+    ],
+    "ahdi": [
+      "geonames_1184896",
+      "geonames_1184966"
+    ],
+    "ahenwari": [
+      "geonames_1184895",
+      "geonames_1360864"
+    ],
+    "ahi": [
+      "geonames_7322299",
+      "geonames_7465336",
+      "geonames_7465633"
+    ],
+    "ahir minor": [
+      "geonames_7344791",
+      "geonames_7392114"
+    ],
+    "ahiranwala": [
+      "geonames_1171471",
+      "geonames_1330336",
+      "geonames_1405139",
+      "geonames_1405141",
+      "geonames_1405175"
+    ],
+    "ahirewala": [
+      "geonames_1330336",
+      "geonames_7329874"
+    ],
+    "ahl": [
+      "geonames_1184898",
+      "geonames_1389741",
+      "geonames_1389832"
+    ],
+    "ahluwala": [
+      "geonames_1184889",
+      "geonames_1419778"
+    ],
+    "ahmad": [
+      "geonames_11227213",
+      "geonames_11253648",
+      "geonames_11253664",
+      "geonames_1184888",
+      "geonames_1330356",
+      "geonames_1333265",
+      "geonames_1342191",
+      "geonames_1359146",
+      "geonames_1370623",
+      "geonames_1393002",
+      "geonames_1393656",
+      "geonames_1393770",
+      "geonames_1396861",
+      "geonames_1404550"
+    ],
+    "ahmad ali": [
+      "geonames_1108581",
+      "geonames_13438671",
+      "geonames_7353660"
+    ],
+    "ahmad bakhsh": [
+      "geonames_1409050",
+      "geonames_7324848"
+    ],
+    "ahmad bakhshwala": [
+      "geonames_1356790",
+      "geonames_1356797",
+      "geonames_1367916",
+      "geonames_1392509",
+      "geonames_1419327",
+      "geonames_7391963"
+    ],
+    "ahmad bakhshwāla": [
+      "geonames_1356797",
+      "geonames_1367916"
+    ],
+    "ahmad bazar": [
+      "geonames_10989147",
+      "geonames_11065558",
+      "geonames_11202780"
+    ],
+    "ahmad bhatti": [
+      "geonames_11599358",
+      "geonames_1352364"
+    ],
+    "ahmad da khu": [
+      "geonames_11540177",
+      "geonames_11652872"
+    ],
+    "ahmad da kot": [
+      "geonames_11652751",
+      "geonames_11652860",
+      "geonames_1388507"
+    ],
+    "ahmad da wan": [
+      "geonames_1388812",
+      "geonames_1388815"
+    ],
+    "ahmad da wān": [
+      "geonames_1388812",
+      "geonames_1388815"
+    ],
+    "ahmad din": [
+      "geonames_1355741",
+      "geonames_1393559"
+    ],
+    "ahmad faqir": [
+      "geonames_11350580",
+      "geonames_1360024"
+    ],
+    "ahmad goth": [
+      "geonames_11117506",
+      "geonames_11374559",
+      "geonames_1344219",
+      "geonames_7098079"
+    ],
+    "ahmad jo tar": [
+      "geonames_1184840",
+      "geonames_1344455"
+    ],
+    "ahmad khan": [
+      "geonames_11409238",
+      "geonames_11547491",
+      "geonames_11652797",
+      "geonames_1332850",
+      "geonames_1334089",
+      "geonames_1334101",
+      "geonames_1341288",
+      "geonames_13438013",
+      "geonames_1347181",
+      "geonames_1350878",
+      "geonames_1355296",
+      "geonames_1358181",
+      "geonames_1361749",
+      "geonames_1373032",
+      "geonames_1394369",
+      "geonames_1400510",
+      "geonames_7324840",
+      "geonames_7540651"
+    ],
+    "ahmad khan bhurgari": [
+      "geonames_11603615",
+      "geonames_11782795",
+      "geonames_1362215"
+    ],
+    "ahmad khan laghari": [
+      "geonames_11114476",
+      "geonames_11114518",
+      "geonames_1179740",
+      "geonames_1359269",
+      "geonames_1384021",
+      "geonames_1384125",
+      "geonames_7378238"
+    ],
+    "ahmad khanwala": [
+      "geonames_11140198",
+      "geonames_1184865",
+      "geonames_1333283",
+      "geonames_1367157",
+      "geonames_1387501",
+      "geonames_1405274",
+      "geonames_1409584",
+      "geonames_7409424"
+    ],
+    "ahmad khanzai": [
+      "geonames_1363362",
+      "geonames_6305138"
+    ],
+    "ahmad khel": [
+      "geonames_1184863",
+      "geonames_1184864",
+      "geonames_1342086",
+      "geonames_1342147",
+      "geonames_13437834",
+      "geonames_1365297",
+      "geonames_7070946",
+      "geonames_7097460"
+    ],
+    "ahmad khān": [
+      "geonames_11652797",
+      "geonames_1334101",
+      "geonames_1350878",
+      "geonames_1355296",
+      "geonames_1358181",
+      "geonames_1394369",
+      "geonames_7540651"
+    ],
+    "ahmad khān laghāri": [
+      "geonames_1359269",
+      "geonames_1384021",
+      "geonames_1384125",
+      "geonames_7378238"
+    ],
+    "ahmad kot": [
+      "geonames_1184861",
+      "geonames_13444147",
+      "geonames_1402253"
+    ],
+    "ahmad lund": [
+      "geonames_11174081",
+      "geonames_1358860"
+    ],
+    "ahmad minor": [
+      "geonames_11785740",
+      "geonames_1355286",
+      "geonames_1357213",
+      "geonames_1379887"
+    ],
+    "ahmad mohano": [
+      "geonames_11782732",
+      "geonames_11782836",
+      "geonames_7379543",
+      "geonames_7381681"
+    ],
+    "ahmad nagar": [
+      "geonames_11571164",
+      "geonames_11652609",
+      "geonames_1184857",
+      "geonames_1393487",
+      "geonames_1410325",
+      "geonames_7110750",
+      "geonames_7386717"
+    ],
+    "ahmad panhwar": [
+      "geonames_1384070",
+      "geonames_1384208"
+    ],
+    "ahmad park": [
+      "geonames_11534946",
+      "geonames_7043238",
+      "geonames_7043376",
+      "geonames_7043487"
+    ],
+    "ahmad posio": [
+      "geonames_7379217",
+      "geonames_7379539"
+    ],
+    "ahmad shah": [
+      "geonames_11023481",
+      "geonames_11375840",
+      "geonames_11603250",
+      "geonames_1166783",
+      "geonames_11675188",
+      "geonames_1184841",
+      "geonames_1332590",
+      "geonames_1332591",
+      "geonames_1388603",
+      "geonames_1413134",
+      "geonames_7353385",
+      "geonames_7381722",
+      "geonames_7385486",
+      "geonames_7422350",
+      "geonames_8354875"
+    ],
+    "ahmad shah kili": [
+      "geonames_1344143",
+      "geonames_1435288",
+      "geonames_6304959"
+    ],
+    "ahmad shahwala": [
+      "geonames_1366341",
+      "geonames_1419587"
+    ],
+    "ahmad shāh": [
+      "geonames_1166783",
+      "geonames_1332590",
+      "geonames_1332591",
+      "geonames_1388603",
+      "geonames_1413134",
+      "geonames_7422350"
+    ],
+    "ahmad shāh kili": [
+      "geonames_1344143",
+      "geonames_1435288",
+      "geonames_6304959"
+    ],
+    "ahmad wah": [
+      "geonames_11722643",
+      "geonames_11726427",
+      "geonames_1355019",
+      "geonames_1387505"
+    ],
+    "ahmad yarwala": [
+      "geonames_11459895",
+      "geonames_11731748",
+      "geonames_1354633"
+    ],
+    "ahmad zai": [
+      "geonames_1184830",
+      "geonames_1338929"
+    ],
+    "ahmadabad": [
+      "geonames_11070155",
+      "geonames_11086296",
+      "geonames_11118413",
+      "geonames_11180885",
+      "geonames_11254895",
+      "geonames_11269105",
+      "geonames_11523273",
+      "geonames_11538618",
+      "geonames_11543357",
+      "geonames_11544604",
+      "geonames_1172205",
+      "geonames_11722675",
+      "geonames_1173670",
+      "geonames_1184879",
+      "geonames_1184880",
+      "geonames_1184881",
+      "geonames_1184882",
+      "geonames_1184883",
+      "geonames_1184884",
+      "geonames_1184885",
+      "geonames_1184886",
+      "geonames_1184887",
+      "geonames_1334225",
+      "geonames_13406151",
+      "geonames_13436761",
+      "geonames_1344794",
+      "geonames_1362832",
+      "geonames_1372711",
+      "geonames_1380568",
+      "geonames_1381383",
+      "geonames_1384260",
+      "geonames_1387272",
+      "geonames_1388707",
+      "geonames_1410750",
+      "geonames_1418415",
+      "geonames_7322477",
+      "geonames_7402723",
+      "geonames_7407609"
+    ],
+    "ahmadabad colony": [
+      "geonames_11770118",
+      "geonames_1413718"
+    ],
+    "ahmadi banda": [
+      "geonames_1173338",
+      "geonames_7066835"
+    ],
+    "ahmadi bānda": [
+      "geonames_1173338",
+      "geonames_7066835"
+    ],
+    "ahmadnagar": [
+      "geonames_11543088",
+      "geonames_1184855",
+      "geonames_1184856",
+      "geonames_1184857",
+      "geonames_1184858",
+      "geonames_1184859",
+      "geonames_1330124",
+      "geonames_1387598",
+      "geonames_1410325"
+    ],
+    "ahmadnagar drain": [
+      "geonames_11648452",
+      "geonames_1386548"
+    ],
+    "ahmadnagar minor": [
+      "geonames_1372614",
+      "geonames_1382231"
+    ],
+    "ahmadpur": [
+      "geonames_11086284",
+      "geonames_11443119",
+      "geonames_11491254",
+      "geonames_11540592",
+      "geonames_11540620",
+      "geonames_11544300",
+      "geonames_11544924",
+      "geonames_11652128",
+      "geonames_11785874",
+      "geonames_11785918",
+      "geonames_1184843",
+      "geonames_1184845",
+      "geonames_1184847",
+      "geonames_1184848",
+      "geonames_1184849",
+      "geonames_1184850",
+      "geonames_1184851",
+      "geonames_1184852",
+      "geonames_1184853",
+      "geonames_1184885",
+      "geonames_1339149",
+      "geonames_1362188",
+      "geonames_1372133",
+      "geonames_1372345",
+      "geonames_1382749",
+      "geonames_1402334",
+      "geonames_1465396",
+      "geonames_7068431",
+      "geonames_7109594",
+      "geonames_7465661"
+    ],
+    "ahmadpur kot nikka drain": [
+      "geonames_1386633",
+      "geonames_7331320"
+    ],
+    "ahmadpur minor": [
+      "geonames_1372614",
+      "geonames_1402394"
+    ],
+    "ahmadpur sial": [
+      "geonames_1184843",
+      "geonames_1356491"
+    ],
+    "ahmaduwala": [
+      "geonames_1404277",
+      "geonames_1418156"
+    ],
+    "ahmadwah distributary": [
+      "geonames_11484127",
+      "geonames_1372787",
+      "geonames_1387517"
+    ],
+    "ahmadwal": [
+      "geonames_1404295",
+      "geonames_9820159"
+    ],
+    "ahmadwala": [
+      "geonames_11653576",
+      "geonames_11704340",
+      "geonames_1172118",
+      "geonames_1184837",
+      "geonames_1330191",
+      "geonames_1333267",
+      "geonames_1333561",
+      "geonames_1333591",
+      "geonames_1333604",
+      "geonames_1336063",
+      "geonames_13406189",
+      "geonames_13406237",
+      "geonames_13406857",
+      "geonames_13406858",
+      "geonames_13406859",
+      "geonames_13439527",
+      "geonames_1354511",
+      "geonames_1356407",
+      "geonames_1356505",
+      "geonames_1356594",
+      "geonames_1356771",
+      "geonames_1356797",
+      "geonames_1366390",
+      "geonames_1366458",
+      "geonames_1366614",
+      "geonames_1366727",
+      "geonames_1366816",
+      "geonames_1366834",
+      "geonames_1367272",
+      "geonames_1367562",
+      "geonames_1367734",
+      "geonames_1367850",
+      "geonames_1367863",
+      "geonames_1367865",
+      "geonames_1368005",
+      "geonames_1372044",
+      "geonames_1372217",
+      "geonames_1372552",
+      "geonames_1388507",
+      "geonames_1392339",
+      "geonames_1405107",
+      "geonames_1405971",
+      "geonames_1406024",
+      "geonames_1406057",
+      "geonames_1409091",
+      "geonames_1409369",
+      "geonames_1409432",
+      "geonames_1409475",
+      "geonames_1409536",
+      "geonames_1409859",
+      "geonames_1409887",
+      "geonames_1409912",
+      "geonames_1410252",
+      "geonames_7323955",
+      "geonames_7324201",
+      "geonames_7409320"
+    ],
+    "ahmadwala khu": [
+      "geonames_11567770",
+      "geonames_11970835",
+      "geonames_1405265"
+    ],
+    "ahmadwali": [
+      "geonames_1355440",
+      "geonames_1409516",
+      "geonames_1410946"
+    ],
+    "ahmadwam": [
+      "geonames_1184834",
+      "geonames_1184835"
+    ],
+    "ahmadwāla": [
+      "geonames_11704340",
+      "geonames_1172118",
+      "geonames_1330191",
+      "geonames_1333561",
+      "geonames_1336063",
+      "geonames_1366614",
+      "geonames_1366727",
+      "geonames_1366834",
+      "geonames_1367734",
+      "geonames_1367865",
+      "geonames_1372217",
+      "geonames_1388507",
+      "geonames_1406057",
+      "geonames_1409091",
+      "geonames_1409369",
+      "geonames_1409536"
+    ],
+    "ahmadwāli": [
+      "geonames_1355440",
+      "geonames_1409516",
+      "geonames_1410946"
+    ],
+    "ahmadzai": [
+      "geonames_1184828",
+      "geonames_1184829",
+      "geonames_1184830",
+      "geonames_1452760",
+      "geonames_1476180"
+    ],
+    "ahmadābād": [
+      "geonames_11523273",
+      "geonames_11538618",
+      "geonames_1184880",
+      "geonames_1184883",
+      "geonames_1184884",
+      "geonames_1184885",
+      "geonames_1184886",
+      "geonames_1334225",
+      "geonames_1344794",
+      "geonames_1362832",
+      "geonames_1384260",
+      "geonames_1388707",
+      "geonames_7402723",
+      "geonames_7407609"
+    ],
+    "ahmed bakhsh": [
+      "geonames_11086936",
+      "geonames_11086971"
+    ],
+    "ahmed feelan": [
+      "geonames_11082139",
+      "geonames_11082142"
+    ],
+    "ahmed shah": [
+      "geonames_11598183",
+      "geonames_9997958"
+    ],
+    "ahmedabad": [
+      "geonames_10348805",
+      "geonames_10349767",
+      "geonames_11124368",
+      "geonames_11569240",
+      "geonames_1181019",
+      "geonames_1184887",
+      "geonames_7038454",
+      "geonames_7407609"
+    ],
+    "ahmedpur": [
+      "geonames_1184852",
+      "geonames_1184853"
+    ],
+    "ahmedwala": [
+      "geonames_11548169",
+      "geonames_1336063",
+      "geonames_1367734",
+      "geonames_1372217",
+      "geonames_1418156"
+    ],
+    "ahori": [
+      "geonames_1184824",
+      "geonames_1350353"
+    ],
+    "ahri": [
+      "geonames_11603523",
+      "geonames_1384265",
+      "geonames_7497271"
+    ],
+    "ahsan junejo": [
+      "geonames_1184823",
+      "geonames_1411354"
+    ],
+    "ahsan khan": [
+      "geonames_11143859",
+      "geonames_1449479"
+    ],
+    "ahsan wah": [
+      "geonames_1184821",
+      "geonames_1384129"
+    ],
+    "ahsanabad": [
+      "geonames_11460206",
+      "geonames_7045978",
+      "geonames_7046182",
+      "geonames_7325389"
+    ],
+    "ahsanpur": [
+      "geonames_1184822",
+      "geonames_1414037"
+    ],
+    "ahsanwah": [
+      "geonames_1184821",
+      "geonames_1384129"
+    ],
+    "ahsanwala": [
+      "geonames_11178197",
+      "geonames_11178226",
+      "geonames_1411017",
+      "geonames_1414047"
+    ],
+    "ahsanwala khu": [
+      "geonames_11692279",
+      "geonames_1383364"
+    ],
+    "ahsānwāla": [
+      "geonames_1411017",
+      "geonames_1414047"
+    ],
+    "ahuri river": [
+      "geonames_10314422",
+      "geonames_1184818"
+    ],
+    "ahūri river": [
+      "geonames_10314422",
+      "geonames_1184818"
+    ],
+    "aidalpur": [
+      "geonames_1184817",
+      "geonames_1381703"
+    ],
+    "ailpur": [
+      "geonames_1384083",
+      "geonames_1384113"
+    ],
+    "aima": [
+      "geonames_11070360",
+      "geonames_1184814",
+      "geonames_1382789",
+      "geonames_1410370"
+    ],
+    "aimal": [
+      "geonames_1334585",
+      "geonames_1334637"
+    ],
+    "aimal kalla": [
+      "geonames_1334585",
+      "geonames_1334637"
+    ],
+    "aimal khel": [
+      "geonames_1332877",
+      "geonames_7075487"
+    ],
+    "ain": [
+      "geonames_1377577",
+      "geonames_1389893",
+      "geonames_1415775"
+    ],
+    "aind": [
+      "geonames_11039601",
+      "geonames_11039602"
+    ],
+    "ainu": [
+      "geonames_11631819",
+      "geonames_1184806"
+    ],
+    "ainuana": [
+      "geonames_11651082",
+      "geonames_1184805"
+    ],
+    "ainuāna": [
+      "geonames_11651082",
+      "geonames_1184805"
+    ],
+    "aitpar": [
+      "geonames_1376175",
+      "geonames_1376735"
+    ],
+    "ajabwala": [
+      "geonames_11371525",
+      "geonames_1392551"
+    ],
+    "ajan chak": [
+      "geonames_1184799",
+      "geonames_1381194"
+    ],
+    "ajara kalle": [
+      "geonames_1333982",
+      "geonames_1334221",
+      "geonames_1335575"
+    ],
+    "ajjuwala": [
+      "geonames_1184794",
+      "geonames_1386702"
+    ],
+    "ajlai": [
+      "geonames_1377987",
+      "geonames_1390896"
+    ],
+    "ajmir": [
+      "geonames_1384880",
+      "geonames_8986007"
+    ],
+    "ajnala": [
+      "geonames_11603428",
+      "geonames_1184792",
+      "geonames_1184793"
+    ],
+    "akai": [
+      "geonames_11600269",
+      "geonames_1184756",
+      "geonames_13440255"
+    ],
+    "akalgarh": [
+      "geonames_11466242",
+      "geonames_11540700",
+      "geonames_1184276",
+      "geonames_1184778",
+      "geonames_1184779",
+      "geonames_1184780",
+      "geonames_1184781",
+      "geonames_1184782",
+      "geonames_1184783",
+      "geonames_1184784",
+      "geonames_1184785",
+      "geonames_1184786",
+      "geonames_1381611",
+      "geonames_1386329",
+      "geonames_7465326"
+    ],
+    "akanwala": [
+      "geonames_1380208",
+      "geonames_1420357"
+    ],
+    "akanwali": [
+      "geonames_11540589",
+      "geonames_11649330",
+      "geonames_1184753"
+    ],
+    "akanwāla": [
+      "geonames_1380208",
+      "geonames_1420357"
+    ],
+    "akar": [
+      "geonames_1366348",
+      "geonames_1390107"
+    ],
+    "akara": [
+      "geonames_1184776",
+      "geonames_1184777"
+    ],
+    "akbar": [
+      "geonames_1184772",
+      "geonames_1184773"
+    ],
+    "akbar ali khan": [
+      "geonames_1332588",
+      "geonames_1332896"
+    ],
+    "akbar khan": [
+      "geonames_1332878",
+      "geonames_1334234",
+      "geonames_1334291",
+      "geonames_1338811",
+      "geonames_1403740",
+      "geonames_7427535"
+    ],
+    "akbar khan kalle": [
+      "geonames_1333103",
+      "geonames_1335585",
+      "geonames_7041265"
+    ],
+    "akbar kili": [
+      "geonames_10984112",
+      "geonames_11147433"
+    ],
+    "akbar minor": [
+      "geonames_1331967",
+      "geonames_1409564"
+    ],
+    "akbar shah": [
+      "geonames_11544850",
+      "geonames_1184766",
+      "geonames_1372778",
+      "geonames_7374199"
+    ],
+    "akbarabad": [
+      "geonames_10350256",
+      "geonames_11081175",
+      "geonames_11413102",
+      "geonames_11489981",
+      "geonames_11631729",
+      "geonames_11693574",
+      "geonames_1184770",
+      "geonames_1184771",
+      "geonames_11951118",
+      "geonames_1333123",
+      "geonames_1355027",
+      "geonames_1360028",
+      "geonames_1401221",
+      "geonames_1416839",
+      "geonames_1482269",
+      "geonames_7033622",
+      "geonames_7375149"
+    ],
+    "akbari": [
+      "geonames_1341282",
+      "geonames_1407162"
+    ],
+    "akbarian": [
+      "geonames_1381245",
+      "geonames_1381538"
+    ],
+    "akbarpura": [
+      "geonames_11512858",
+      "geonames_1184281",
+      "geonames_1184768"
+    ],
+    "akbarwala": [
+      "geonames_11343244",
+      "geonames_1184765",
+      "geonames_1351280",
+      "geonames_1356576",
+      "geonames_1382399",
+      "geonames_1404307",
+      "geonames_1410175"
+    ],
+    "akbarwāla": [
+      "geonames_1184765",
+      "geonames_1351280",
+      "geonames_1356576",
+      "geonames_1382399",
+      "geonames_1404307"
+    ],
+    "akhara": [
+      "geonames_7076703",
+      "geonames_7082485"
+    ],
+    "akhora": [
+      "geonames_1406342",
+      "geonames_1406853",
+      "geonames_1407552"
+    ],
+    "akhori": [
+      "geonames_11024035",
+      "geonames_1184760",
+      "geonames_1338558",
+      "geonames_1406457",
+      "geonames_1406469",
+      "geonames_1406617",
+      "geonames_1414906"
+    ],
+    "akhrila": [
+      "geonames_1406666",
+      "geonames_1407517",
+      "geonames_1416317"
+    ],
+    "akhruta": [
+      "geonames_11046921",
+      "geonames_1386138"
+    ],
+    "akhtar kili": [
+      "geonames_11081532",
+      "geonames_1110181",
+      "geonames_1337410",
+      "geonames_1348238"
+    ],
+    "akhtar muhammad": [
+      "geonames_11082716",
+      "geonames_11960857"
+    ],
+    "akhtar muhammad kili": [
+      "geonames_11082207",
+      "geonames_6367132"
+    ],
+    "akhtarabad": [
+      "geonames_11369493",
+      "geonames_11544044",
+      "geonames_11544965",
+      "geonames_11547469",
+      "geonames_11728430",
+      "geonames_11732052",
+      "geonames_7324068",
+      "geonames_9092218"
+    ],
+    "akhter kaul": [
+      "geonames_11082737",
+      "geonames_11082741"
+    ],
+    "akhun baba ziarat": [
+      "geonames_1352891",
+      "geonames_1377751",
+      "geonames_1482472"
+    ],
+    "akhun dheri": [
+      "geonames_1184759",
+      "geonames_1385104"
+    ],
+    "akhun shela": [
+      "geonames_1397224",
+      "geonames_1397227"
+    ],
+    "akhunabad no 1": [
+      "geonames_7041411",
+      "geonames_7041418"
+    ],
+    "akhunabad no 2": [
+      "geonames_7041411",
+      "geonames_7041415"
+    ],
+    "akhunabad no 3": [
+      "geonames_7041411",
+      "geonames_7041417"
+    ],
+    "akhunabad no 5": [
+      "geonames_7041411",
+      "geonames_7041416"
+    ],
+    "akhunabad number five": [
+      "geonames_7041411",
+      "geonames_7041416"
+    ],
+    "akhunabad number one": [
+      "geonames_7041411",
+      "geonames_7041418"
+    ],
+    "akhunabad number three": [
+      "geonames_7041411",
+      "geonames_7041417"
+    ],
+    "akhunabad number two": [
+      "geonames_7041411",
+      "geonames_7041415"
+    ],
+    "akhundan": [
+      "geonames_1332646",
+      "geonames_1332694",
+      "geonames_1332733",
+      "geonames_1332791",
+      "geonames_1332808",
+      "geonames_1334589"
+    ],
+    "akhundan kalle": [
+      "geonames_1332791",
+      "geonames_1332826"
+    ],
+    "akhunābād no 1": [
+      "geonames_7041411",
+      "geonames_7041418"
+    ],
+    "akhunābād no 2": [
+      "geonames_7041411",
+      "geonames_7041415"
+    ],
+    "akhunābād number five": [
+      "geonames_7041411",
+      "geonames_7041416"
+    ],
+    "akhunābād number two": [
+      "geonames_7041411",
+      "geonames_7041415"
+    ],
+    "aki": [
+      "geonames_1184756",
+      "geonames_1184757"
+    ],
+    "akike": [
+      "geonames_11466409",
+      "geonames_1184755"
+    ],
+    "akil": [
+      "geonames_1184440",
+      "geonames_1184441"
+    ],
+    "akilpur": [
+      "geonames_1184435",
+      "geonames_1184437",
+      "geonames_1330134"
+    ],
+    "akkanwala": [
+      "geonames_11771080",
+      "geonames_1184753",
+      "geonames_1366451",
+      "geonames_1380208",
+      "geonames_1408546"
+    ],
+    "akkānwāla": [
+      "geonames_1184753",
+      "geonames_1408546"
+    ],
+    "akli": [
+      "geonames_11038958",
+      "geonames_7497102",
+      "geonames_7497266"
+    ],
+    "aklo": [
+      "geonames_11036803",
+      "geonames_7497291"
+    ],
+    "aknai": [
+      "geonames_1360718",
+      "geonames_1360799"
+    ],
+    "akoza": [
+      "geonames_11775562",
+      "geonames_7074308"
+    ],
+    "akozai": [
+      "geonames_11414865",
+      "geonames_1184751",
+      "geonames_1337958"
+    ],
+    "akra": [
+      "geonames_1184750",
+      "geonames_1366348",
+      "geonames_1453323",
+      "geonames_7379637"
+    ],
+    "akram": [
+      "geonames_1363566",
+      "geonames_1421818",
+      "geonames_6270830"
+    ],
+    "akram khan": [
+      "geonames_1334336",
+      "geonames_1434727",
+      "geonames_7346908"
+    ],
+    "akram khān": [
+      "geonames_1434727",
+      "geonames_7346908"
+    ],
+    "akram wah": [
+      "geonames_11375854",
+      "geonames_11782548",
+      "geonames_11782668",
+      "geonames_1414173"
+    ],
+    "akramabad": [
+      "geonames_11460261",
+      "geonames_11543360",
+      "geonames_1184748",
+      "geonames_1355052",
+      "geonames_1356772",
+      "geonames_1413811",
+      "geonames_7041319"
+    ],
+    "akramwala": [
+      "geonames_11542088",
+      "geonames_1162678"
+    ],
+    "akraro": [
+      "geonames_11041027",
+      "geonames_1377313"
+    ],
+    "akri": [
+      "geonames_11453379",
+      "geonames_1178115",
+      "geonames_1184745",
+      "geonames_1184746",
+      "geonames_1404699",
+      "geonames_8300239",
+      "geonames_8305693"
+    ],
+    "akriwala": [
+      "geonames_1366851",
+      "geonames_1421903",
+      "geonames_7110511"
+    ],
+    "akro": [
+      "geonames_11256704",
+      "geonames_1184750",
+      "geonames_1184775",
+      "geonames_1361142"
+    ],
+    "aktar": [
+      "geonames_1365007",
+      "geonames_1365067"
+    ],
+    "akuka": [
+      "geonames_11086333",
+      "geonames_1184743"
+    ],
+    "akuto": [
+      "geonames_11602644",
+      "geonames_1384362"
+    ],
+    "akālgarh": [
+      "geonames_1184276",
+      "geonames_1184778",
+      "geonames_1184779",
+      "geonames_1184780",
+      "geonames_1184781",
+      "geonames_1184782",
+      "geonames_1184783",
+      "geonames_1184784",
+      "geonames_1184786",
+      "geonames_1386329"
+    ],
+    "al mustafa town": [
+      "geonames_7098741",
+      "geonames_7098758"
+    ],
+    "al nur colony": [
+      "geonames_7038769",
+      "geonames_7331522"
+    ],
+    "ala": [
+      "geonames_11418506",
+      "geonames_1184741"
+    ],
+    "alabad": [
+      "geonames_11091319",
+      "geonames_11489971"
+    ],
+    "alachi": [
+      "geonames_1335148",
+      "geonames_1366876"
+    ],
+    "alaf khan": [
+      "geonames_1334315",
+      "geonames_8624191"
+    ],
+    "alaf khān": [
+      "geonames_1334315",
+      "geonames_8624191"
+    ],
+    "alagh nala": [
+      "geonames_1184740",
+      "geonames_11960976",
+      "geonames_7326357"
+    ],
+    "alagram": [
+      "geonames_1184739",
+      "geonames_1420614"
+    ],
+    "alahabad": [
+      "geonames_11535259",
+      "geonames_1184621"
+    ],
+    "alahyar khosa": [
+      "geonames_1397894",
+      "geonames_1397930"
+    ],
+    "alahyār khosa": [
+      "geonames_1397894",
+      "geonames_1397930"
+    ],
+    "alai": [
+      "geonames_12524558",
+      "geonames_1341952",
+      "geonames_1384842",
+      "geonames_1393692",
+      "geonames_1393694"
+    ],
+    "alam": [
+      "geonames_1338646",
+      "geonames_1385637"
+    ],
+    "alam khan": [
+      "geonames_11200909",
+      "geonames_11223277",
+      "geonames_11230037",
+      "geonames_11232697",
+      "geonames_1184732",
+      "geonames_1331914",
+      "geonames_1332642",
+      "geonames_1332789",
+      "geonames_13430568",
+      "geonames_1401570",
+      "geonames_1405412",
+      "geonames_1436512",
+      "geonames_7074578",
+      "geonames_7326420"
+    ],
+    "alam khan kalle": [
+      "geonames_11543341",
+      "geonames_11543375",
+      "geonames_1434730"
+    ],
+    "alam khan khosa": [
+      "geonames_11408612",
+      "geonames_1400458"
+    ],
+    "alam khan khoso": [
+      "geonames_11408631",
+      "geonames_1359098"
+    ],
+    "alam khanwala": [
+      "geonames_11548196",
+      "geonames_1333478",
+      "geonames_1333602",
+      "geonames_1342459",
+      "geonames_1366441",
+      "geonames_1404216"
+    ],
+    "alam khel": [
+      "geonames_1110275",
+      "geonames_1336094",
+      "geonames_1342502",
+      "geonames_1353026",
+      "geonames_1450845",
+      "geonames_7075519",
+      "geonames_9871967"
+    ],
+    "alam khelanwala": [
+      "geonames_11680132",
+      "geonames_1404981"
+    ],
+    "alam kot": [
+      "geonames_1339042",
+      "geonames_7330827"
+    ],
+    "alam shah": [
+      "geonames_11179172",
+      "geonames_11583832",
+      "geonames_1184725",
+      "geonames_1368439"
+    ],
+    "alam shah khel": [
+      "geonames_1184724",
+      "geonames_1365594"
+    ],
+    "alam sher": [
+      "geonames_1184722",
+      "geonames_1334640"
+    ],
+    "alam sheri": [
+      "geonames_1334640",
+      "geonames_1340776"
+    ],
+    "alam sherwala": [
+      "geonames_1366699",
+      "geonames_1405643",
+      "geonames_1421872",
+      "geonames_1421894",
+      "geonames_7324216"
+    ],
+    "alam town": [
+      "geonames_11460203",
+      "geonames_8756079"
+    ],
+    "alamabad": [
+      "geonames_10248847",
+      "geonames_11139830",
+      "geonames_11416893",
+      "geonames_11443126",
+      "geonames_11452259",
+      "geonames_1184737",
+      "geonames_1360173"
+    ],
+    "alamdar": [
+      "geonames_1335834",
+      "geonames_1395486"
+    ],
+    "alamganj": [
+      "geonames_11605664",
+      "geonames_1184736"
+    ],
+    "alami banda": [
+      "geonames_11632599",
+      "geonames_1184733"
+    ],
+    "alampur": [
+      "geonames_1184727",
+      "geonames_1388684"
+    ],
+    "alampura": [
+      "geonames_1388684",
+      "geonames_7326456"
+    ],
+    "alamsar": [
+      "geonames_11035138",
+      "geonames_11039319",
+      "geonames_11039696",
+      "geonames_11040237"
+    ],
+    "alamwala": [
+      "geonames_11764685",
+      "geonames_1184720",
+      "geonames_1379893",
+      "geonames_1410827"
+    ],
+    "alanabad": [
+      "geonames_11039454",
+      "geonames_1184719"
+    ],
+    "alandur": [
+      "geonames_7416703",
+      "geonames_7416713",
+      "geonames_7416714"
+    ],
+    "alangi": [
+      "geonames_11109901",
+      "geonames_1399940",
+      "geonames_7374824"
+    ],
+    "alangi jhal": [
+      "geonames_1399844",
+      "geonames_7071125"
+    ],
+    "alawalke": [
+      "geonames_11464253",
+      "geonames_11464255",
+      "geonames_1184712"
+    ],
+    "alawalwala": [
+      "geonames_1356343",
+      "geonames_1414380"
+    ],
+    "alewala": [
+      "geonames_1184891",
+      "geonames_1382267"
+    ]
+  },
+  "errors": [],
+  "record_count": 187736,
+  "valid": true,
+  "warning_count": 29396,
+  "warnings": [
+    "ambiguous alias 'pakistan' resolves to 3 records",
+    "ambiguous alias 'islamic republic of pakistan' resolves to 2 records",
+    "ambiguous alias 'sharan kili' resolves to 4 records",
+    "ambiguous alias 'inzargai' resolves to 14 records",
+    "ambiguous alias 'nawab kot' resolves to 2 records",
+    "ambiguous alias 'warghar' resolves to 5 records",
+    "ambiguous alias 'china kili' resolves to 5 records",
+    "ambiguous alias 'lakai kili' resolves to 2 records",
+    "ambiguous alias 'adilabad' resolves to 3 records",
+    "ambiguous alias 'shahid nala' resolves to 2 records",
+    "ambiguous alias 'drazinda' resolves to 5 records",
+    "ambiguous alias 'band nala' resolves to 3 records",
+    "ambiguous alias 'spin' resolves to 4 records",
+    "ambiguous alias 'ragha kili' resolves to 3 records",
+    "ambiguous alias 'pahlwan' resolves to 2 records",
+    "ambiguous alias 'landai' resolves to 56 records",
+    "ambiguous alias 'maidan' resolves to 32 records",
+    "ambiguous alias 'ismail wala' resolves to 2 records",
+    "ambiguous alias 'pato khel' resolves to 2 records",
+    "ambiguous alias 'zargari' resolves to 3 records",
+    "ambiguous alias 'tapu kalle' resolves to 2 records",
+    "ambiguous alias 'nawe kalle' resolves to 25 records",
+    "ambiguous alias 'kalle' resolves to 5 records",
+    "ambiguous alias 'khawaja khizar' resolves to 3 records",
+    "ambiguous alias 'kunda' resolves to 5 records",
+    "ambiguous alias 'ghundi' resolves to 10 records",
+    "ambiguous alias 'baspa' resolves to 3 records",
+    "ambiguous alias 'daga' resolves to 3 records",
+    "ambiguous alias 'sarfaraz' resolves to 3 records",
+    "ambiguous alias 'nazru' resolves to 2 records",
+    "ambiguous alias 'samir' resolves to 2 records",
+    "ambiguous alias 'dar' resolves to 17 records",
+    "ambiguous alias 'baghal' resolves to 5 records",
+    "ambiguous alias 'ghaza' resolves to 3 records",
+    "ambiguous alias 'mirani' resolves to 7 records",
+    "ambiguous alias 'darya khan' resolves to 22 records",
+    "ambiguous alias 'gondal' resolves to 7 records",
+    "ambiguous alias 'gala kalle' resolves to 2 records",
+    "ambiguous alias 'dago kalle' resolves to 2 records",
+    "ambiguous alias 'sher kalle' resolves to 2 records",
+    "ambiguous alias 'warasta' resolves to 4 records",
+    "ambiguous alias 'mangalabad' resolves to 2 records",
+    "ambiguous alias 'burjo' resolves to 2 records",
+    "ambiguous alias 'torgai' resolves to 2 records",
+    "ambiguous alias 'khawari' resolves to 2 records",
+    "ambiguous alias 'dogar' resolves to 6 records",
+    "ambiguous alias 'khalifa' resolves to 8 records",
+    "ambiguous alias 'qamar kalle' resolves to 2 records",
+    "ambiguous alias 'jangai' resolves to 2 records",
+    "ambiguous alias 'jarobi' resolves to 3 records",
+    "ambiguous alias 'badh' resolves to 3 records",
+    "ambiguous alias 'nusrat khel' resolves to 2 records",
+    "ambiguous alias 'sanzal' resolves to 3 records",
+    "ambiguous alias 'mian khel' resolves to 6 records",
+    "ambiguous alias 'ayub khel' resolves to 2 records",
+    "ambiguous alias 'kotke' resolves to 5 records",
+    "ambiguous alias 'miangano kili' resolves to 2 records",
+    "ambiguous alias 'badi' resolves to 2 records",
+    "ambiguous alias 'sar ghundai' resolves to 2 records",
+    "ambiguous alias 'khaza' resolves to 2 records",
+    "ambiguous alias 'lakrai' resolves to 10 records",
+    "ambiguous alias 'qamar khel' resolves to 2 records",
+    "ambiguous alias 'hiro mela' resolves to 2 records",
+    "ambiguous alias 'spin kili' resolves to 3 records",
+    "ambiguous alias 'tanga' resolves to 16 records",
+    "ambiguous alias 'toda mela' resolves to 2 records",
+    "ambiguous alias 'miru darra' resolves to 2 records",
+    "ambiguous alias 'mughal khel' resolves to 6 records",
+    "ambiguous alias 'zor kalle' resolves to 4 records",
+    "ambiguous alias 'zor kili' resolves to 4 records",
+    "ambiguous alias 'bash khel' resolves to 2 records",
+    "ambiguous alias 'bosh khel' resolves to 2 records",
+    "ambiguous alias 'shera ghund' resolves to 2 records",
+    "ambiguous alias 'ghalanai' resolves to 4 records",
+    "ambiguous alias 'alamabad' resolves to 7 records",
+    "ambiguous alias 'hayatabad' resolves to 7 records",
+    "ambiguous alias 'spin khorai' resolves to 2 records",
+    "ambiguous alias 'hasan khel' resolves to 10 records",
+    "ambiguous alias 'allah dhand' resolves to 2 records",
+    "ambiguous alias 'landai kalle' resolves to 2 records",
+    "ambiguous alias 'feroz khel' resolves to 3 records",
+    "ambiguous alias 'spina mela' resolves to 3 records",
+    "ambiguous alias 'spin qamar' resolves to 2 records",
+    "ambiguous alias 'kohi' resolves to 8 records",
+    "ambiguous alias 'nala' resolves to 18 records",
+    "ambiguous alias 'jan khan kalle' resolves to 2 records",
+    "ambiguous alias 'jamal khel' resolves to 2 records",
+    "ambiguous alias 'pishta khara bala' resolves to 2 records",
+    "ambiguous alias 'khungai' resolves to 2 records",
+    "ambiguous alias 'kandori' resolves to 4 records",
+    "ambiguous alias 'narai khwar' resolves to 14 records",
+    "ambiguous alias 'tandai' resolves to 8 records",
+    "ambiguous alias 'malang garhi' resolves to 2 records",
+    "ambiguous alias 'spin dhand' resolves to 2 records",
+    "ambiguous alias 'mandai' resolves to 5 records",
+    "ambiguous alias 'bagh khwar' resolves to 4 records",
+    "ambiguous alias 'dargai' resolves to 42 records",
+    "ambiguous alias 'galo' resolves to 2 records",
+    "ambiguous alias 'wazir garhi' resolves to 2 records",
+    "ambiguous alias 'khasa' resolves to 7 records",
+    "ambiguous alias 'sujawal' resolves to 5 records",
+    "ambiguous alias 'sur kamar' resolves to 4 records",
+    "ambiguous alias 'gobar' resolves to 2 records",
+    "ambiguous alias 'gorai' resolves to 3 records",
+    "ambiguous alias 'tangi sar' resolves to 4 records",
+    "ambiguous alias 'wazar' resolves to 2 records",
+    "ambiguous alias 'barar ragha' resolves to 2 records",
+    "ambiguous alias 'chaubara' resolves to 6 records",
+    "ambiguous alias 'landi' resolves to 22 records",
+    "ambiguous alias 'khar' resolves to 15 records",
+    "ambiguous alias 'shor mina' resolves to 2 records",
+    "ambiguous alias 'narai kili' resolves to 5 records",
+    "ambiguous alias 'kundi' resolves to 20 records",
+    "ambiguous alias 'tor ragha' resolves to 4 records",
+    "ambiguous alias 'gat' resolves to 17 records",
+    "ambiguous alias 'nushpa' resolves to 2 records",
+    "ambiguous alias 'kund' resolves to 64 records",
+    "ambiguous alias 'shagai' resolves to 32 records",
+    "ambiguous alias 'manzai' resolves to 19 records",
+    "ambiguous alias 'tobo kaur' resolves to 2 records",
+    "ambiguous alias 'dokop kaur' resolves to 2 records",
+    "ambiguous alias 'kuftari kaur' resolves to 2 records",
+    "ambiguous alias 'zarago kaur' resolves to 4 records",
+    "ambiguous alias 'domki kaur' resolves to 2 records",
+    "ambiguous alias 'halol kaur' resolves to 4 records",
+    "ambiguous alias 'patki kaur' resolves to 5 records",
+    "ambiguous alias 'huki kaur' resolves to 5 records",
+    "ambiguous alias 'uki kaur' resolves to 2 records",
+    "ambiguous alias 'machhi kaur' resolves to 13 records",
+    "ambiguous alias 'zarar chahi river' resolves to 2 records",
+    "ambiguous alias 'zarar chāhi river' resolves to 2 records",
+    "ambiguous alias 'doshai kaur' resolves to 2 records",
+    "ambiguous alias 'kunri kaur' resolves to 16 records",
+    "ambiguous alias 'kahan' resolves to 14 records",
+    "ambiguous alias 'gazan kaur' resolves to 8 records",
+    "ambiguous alias 'shori kaur' resolves to 4 records",
+    "ambiguous alias 'kurki kaur' resolves to 2 records",
+    "ambiguous alias 'kaleri kaur' resolves to 7 records",
+    "ambiguous alias 'shingri kaur' resolves to 4 records",
+    "ambiguous alias 'surap kaur' resolves to 2 records",
+    "ambiguous alias 'gar kaur' resolves to 6 records",
+    "ambiguous alias 'awari kaur' resolves to 2 records",
+    "ambiguous alias 'ahuri river' resolves to 2 records",
+    "ambiguous alias 'ahūri river' resolves to 2 records",
+    "ambiguous alias 'murgho kaur' resolves to 2 records",
+    "ambiguous alias 'shoro kaur' resolves to 4 records",
+    "ambiguous alias 'kondi kaur' resolves to 6 records",
+    "ambiguous alias 'guni kaur' resolves to 5 records",
+    "ambiguous alias 'mukh kaur' resolves to 3 records",
+    "ambiguous alias 'muk river' resolves to 2 records",
+    "ambiguous alias 'zai kaur' resolves to 5 records",
+    "ambiguous alias 'jhar kaur' resolves to 2 records",
+    "ambiguous alias 'purki kaur' resolves to 9 records",
+    "ambiguous alias 'sukun kaur' resolves to 2 records",
+    "ambiguous alias 'hisar river' resolves to 2 records",
+    "ambiguous alias 'hisār river' resolves to 2 records",
+    "ambiguous alias 'sari singh' resolves to 2 records",
+    "ambiguous alias 'sari sing' resolves to 2 records",
+    "ambiguous alias 'goth machhi' resolves to 32 records",
+    "ambiguous alias 'hundi' resolves to 2 records",
+    "ambiguous alias 'khairpur' resolves to 29 records",
+    "ambiguous alias 'rasul barrage' resolves to 2 records",
+    "ambiguous alias 'bherowal' resolves to 3 records",
+    "ambiguous alias 'vehari' resolves to 2 records",
+    "ambiguous alias 'safdarabad' resolves to 5 records",
+    "ambiguous alias 'ahmedabad' resolves to 8 records",
+    "ambiguous alias 'shaikhabad' resolves to 10 records",
+    "ambiguous alias 'chargo kalle' resolves to 4 records",
+    "ambiguous alias 'karimo' resolves to 2 records",
+    "ambiguous alias 'umar kalle' resolves to 2 records",
+    "ambiguous alias 'yar muhammad kalle' resolves to 3 records",
+    "ambiguous alias 'aranda' resolves to 3 records",
+    "ambiguous alias 'khanabad' resolves to 5 records",
+    "ambiguous alias 'hamidabad' resolves to 10 records",
+    "ambiguous alias 'amirabad' resolves to 17 records",
+    "ambiguous alias 'maulian kalle' resolves to 2 records",
+    "ambiguous alias 'faridabad' resolves to 26 records",
+    "ambiguous alias 'garhi saidan' resolves to 2 records",
+    "ambiguous alias 'islamabad' resolves to 55 records",
+    "ambiguous alias 'khat koruna' resolves to 2 records",
+    "ambiguous alias 'garhi afridi' resolves to 2 records",
+    "ambiguous alias 'wilayatabad' resolves to 2 records",
+    "ambiguous alias 'sirki' resolves to 4 records",
+    "ambiguous alias 'hajiabad' resolves to 21 records",
+    "ambiguous alias 'jalalabad' resolves to 27 records",
+    "ambiguous alias 'amanabad' resolves to 2 records",
+    "ambiguous alias 'akbarabad' resolves to 17 records",
+    "ambiguous alias 'hussainabad' resolves to 48 records",
+    "ambiguous alias 'goharabad' resolves to 9 records",
+    "ambiguous alias 'sardaryab' resolves to 2 records",
+    "ambiguous alias 'umar kot' resolves to 5 records",
+    "ambiguous alias 'malak abad' resolves to 2 records",
+    "ambiguous alias 'malakand darra' resolves to 2 records",
+    "ambiguous alias 'anwarabad' resolves to 8 records",
+    "ambiguous alias 'balakot' resolves to 3 records",
+    "ambiguous alias 'dherai kalle' resolves to 3 records",
+    "ambiguous alias 'dab' resolves to 31 records",
+    "ambiguous alias 'rabat' resolves to 8 records",
+    "ambiguous alias 'chanali' resolves to 4 records",
+    "ambiguous alias 'mola nala' resolves to 3 records",
+    "ambiguous alias 'dhand' resolves to 14 records",
+    "ambiguous alias 'mitha' resolves to 8 records",
+    "ambiguous alias 'khan banda' resolves to 6 records",
+    "ambiguous alias 'hasar' resolves to 2 records",
+    "ambiguous alias 'daman' resolves to 13 records",
+    "ambiguous alias 'rustam banda' resolves to 3 records",
+    "ambiguous alias 'kandaray' resolves to 2 records",
+    "ambiguous alias 'manrai' resolves to 11 records",
+    "ambiguous alias 'katgala' resolves to 2 records",
+    "ambiguous alias 'mandazai' resolves to 2 records",
+    "ambiguous alias 'lahr' resolves to 2 records",
+    "ambiguous alias 'bargai' resolves to 6 records",
+    "ambiguous alias 'nishpa' resolves to 18 records",
+    "ambiguous alias 'shin wam' resolves to 3 records",
+    "ambiguous alias 'spinkai' resolves to 15 records",
+    "ambiguous alias 'zam nala' resolves to 2 records",
+    "ambiguous alias 'khan muhammad' resolves to 20 records",
+    "ambiguous alias 'haji gul khan' resolves to 2 records",
+    "ambiguous alias 'fateh khan banda' resolves to 3 records",
+    "ambiguous alias 'nawazabad' resolves to 5 records",
+    "ambiguous alias 'hasanabad colony' resolves to 3 records",
+    "ambiguous alias 'shanpur' resolves to 2 records",
+    "ambiguous alias 'dabar banda' resolves to 2 records",
+    "ambiguous alias 'nadarabad' resolves to 3 records",
+    "ambiguous alias 'poya' resolves to 3 records",
+    "ambiguous alias 'hakimabad' resolves to 7 records",
+    "ambiguous alias 'chashmai algad' resolves to 3 records",
+    "ambiguous alias 'bagh sar' resolves to 2 records",
+    "ambiguous alias 'kilat khel' resolves to 2 records",
+    "ambiguous alias 'samundar khan' resolves to 2 records",
+    "ambiguous alias 'mira khel' resolves to 4 records",
+    "ambiguous alias 'miri khel' resolves to 7 records",
+    "ambiguous alias 'kirri' resolves to 2 records",
+    "ambiguous alias 'jadidabad' resolves to 2 records",
+    "ambiguous alias 'raghzai' resolves to 8 records",
+    "ambiguous alias 'ghazi kot' resolves to 3 records",
+    "ambiguous alias 'chodai' resolves to 2 records",
+    "ambiguous alias 'pirabad' resolves to 5 records",
+    "ambiguous alias 'sardar' resolves to 8 records",
+    "ambiguous alias 'bhitiari' resolves to 6 records",
+    "ambiguous alias 'bhitiāri' resolves to 6 records",
+    "ambiguous alias 'kuz' resolves to 3 records",
+    "ambiguous alias 'jahangirabad' resolves to 16 records",
+    "ambiguous alias 'bari kot' resolves to 3 records",
+    "ambiguous alias 'sher muhammad' resolves to 21 records",
+    "ambiguous alias 'wazir kalle' resolves to 4 records",
+    "ambiguous alias 'mahsudabad' resolves to 3 records",
+    "ambiguous alias 'kalri' resolves to 32 records",
+    "ambiguous alias 'sarpharagh' resolves to 2 records",
+    "ambiguous alias 'chartana' resolves to 2 records",
+    "ambiguous alias 'kharappa' resolves to 2 records",
+    "ambiguous alias 'muslimabad' resolves to 16 records",
+    "ambiguous alias 'colony' resolves to 3 records",
+    "ambiguous alias 'qudratabad' resolves to 4 records",
+    "ambiguous alias 'jat' resolves to 19 records",
+    "ambiguous alias 'dagarwali' resolves to 3 records",
+    "ambiguous alias 'bugga' resolves to 2 records",
+    "ambiguous alias 'ejazabad' resolves to 4 records",
+    "ambiguous alias 'rohri' resolves to 3 records",
+    "ambiguous alias 'kherewala' resolves to 9 records",
+    "ambiguous alias 'musa khel' resolves to 11 records",
+    "ambiguous alias 'kiri khel' resolves to 2 records",
+    "ambiguous alias 'patak' resolves to 3 records",
+    "ambiguous alias 'bala khel' resolves to 3 records",
+    "ambiguous alias 'ghulam jan kalle' resolves to 2 records",
+    "ambiguous alias 'sani khel' resolves to 2 records",
+    "ambiguous alias 'loresa' resolves to 2 records",
+    "ambiguous alias 'sirhi' resolves to 2 records",
+    "ambiguous alias 'samundar' resolves to 5 records",
+    "ambiguous alias 'bragi minor' resolves to 2 records",
+    "ambiguous alias 'hayat khan' resolves to 6 records",
+    "ambiguous alias 'tarkan' resolves to 3 records",
+    "ambiguous alias 'gul karim minor' resolves to 2 records",
+    "ambiguous alias 'khan khel minor' resolves to 2 records",
+    "ambiguous alias 'sher zaman' resolves to 2 records",
+    "ambiguous alias 'shakh kalle' resolves to 3 records",
+    "ambiguous alias 'sultanabad' resolves to 23 records",
+    "ambiguous alias 'muhammad sharif' resolves to 4 records",
+    "ambiguous alias 'adam khan' resolves to 5 records",
+    "ambiguous alias 'shaikh niazi minor' resolves to 2 records",
+    "ambiguous alias 'mula khel' resolves to 5 records",
+    "ambiguous alias 'shah salim' resolves to 2 records",
+    "ambiguous alias 'umarabad' resolves to 13 records",
+    "ambiguous alias 'shagai kalle' resolves to 3 records",
+    "ambiguous alias 'gharibabad' resolves to 83 records",
+    "ambiguous alias 'sharbat banda' resolves to 2 records",
+    "ambiguous alias 'sar' resolves to 21 records",
+    "ambiguous alias 'garhi saiyidan' resolves to 3 records",
+    "ambiguous alias 'jamalabad' resolves to 5 records",
+    "ambiguous alias 'amanzai' resolves to 2 records",
+    "ambiguous alias 'ghundai kili' resolves to 5 records",
+    "ambiguous alias 'darwazgai' resolves to 4 records",
+    "ambiguous alias 'ghaziabad' resolves to 18 records",
+    "ambiguous alias 'liaqatabad' resolves to 9 records",
+    "ambiguous alias 'qaziabad' resolves to 12 records",
+    "ambiguous alias 'maira' resolves to 88 records",
+    "ambiguous alias 'aslamabad' resolves to 7 records",
+    "ambiguous alias 'basti khai' resolves to 2 records",
+    "ambiguous alias 'sardar garhi' resolves to 4 records",
+    "ambiguous alias 'qadim kalle' resolves to 2 records",
+    "ambiguous alias 'shahidabad' resolves to 14 records",
+    "ambiguous alias 'zahirabad' resolves to 3 records",
+    "ambiguous alias 'khan kalle' resolves to 3 records",
+    "ambiguous alias 'derai kalle' resolves to 2 records",
+    "ambiguous alias 'mangara' resolves to 2 records",
+    "ambiguous alias 'rustamabad' resolves to 2 records",
+    "ambiguous alias 'nabiabad' resolves to 2 records",
+    "ambiguous alias 'landiwal' resolves to 2 records",
+    "ambiguous alias 'wazir kili' resolves to 4 records",
+    "ambiguous alias 'umar kili' resolves to 7 records",
+    "ambiguous alias 'guldad kili' resolves to 2 records",
+    "ambiguous alias 'lal gul kili' resolves to 2 records",
+    "ambiguous alias 'nawat' resolves to 2 records",
+    "ambiguous alias 'gandarai' resolves to 2 records",
+    "ambiguous alias 'dheri khwar' resolves to 2 records",
+    "ambiguous alias 'ghariba' resolves to 3 records",
+    "ambiguous alias 'mami khel' resolves to 4 records",
+    "ambiguous alias 'rahimabad' resolves to 22 records",
+    "ambiguous alias 'shao kach' resolves to 2 records",
+    "ambiguous alias 'dhok nur muhammad' resolves to 5 records",
+    "ambiguous alias 'dhok gulab khan' resolves to 3 records",
+    "ambiguous alias 'dhok ghulam haidar' resolves to 2 records",
+    "ambiguous alias 'sarkai' resolves to 12 records",
+    "ambiguous alias 'parao' resolves to 5 records",
+    "ambiguous alias 'dhok sher khan' resolves to 6 records",
+    "ambiguous alias 'dhok shahwali' resolves to 3 records",
+    "ambiguous alias 'dhok nalla' resolves to 3 records",
+    "ambiguous alias 'dhok alam sher' resolves to 2 records",
+    "ambiguous alias 'dhok dheri' resolves to 7 records",
+    "ambiguous alias 'gulabad' resolves to 20 records",
+    "ambiguous alias 'dhok mial' resolves to 6 records",
+    "ambiguous alias 'dhok gul muhammad' resolves to 2 records",
+    "ambiguous alias 'haripal' resolves to 2 records",
+    "ambiguous alias 'shinbaze shela' resolves to 3 records",
+    "ambiguous alias 'shin bazai' resolves to 2 records",
+    "ambiguous alias 'gala' resolves to 12 records",
+    "ambiguous alias 'fatehpur' resolves to 52 records",
+    "ambiguous alias 'tarkundi' resolves to 2 records",
+    "ambiguous alias 'mohra haripur' resolves to 2 records",
+    "ambiguous alias 'bana' resolves to 4 records",
+    "ambiguous alias 'kas' resolves to 32 records",
+    "ambiguous alias 'kala deo' resolves to 2 records",
+    "ambiguous alias 'jata' resolves to 2 records",
+    "ambiguous alias 'gurha' resolves to 17 records",
+    "ambiguous alias 'tokan' resolves to 2 records",
+    "ambiguous alias 'ziarat' resolves to 43 records",
+    "ambiguous alias 'khor' resolves to 8 records",
+    "ambiguous alias 'patha' resolves to 3 records",
+    "ambiguous alias 'murshadabad' resolves to 2 records",
+    "ambiguous alias 'kala kot' resolves to 6 records",
+    "ambiguous alias 'uchh' resolves to 4 records",
+    "ambiguous alias 'gahan' resolves to 2 records",
+    "ambiguous alias 'muhajir colony' resolves to 7 records",
+    "ambiguous alias 'nambal' resolves to 10 records",
+    "ambiguous alias 'rajua' resolves to 2 records",
+    "ambiguous alias 'rajoa' resolves to 6 records",
+    "ambiguous alias 'nalian' resolves to 6 records",
+    "ambiguous alias 'awanabad' resolves to 9 records",
+    "ambiguous alias 'rahmanabad' resolves to 7 records",
+    "ambiguous alias 'pansiali' resolves to 2 records",
+    "ambiguous alias 'narota' resolves to 3 records",
+    "ambiguous alias 'bokra' resolves to 6 records",
+    "ambiguous alias 'jamin' resolves to 2 records",
+    "ambiguous alias 'gehl' resolves to 8 records",
+    "ambiguous alias 'nari' resolves to 14 records",
+    "ambiguous alias 'beri' resolves to 2 records",
+    "ambiguous alias 'khwas' resolves to 3 records",
+    "ambiguous alias 'gehi' resolves to 5 records",
+    "ambiguous alias 'qaimabad' resolves to 2 records",
+    "ambiguous alias 'karari' resolves to 9 records",
+    "ambiguous alias 'mali' resolves to 11 records",
+    "ambiguous alias 'tangai' resolves to 55 records",
+    "ambiguous alias 'siri' resolves to 7 records",
+    "ambiguous alias 'saidpur' resolves to 37 records",
+    "ambiguous alias 'nagai' resolves to 3 records",
+    "ambiguous alias 'faizabad' resolves to 41 records",
+    "ambiguous alias 'hillan' resolves to 5 records",
+    "ambiguous alias 'darer' resolves to 3 records",
+    "ambiguous alias 'khad nala' resolves to 2 records",
+    "ambiguous alias 'thal' resolves to 21 records",
+    "ambiguous alias 'bano' resolves to 3 records",
+    "ambiguous alias 'khori' resolves to 18 records",
+    "ambiguous alias 'kamila' resolves to 2 records",
+    "ambiguous alias 'baira' resolves to 2 records",
+    "ambiguous alias 'darwan' resolves to 2 records",
+    "ambiguous alias 'bari' resolves to 22 records",
+    "ambiguous alias 'panjur gali' resolves to 2 records",
+    "ambiguous alias 'saran' resolves to 17 records",
+    "ambiguous alias 'nazar' resolves to 5 records",
+    "ambiguous alias 'seri' resolves to 73 records",
+    "ambiguous alias 'cheri' resolves to 2 records",
+    "ambiguous alias 'bela' resolves to 52 records",
+    "ambiguous alias 'kuttar' resolves to 2 records",
+    "ambiguous alias 'talan' resolves to 2 records",
+    "ambiguous alias 'barthal' resolves to 2 records",
+    "ambiguous alias 'tarar' resolves to 10 records",
+    "ambiguous alias 'domail' resolves to 4 records",
+    "ambiguous alias 'kilwan baihk' resolves to 2 records",
+    "ambiguous alias 'kaluwala' resolves to 30 records",
+    "ambiguous alias 'kilwan' resolves to 2 records",
+    "ambiguous alias 'nakka' resolves to 31 records",
+    "ambiguous alias 'athmuqam' resolves to 2 records",
+    "ambiguous alias 'bisian' resolves to 2 records",
+    "ambiguous alias 'bandian' resolves to 3 records",
+    "ambiguous alias 'simari' resolves to 2 records",
+    "ambiguous alias 'jandiala' resolves to 6 records",
+    "ambiguous alias 'kalan' resolves to 15 records",
+    "ambiguous alias 'lohara' resolves to 2 records",
+    "ambiguous alias 'khorian' resolves to 7 records",
+    "ambiguous alias 'darra' resolves to 37 records",
+    "ambiguous alias 'soha' resolves to 4 records",
+    "ambiguous alias 'soa' resolves to 2 records",
+    "ambiguous alias 'batian' resolves to 2 records",
+    "ambiguous alias 'kalsan' resolves to 4 records",
+    "ambiguous alias 'kumi' resolves to 2 records",
+    "ambiguous alias 'soki' resolves to 5 records",
+    "ambiguous alias 'nagni' resolves to 3 records",
+    "ambiguous alias 'bun' resolves to 4 records",
+    "ambiguous alias 'charsadda' resolves to 4 records",
+    "ambiguous alias 'jabban' resolves to 2 records",
+    "ambiguous alias 'shahid gala' resolves to 2 records",
+    "ambiguous alias 'orni' resolves to 2 records",
+    "ambiguous alias 'bandi' resolves to 44 records",
+    "ambiguous alias 'kothian' resolves to 9 records",
+    "ambiguous alias 'batala' resolves to 4 records",
+    "ambiguous alias 'chhaprian' resolves to 10 records",
+    "ambiguous alias 'tapa' resolves to 5 records",
+    "ambiguous alias 'malak' resolves to 4 records",
+    "ambiguous alias 'khundi' resolves to 3 records",
+    "ambiguous alias 'sehr' resolves to 11 records",
+    "ambiguous alias 'danna' resolves to 67 records",
+    "ambiguous alias 'tanda' resolves to 13 records",
+    "ambiguous alias 'khali daramman' resolves to 2 records",
+    "ambiguous alias 'chhatti' resolves to 5 records",
+    "ambiguous alias 'sani' resolves to 2 records",
+    "ambiguous alias 'kala katha' resolves to 2 records",
+    "ambiguous alias 'tarkana' resolves to 10 records",
+    "ambiguous alias 'ghazi' resolves to 12 records",
+    "ambiguous alias 'kian nala' resolves to 2 records",
+    "ambiguous alias 'hir' resolves to 6 records",
+    "ambiguous alias 'bhingali sharif' resolves to 2 records",
+    "ambiguous alias 'dewra' resolves to 2 records",
+    "ambiguous alias 'por' resolves to 3 records",
+    "ambiguous alias 'rana' resolves to 5 records",
+    "ambiguous alias 'panjgarain' resolves to 5 records",
+    "ambiguous alias 'dhalla' resolves to 8 records",
+    "ambiguous alias 'awanpura' resolves to 4 records",
+    "ambiguous alias 'sarwar kili' resolves to 3 records",
+    "ambiguous alias 'saidabad' resolves to 33 records",
+    "ambiguous alias 'nazar muhammad kili' resolves to 4 records",
+    "ambiguous alias 'mukak kaur' resolves to 2 records",
+    "ambiguous alias 'dondi rud' resolves to 2 records",
+    "ambiguous alias 'balok rud' resolves to 2 records",
+    "ambiguous alias 'beduk rud' resolves to 2 records",
+    "ambiguous alias 'bahaduri rud' resolves to 2 records",
+    "ambiguous alias 'surgil kaur' resolves to 2 records",
+    "ambiguous alias 'saindak' resolves to 2 records",
+    "ambiguous alias 'amalaf' resolves to 2 records",
+    "ambiguous alias 'gorandi rud' resolves to 2 records",
+    "ambiguous alias 'tagazi kaur' resolves to 2 records",
+    "ambiguous alias 'gatgari kaur' resolves to 2 records",
+    "ambiguous alias 'razai kaur' resolves to 5 records",
+    "ambiguous alias 'kili muhammad ibrahim' resolves to 7 records",
+    "ambiguous alias 'nok chah' resolves to 4 records",
+    "ambiguous alias 'nok chāh' resolves to 2 records",
+    "ambiguous alias 'amir chah kaur' resolves to 2 records",
+    "ambiguous alias 'kili muhammad rafiq' resolves to 2 records",
+    "ambiguous alias 'homki kaur' resolves to 7 records",
+    "ambiguous alias 'shandi kaur' resolves to 12 records",
+    "ambiguous alias 'gami kaur' resolves to 2 records",
+    "ambiguous alias 'gazzi kaur' resolves to 25 records",
+    "ambiguous alias 'buland' resolves to 3 records",
+    "ambiguous alias 'chibbi' resolves to 5 records",
+    "ambiguous alias 'doli' resolves to 6 records",
+    "ambiguous alias 'sufid dal kaur' resolves to 2 records",
+    "ambiguous alias 'shingro kaur' resolves to 2 records",
+    "ambiguous alias 'sultan' resolves to 10 records",
+    "ambiguous alias 'injiri kaur' resolves to 4 records",
+    "ambiguous alias 'miri kaur' resolves to 4 records",
+    "ambiguous alias 'londri kaur' resolves to 2 records",
+    "ambiguous alias 'paradal kaur' resolves to 5 records",
+    "ambiguous alias 'geshri kaur' resolves to 2 records",
+    "ambiguous alias 'zonki kaur' resolves to 2 records",
+    "ambiguous alias 'chot nali' resolves to 2 records",
+    "ambiguous alias 'darband' resolves to 15 records",
+    "ambiguous alias 'palezai' resolves to 2 records",
+    "ambiguous alias 'kandali kaur' resolves to 5 records",
+    "ambiguous alias 'shah diwanag kaur' resolves to 2 records",
+    "ambiguous alias 'geri kaur' resolves to 4 records",
+    "ambiguous alias 'kali kaur' resolves to 3 records",
+    "ambiguous alias 'singori kaur' resolves to 2 records",
+    "ambiguous alias 'kili habibullah' resolves to 5 records",
+    "ambiguous alias 'kili muhammad afzal' resolves to 5 records",
+    "ambiguous alias 'kirtaka' resolves to 2 records",
+    "ambiguous alias 'kili pir muhammad' resolves to 3 records",
+    "ambiguous alias 'jungli kaur' resolves to 2 records",
+    "ambiguous alias 'patkok' resolves to 2 records",
+    "ambiguous alias 'sital kaur' resolves to 2 records",
+    "ambiguous alias 'nok kundi' resolves to 3 records",
+    "ambiguous alias 'dalbandin' resolves to 2 records"
+  ]
+}

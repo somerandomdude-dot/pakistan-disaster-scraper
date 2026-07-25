@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from typing import Optional, List
+from typing import Any, Optional, List
+from pydantic import Field
 
 class AlertLocationBase(BaseModel):
     province: Optional[str] = None
@@ -10,6 +11,16 @@ class AlertLocationBase(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     match_confidence: Optional[str] = None
+    location_id: Optional[str] = None
+    entity_type: Optional[str] = None
+    canonical_name: Optional[str] = None
+    tehsil: Optional[str] = None
+    matched_text: Optional[str] = None
+    text_source: Optional[str] = None
+    match_method: Optional[str] = None
+    start_offset: Optional[int] = None
+    end_offset: Optional[int] = None
+    evidence_score: Optional[int] = None
 
 class AlertLocationCreate(AlertLocationBase):
     pass
@@ -38,13 +49,16 @@ class AlertBase(BaseModel):
 
 class AlertCreate(AlertBase):
     source_id: int
-    locations: List[AlertLocationCreate] = []
+    locations: List[AlertLocationCreate] = Field(default_factory=list)
+    location_resolution: Optional[dict[str, Any]] = None
+    location_cache_key: Optional[str] = None
 
 class Alert(AlertBase):
     id: int
     source_id: int
     created_at: datetime
     updated_at: Optional[datetime] = None
-    locations: List[AlertLocation] = []
+    locations: List[AlertLocation] = Field(default_factory=list)
+    location_resolution: Optional[dict[str, Any]] = None
 
     model_config = ConfigDict(from_attributes=True)

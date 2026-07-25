@@ -90,6 +90,10 @@ def test_ascii_only_and_required_sections(db_session, pmd_source):
     ]
     for section in required_sections:
         assert section in content, f"Missing required section in export: '{section}'"
+    assert "Primary City       : Lahore" in content
+    assert "District           : Lahore" in content
+    assert "Province           : Punjab" in content
+    assert "Coordinates        : 31.5580, 74.3507" in content
 
     # 3. Check line wrapping length (max 80 chars per line where practical)
     for line in content.splitlines():

@@ -22,6 +22,37 @@ def test_location_aliases(db_session):
     assert loc.district == "Lahore"
     assert loc.province == "Punjab"
 
+
+def test_typed_resolution_is_persisted_and_reused(db_session, pmd_source):
+    processor = AlertProcessor(db_session)
+    alert = AlertCreate(
+        source_id=pmd_source.id,
+        source_alert_id="typed-location-cache",
+        title="Flood alert for Pattoki",
+        description="Pattoki in Kasur District may be affected.",
+        hazard_type="flood",
+        normalized_severity="high",
+        issued_at=datetime.now(timezone.utc),
+        status="active",
+        source_url="https://example.test/pattoki",
+        content_hash="pending",
+        locations=[AlertLocationCreate(raw_location="Pattoki")],
+    )
+    assert processor.process_alerts([alert.model_copy(deep=True)])["created"] == 1
+    stored = db_session.query(Alert).filter(
+        Alert.source_alert_id == "typed-location-cache"
+    ).first()
+    assert stored.location_resolution["algorithm_version"] == "typed-aho-1"
+    assert stored.location_resolution["dataset_version"].startswith("geonames-pk-")
+    pattoki = next(
+        item for item in stored.location_resolution["cities"]
+        if item["canonical_name"] == "Pattoki"
+    )
+    assert pattoki["district"] == "Kasur"
+    assert pattoki["province"] == "Punjab"
+    assert stored.location_resolution_record.cache_key
+    assert processor.process_alerts([alert.model_copy(deep=True)])["ignored"] == 1
+
 def test_zero_parsed_alerts():
     # If the parser returns 0 items because the format changed (layout change)
     from app.scrapers.pmd_weather import PMDWeatherScraper

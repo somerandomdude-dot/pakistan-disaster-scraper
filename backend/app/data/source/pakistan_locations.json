@@ -1,0 +1,26 @@
+{
+  "dataset_version": "geonames-pk-2026.07+curated-3",
+  "license": "GeoNames data is licensed under CC BY 4.0",
+  "record_count": 187736,
+  "records_files": [
+    "records/administrative_places_features.json",
+    "records/villages_geonames_1162015.json",
+    "records/villages_geonames_1164807.json",
+    "records/villages_geonames_1167710.json",
+    "records/villages_geonames_1168873.json",
+    "records/villages_geonames_1168878.json",
+    "records/villages_geonames_1183606.json",
+    "records/villages_geonames_1184196.json",
+    "records/villages_unresolved.json"
+  ],
+  "sources": [
+    {
+      "sha256": "79433b244d4eb3fb631ea534c7e50e43b58cecceb11dbcce0fe9c990ece8de9d",
+      "url": "https://download.geonames.org/export/dump/PK.zip"
+    },
+    {
+      "sha256": "d26cd3a78db7c8c3cef472f66e118e698bc6d163cb2a2006ea4ffe9fe8247996",
+      "url": "https://download.geonames.org/export/dump/alternatenames/PK.zip"
+    }
+  ]
+}

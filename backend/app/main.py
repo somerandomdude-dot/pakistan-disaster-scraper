@@ -11,6 +11,8 @@ from app.jobs.scheduler import start_scheduler, stop_scheduler
 from app.database.session import SessionLocal, engine
 from app.database.base import Base
 from app.database.models.source import Source
+from app.locations.index import warm_location_index
+from sqlalchemy import inspect, text
 import json
 import os
 
@@ -40,10 +42,41 @@ def init_sources():
     finally:
         db.close()
 
+
+def ensure_location_schema():
+    """Add typed location columns to existing databases without destructive migration."""
+    inspector = inspect(engine)
+    if "alert_locations" not in inspector.get_table_names():
+        return
+    existing = {column["name"] for column in inspector.get_columns("alert_locations")}
+    typed_columns = {
+        "location_id": "VARCHAR",
+        "entity_type": "VARCHAR",
+        "canonical_name": "VARCHAR",
+        "tehsil": "VARCHAR",
+        "matched_text": "VARCHAR",
+        "text_source": "VARCHAR",
+        "match_method": "VARCHAR",
+        "start_offset": "INTEGER",
+        "end_offset": "INTEGER",
+        "evidence_score": "INTEGER",
+    }
+    with engine.begin() as connection:
+        for name, sql_type in typed_columns.items():
+            if name not in existing:
+                connection.execute(text(f"ALTER TABLE alert_locations ADD COLUMN {name} {sql_type}"))
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     init_sources()
+    ensure_location_schema()
+    index = warm_location_index()
+    logger.info(
+        "Location index loaded: %s records in %.2f ms",
+        len(index.locations),
+        index.load_time_ms,
+    )
     scheduler = start_scheduler()
     yield
     # Shutdown

@@ -199,12 +199,20 @@ class TextExportService:
         if alert.locations:
             for idx, loc in enumerate(alert.locations, 1):
                 lines.append(f"[{idx}]")
+                entity_type = to_ascii(loc.entity_type) if getattr(loc, "entity_type", None) else "UNKNOWN"
+                lines.append(f"Entity Type        : {entity_type}")
                 lines.append(f"Province           : {to_ascii(loc.province) if loc.province else 'N/A'}")
                 lines.append(f"District           : {to_ascii(loc.district) if loc.district else 'N/A'}")
-                lines.append(f"City               : {to_ascii(loc.city) if loc.city else 'N/A'}")
+                lines.append(f"Tehsil             : {to_ascii(loc.tehsil) if getattr(loc, 'tehsil', None) else 'N/A'}")
+                lines.append(f"Primary City       : {to_ascii(loc.city) if loc.city else 'N/A'}")
                 lines.append(f"Raw Location       : {to_ascii(loc.raw_location) if loc.raw_location else 'N/A'}")
-                lines.append(f"Latitude           : {loc.latitude if loc.latitude is not None else 'N/A'}")
-                lines.append(f"Longitude          : {loc.longitude if loc.longitude is not None else 'N/A'}")
+                if loc.latitude is not None and loc.longitude is not None:
+                    lines.append(f"Coordinates        : {loc.latitude:.4f}, {loc.longitude:.4f}")
+                else:
+                    lines.append("Coordinates        : Coordinates not available")
+                lines.append(
+                    f"Location Source    : {to_ascii(loc.text_source) if getattr(loc, 'text_source', None) else 'N/A'}"
+                )
                 if loc.match_confidence is not None:
                     try:
                         conf_str = f"{float(loc.match_confidence):.2f}"
