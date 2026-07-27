@@ -42,6 +42,11 @@ export const api = {
     return parsed.data;
   },
 
+  getAlertRawText: async (id: number | string): Promise<string | null> => {
+    const response = await apiClient.get(`/alerts/${id}/raw-text`);
+    return typeof response.data?.raw_text === "string" ? response.data.raw_text : null;
+  },
+
   getSources: async () => {
     const response = await apiClient.get("/sources/");
     const parsed = z.array(SourceSchema).safeParse(response.data);

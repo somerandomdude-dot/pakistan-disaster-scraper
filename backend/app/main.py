@@ -66,11 +66,23 @@ def ensure_location_schema():
             if name not in existing:
                 connection.execute(text(f"ALTER TABLE alert_locations ADD COLUMN {name} {sql_type}"))
 
+
+def ensure_alert_schema():
+    """Add advisory JSON storage to existing databases without data loss."""
+    inspector = inspect(engine)
+    if "alerts" not in inspector.get_table_names():
+        return
+    existing = {column["name"] for column in inspector.get_columns("alerts")}
+    if "structured_advisory" not in existing:
+        with engine.begin() as connection:
+            connection.execute(text("ALTER TABLE alerts ADD COLUMN structured_advisory JSON"))
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     init_sources()
     ensure_location_schema()
+    ensure_alert_schema()
     index = warm_location_index()
     logger.info(
         "Location index loaded: %s records in %.2f ms",

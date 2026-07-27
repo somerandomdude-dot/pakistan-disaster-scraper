@@ -6,12 +6,20 @@ from datetime import datetime, timezone
 from app.database.session import get_db
 from app.database.models.alert import Alert
 from app.database.models.alert_location import AlertLocation
-from app.schemas.alert import Alert as AlertSchema
+from app.schemas.alert import Alert as AlertSchema, AlertRawText
 
 router = APIRouter()
 
 # Severity ordering used for client-side sort hint (returned in X-Severity-Order header)
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
+
+
+def _list_payload(alerts: list[Alert]) -> list[AlertSchema]:
+    """Keep large raw documents out of list polling responses."""
+    return [
+        AlertSchema.model_validate(alert).model_copy(update={"raw_text": None})
+        for alert in alerts
+    ]
 
 
 @router.get("/active", response_model=List[AlertSchema])
@@ -33,6 +41,7 @@ def get_active_alerts(
     query = db.query(Alert).options(
         selectinload(Alert.locations),
         selectinload(Alert.location_resolution_record),
+        selectinload(Alert.source),
     ).filter(Alert.status.in_(["active", "pending"]))
 
     # Filter out expired alerts
@@ -62,7 +71,7 @@ def get_active_alerts(
 
     # Secondary in-Python sort: critical → high → medium → low → unknown
     alerts.sort(key=lambda a: (SEVERITY_ORDER.get(a.normalized_severity or "unknown", 99), -(a.issued_at.timestamp() if a.issued_at else 0)))
-    return alerts
+    return _list_payload(alerts)
 
 
 @router.get("/history", response_model=List[AlertSchema])
@@ -76,6 +85,7 @@ def get_alert_history(
     query = db.query(Alert).options(
         selectinload(Alert.locations),
         selectinload(Alert.location_resolution_record),
+        selectinload(Alert.source),
     )
 
     if hazard_type:
@@ -88,7 +98,7 @@ def get_alert_history(
         )
 
     alerts = query.order_by(Alert.issued_at.desc()).limit(limit).all()
-    return alerts
+    return _list_payload(alerts)
 
 
 from fastapi.responses import Response
@@ -96,11 +106,20 @@ import os
 from app.services.text_export_service import TextExportService, LATEST_DIR
 
 
+@router.get("/{alert_id}/raw-text", response_model=AlertRawText)
+def get_alert_raw_text(alert_id: int, db: Session = Depends(get_db)):
+    row = db.query(Alert.id, Alert.raw_text).filter(Alert.id == alert_id).first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Alert not found")
+    return AlertRawText(alert_id=row.id, raw_text=row.raw_text)
+
+
 @router.get("/{alert_id}/export")
 def get_alert_text_export(alert_id: int, db: Session = Depends(get_db)):
     alert = db.query(Alert).options(
         selectinload(Alert.locations),
         selectinload(Alert.location_resolution_record),
+        selectinload(Alert.source),
     ).filter(Alert.id == alert_id).first()
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
@@ -125,6 +144,7 @@ def get_alert(alert_id: int, db: Session = Depends(get_db)):
     alert = db.query(Alert).options(
         selectinload(Alert.locations),
         selectinload(Alert.location_resolution_record),
+        selectinload(Alert.source),
     ).filter(Alert.id == alert_id).first()
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")

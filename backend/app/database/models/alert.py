@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, func
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, JSON, func
 from sqlalchemy.orm import relationship
 from app.database.base import Base
 
@@ -21,6 +21,7 @@ class Alert(Base):
     status = Column(String, nullable=False, default="pending", index=True) # pending, approved, active, expired, cancelled, rejected
     source_url = Column(String, nullable=False)
     raw_text = Column(Text, nullable=True)
+    structured_advisory = Column(JSON, nullable=True)
     content_hash = Column(String, nullable=False, index=True)
     validation_errors = Column(Text, nullable=True) # JSON array of errors if rejected/incomplete
     

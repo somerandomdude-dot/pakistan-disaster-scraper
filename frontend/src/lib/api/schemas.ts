@@ -22,6 +22,56 @@ export const AlertLocationSchema = z.object({
   evidence_score: z.number().nullable().optional(),
 });
 
+export const RiverConditionSchema = z.object({
+  river: z.string(),
+  station: z.string().nullable().optional(),
+  level: z.string().nullable().optional(),
+  forecast_level: z.string().nullable().optional(),
+  trend: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+  current_inflow: z.number().nullable().optional(),
+  current_outflow: z.number().nullable().optional(),
+});
+
+export const StructuredAdvisorySchema = z.object({
+  parser_name: z.string(),
+  validation_status: z.string(),
+  missing_sections: z.array(z.string()).default([]),
+  title: z.string().nullable().optional(),
+  advisory_type: z.string().nullable().optional(),
+  highest_reported_level: z.string().nullable().optional(),
+  bulletin: z.object({
+    number: z.string().nullable().optional(),
+    issue_date: z.string().nullable().optional(),
+    issue_time: z.string().nullable().optional(),
+    page: z.string().nullable().optional(),
+    issuing_department: z.string().nullable().optional(),
+    department: z.string().nullable().optional(),
+    division: z.string().nullable().optional(),
+    office_address: z.string().nullable().optional(),
+    email: z.string().nullable().optional(),
+    telephone: z.string().nullable().optional(),
+  }).default({}),
+  river_conditions: z.array(RiverConditionSchema).default([]),
+  rainfall_forecast: z.object({
+    next_24_hours: z.string().nullable().optional(),
+    next_48_hours: z.string().nullable().optional(),
+  }).default({}),
+  hydrological_summary: z.array(z.string()).default([]),
+  warning: z.object({
+    text: z.string(),
+    expected_timing: z.array(z.string()).default([]),
+    rivers: z.array(z.string()).default([]),
+    expected_flood_ranges: z.array(z.string()).default([]),
+  }).nullable().optional(),
+  source: z.object({
+    name: z.string().nullable().optional(),
+    url: z.string().nullable().optional(),
+    department: z.string().nullable().optional(),
+    document_type: z.string().nullable().optional(),
+  }).default({}),
+});
+
 export const AlertSchema = z.object({
   id: z.number(),
   source_id: z.number().optional(),
@@ -37,6 +87,7 @@ export const AlertSchema = z.object({
   status: z.string(),
   source_url: z.string().nullable().optional(),
   raw_text: z.string().nullable().optional(),
+  structured_advisory: StructuredAdvisorySchema.nullable().optional(),
   content_hash: z.string().nullable().optional(),
   validation_errors: z.string().nullable().optional(),
   created_at: z.string().nullable().optional(),
@@ -51,6 +102,8 @@ export const AlertSchema = z.object({
 
 export type Alert = z.infer<typeof AlertSchema>;
 export type AlertLocation = z.infer<typeof AlertLocationSchema>;
+export type StructuredAdvisory = z.infer<typeof StructuredAdvisorySchema>;
+export type RiverCondition = z.infer<typeof RiverConditionSchema>;
 
 export const SourceSchema = z.object({
   id: z.number(),

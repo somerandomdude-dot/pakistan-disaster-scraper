@@ -44,6 +44,7 @@ class AlertBase(BaseModel):
     status: str
     source_url: str
     raw_text: Optional[str] = None
+    structured_advisory: Optional[dict[str, Any]] = None
     content_hash: str
     validation_errors: Optional[str] = None
 
@@ -60,5 +61,21 @@ class Alert(AlertBase):
     updated_at: Optional[datetime] = None
     locations: List[AlertLocation] = Field(default_factory=list)
     location_resolution: Optional[dict[str, Any]] = None
+    source: Optional["AlertSource"] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class AlertSource(BaseModel):
+    name: str
+    base_url: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+Alert.model_rebuild()
+
+
+class AlertRawText(BaseModel):
+    alert_id: int
+    raw_text: Optional[str] = None

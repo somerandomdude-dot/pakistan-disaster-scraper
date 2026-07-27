@@ -17,6 +17,7 @@ from app.processing.validator import Validator
 from app.processing.location_matcher import matcher_instance
 from app.processing.deduplicator import Deduplicator
 from app.services.text_export_service import TextExportService
+from app.processing.ffd_advisory_parser import parse_ffd_advisory
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,13 @@ class AlertProcessor:
             try:
                 # 1. Normalize
                 alert_data = Normalizer.process(alert_data)
+
+                # Structure FFD bulletins once during ingestion. The original
+                # extracted text remains unchanged on the alert.
+                if alert_data.structured_advisory is None:
+                    alert_data.structured_advisory = parse_ffd_advisory(
+                        alert_data.raw_text, alert_data.source_url
+                    )
                 
                 # 2. Location Matching
                 alert_data = matcher_instance.process(alert_data)
@@ -98,10 +106,12 @@ class AlertProcessor:
             existing_alert.content_hash == alert_data.content_hash
             and resolution_record
             and resolution_record.cache_key == alert_data.location_cache_key
+            and existing_alert.structured_advisory == alert_data.structured_advisory
         ):
             # Exact duplicate
             return "ignored"
         if existing_alert.content_hash == alert_data.content_hash:
+            existing_alert.structured_advisory = alert_data.structured_advisory
             self._replace_locations(existing_alert, alert_data)
             self._save_resolution(existing_alert, alert_data)
             self.db.commit()
@@ -115,6 +125,8 @@ class AlertProcessor:
             changed_fields.append("severity")
         if existing_alert.expires_at != alert_data.expires_at:
             changed_fields.append("expires_at")
+        if existing_alert.structured_advisory != alert_data.structured_advisory:
+            changed_fields.append("structured_advisory")
         if not changed_fields:
             # some minor change caused hash mismatch, maybe locations
             changed_fields.append("locations_or_minor")
@@ -140,6 +152,7 @@ class AlertProcessor:
         existing_alert.expires_at = alert_data.expires_at
         existing_alert.status = alert_data.status
         existing_alert.raw_text = alert_data.raw_text
+        existing_alert.structured_advisory = alert_data.structured_advisory
         existing_alert.content_hash = alert_data.content_hash
         existing_alert.validation_errors = alert_data.validation_errors
 
@@ -169,6 +182,7 @@ class AlertProcessor:
             status=alert_data.status,
             source_url=alert_data.source_url,
             raw_text=alert_data.raw_text,
+            structured_advisory=alert_data.structured_advisory,
             content_hash=alert_data.content_hash,
             validation_errors=alert_data.validation_errors
         )

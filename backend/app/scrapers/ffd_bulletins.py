@@ -17,6 +17,10 @@ except ImportError:
 
 from app.scrapers.base import BaseScraper
 from app.schemas.alert import AlertCreate, AlertLocationCreate
+from app.processing.ffd_advisory_parser import (
+    parse_ffd_advisory,
+    severity_from_reported_level,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -94,8 +98,13 @@ class FFDBulletinScraper(BaseScraper):
                     raw_strings = re.findall(rb'[A-Za-z0-9\s.,;:\-/()]{4,}', pdf_bytes)
                     text = " ".join(s.decode('latin-1', errors='ignore') for s in raw_strings)
                     
-                # Clean up text somewhat
-                text = re.sub(r'\s+', ' ', text).strip()
+                # Preserve the extracted line structure for the transparency
+                # view while repairing common PDF line wrapping.
+                text = text.replace("\r\n", "\n").replace("\r", "\n")
+                text = re.sub(r"(?<=\w)-\n(?=\w)", "", text)
+                text = re.sub(r"[ \t]+", " ", text)
+                text = re.sub(r" *\n *", "\n", text)
+                text = re.sub(r"\n{3,}", "\n\n", text).strip()
                 
                 title = "Flood Forecasting Division Bulletin"
                 if "BULLETIN No. A" in text or url.endswith("A"):
@@ -125,12 +134,10 @@ class FFDBulletinScraper(BaseScraper):
         normalized = []
         for item in parsed_items:
             try:
-                severity = "medium"
-                text_upper = item.get("raw_text", "").upper()
-                if "VERY HIGH FLOOD" in text_upper or "EXCEPTIONALLY HIGH FLOOD" in text_upper:
-                    severity = "extreme"
-                elif "HIGH FLOOD" in text_upper:
-                    severity = "high"
+                structured_advisory = parse_ffd_advisory(
+                    item.get("raw_text"), item.get("source_url")
+                )
+                severity = severity_from_reported_level(structured_advisory)
                     
                 locations = [AlertLocationCreate(raw_location=loc) for loc in item.get("raw_locations", [])]
                 
@@ -145,6 +152,7 @@ class FFDBulletinScraper(BaseScraper):
                     status="active",
                     source_url=item.get("source_url"),
                     raw_text=item.get("raw_text"),
+                    structured_advisory=structured_advisory,
                     content_hash="pending",
                     locations=locations
                 )
