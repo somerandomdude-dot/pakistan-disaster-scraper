@@ -69,8 +69,8 @@ export default function AppHeader() {
                   href={item.href}
                   className={`px-3 py-2 rounded-md text-[13px] font-medium transition-colors ${
                     isActive
-                      ? "bg-white/10 text-white"
-                      : "text-slate-300 hover:text-white hover:bg-white/[0.06]"
+                      ? "bg-panel/10 text-white"
+                      : "text-slate-300 hover:text-white hover:bg-panel/[0.06]"
                   }`}
                 >
                   {item.label}
@@ -81,13 +81,13 @@ export default function AppHeader() {
 
           {pktTime && (
             <div className="hidden xl:flex items-center gap-2 text-[11px] tabular-nums text-slate-300 border-l border-white/10 pl-4 ml-1">
-              <Clock className="h-3.5 w-3.5 text-slate-500" />
+              <Clock className="h-3.5 w-3.5 text-text-secondary" />
               <span>{pktTime} PKT</span>
             </div>
           )}
           <button
             type="button"
-            className="md:hidden grid h-9 w-9 place-items-center rounded-md text-slate-300 hover:bg-white/10 hover:text-white"
+            className="md:hidden grid h-9 w-9 place-items-center rounded-md text-slate-300 hover:bg-panel/10 hover:text-white"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={menuOpen}
@@ -106,7 +106,7 @@ export default function AppHeader() {
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-md px-3 py-2.5 text-sm font-medium ${
-                  pathname === item.href ? "bg-white/10 text-white" : "text-slate-300"
+                  pathname === item.href ? "bg-panel/10 text-white" : "text-slate-300"
                 }`}
               >
                 {item.label}

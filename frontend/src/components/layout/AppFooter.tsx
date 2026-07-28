@@ -40,7 +40,7 @@ export default function AppFooter() {
 
       </div>
 
-      <div className="max-w-[1440px] mx-auto border-t border-white/10 mt-8 pt-5 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 gap-2">
+      <div className="max-w-[1440px] mx-auto border-t border-white/10 mt-8 pt-5 flex flex-col sm:flex-row justify-between items-center text-[11px] text-text-secondary gap-2">
         <span>Data updated directly from connected scraper backends.</span>
         <span>Built for public safety and civic awareness.</span>
       </div>

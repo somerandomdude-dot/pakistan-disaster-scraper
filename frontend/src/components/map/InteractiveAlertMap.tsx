@@ -6,8 +6,8 @@ import { Alert } from "@/lib/api/schemas";
 const MapWithNoSSR = dynamic(() => import("./MapComponent"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full min-h-[450px] bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-md p-6">
-      <div className="text-slate-500 animate-pulse font-medium text-sm">Loading Interactive Alert Map...</div>
+    <div className="w-full h-full min-h-[450px] bg-slate-100 dark:bg-slate-800/60 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 rounded-md p-6">
+      <div className="text-text-secondary animate-pulse font-medium text-sm">Loading Interactive Alert Map...</div>
       <span className="text-xs text-slate-400 mt-1">Initializing MapLibre GL vector engine</span>
     </div>
   ),

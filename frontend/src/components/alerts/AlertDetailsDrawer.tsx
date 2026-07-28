@@ -32,14 +32,14 @@ export default function AlertDetailsDrawer({ alert, onClose }: AlertDetailsDrawe
         role="dialog"
         aria-modal="true"
         aria-label={`Advisory details: ${alert.title}`}
-        className="relative z-10 flex h-full w-full max-w-4xl flex-col border-l border-slate-300 bg-white shadow-xl pointer-events-auto"
+        className="relative z-10 flex h-full w-full max-w-4xl flex-col border-l border-slate-300 dark:border-slate-600 bg-panel shadow-xl pointer-events-auto"
       >
-        <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3 sm:px-6">
-          <span className="text-sm font-semibold text-slate-800">Advisory information</span>
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 bg-background px-4 py-3 sm:px-6">
+          <span className="text-sm font-semibold text-text-primary">Advisory information</span>
           <button
             type="button"
             onClick={onClose}
-            className="border border-transparent p-1.5 text-slate-600 hover:border-slate-300 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="border border-transparent p-1.5 text-text-secondary hover:border-slate-300 dark:border-slate-600 hover:bg-panel focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             aria-label="Close advisory details"
           >
             <X className="h-5 w-5" aria-hidden="true" />
@@ -48,12 +48,12 @@ export default function AlertDetailsDrawer({ alert, onClose }: AlertDetailsDrawe
         <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-6">
           <AdvisoryInformation alert={alert} />
         </div>
-        <div className="flex items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-4 py-3 sm:px-6">
-          <p className="text-xs text-slate-500">Unofficial dashboard. Verify critical information with the linked source.</p>
+        <div className="flex items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-700 bg-background px-4 py-3 sm:px-6">
+          <p className="text-xs text-text-secondary">Unofficial dashboard. Verify critical information with the linked source.</p>
           <button
             type="button"
             onClick={onClose}
-            className="border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="border border-slate-300 dark:border-slate-600 bg-panel px-3 py-1.5 text-xs font-semibold text-text-primary hover:bg-slate-100 dark:bg-slate-800/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             Close
           </button>

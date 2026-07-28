@@ -1,0 +1,652 @@
+Starting 10x Comprehensive Test Suite...
+--- RUN 1/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 19ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 8ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 156ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 283ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:03:02
+   Duration  1.40s (transform 317ms, setup 206ms, collect 792ms, tests 465ms, environment 1.65s, prepare 310ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 48.88s
+Run 1 passed successfully.
+--- RUN 2/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 20ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 6ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 195ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 300ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:03:58
+   Duration  1.41s (transform 317ms, setup 239ms, collect 731ms, tests 521ms, environment 1.66s, prepare 312ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 50.19s
+Run 2 passed successfully.
+--- RUN 3/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapUtils.test.ts (10 tests) 6ms
+ ✓ src/tests/mapConfig.test.ts (10 tests) 24ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 165ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 297ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:04:55
+   Duration  1.43s (transform 303ms, setup 200ms, collect 746ms, tests 491ms, environment 1.72s, prepare 326ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 49.26s
+Run 3 passed successfully.
+--- RUN 4/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapUtils.test.ts (10 tests) 6ms
+ ✓ src/tests/mapConfig.test.ts (10 tests) 25ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 179ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 322ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:05:52
+   Duration  1.45s (transform 320ms, setup 225ms, collect 726ms, tests 532ms, environment 1.77s, prepare 304ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 47.93s
+Run 4 passed successfully.
+--- RUN 5/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 21ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 8ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 185ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 436ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:06:47
+   Duration  1.58s (transform 379ms, setup 287ms, collect 760ms, tests 650ms, environment 1.67s, prepare 297ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 49.31s
+Run 5 passed successfully.
+--- RUN 6/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 23ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 8ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 162ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 305ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:07:44
+   Duration  1.45s (transform 374ms, setup 189ms, collect 781ms, tests 499ms, environment 1.70s, prepare 354ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 48.47s
+Run 6 passed successfully.
+--- RUN 7/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 23ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 7ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 158ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 318ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:08:39
+   Duration  1.49s (transform 280ms, setup 232ms, collect 772ms, tests 507ms, environment 1.79s, prepare 336ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 47.22s
+Run 7 passed successfully.
+--- RUN 8/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 18ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 8ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 186ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 303ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:09:34
+   Duration  1.41s (transform 311ms, setup 251ms, collect 719ms, tests 514ms, environment 1.77s, prepare 328ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 51.72s
+Run 8 passed successfully.
+--- RUN 9/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 24ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 6ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 185ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 330ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:10:33
+   Duration  1.47s (transform 344ms, setup 239ms, collect 739ms, tests 545ms, environment 1.76s, prepare 328ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 53.67s
+Run 9 passed successfully.
+--- RUN 10/10 ---
+Running Frontend Tests (Vitest)...
+npm notice run frontend@0.1.0 npx
+npm notice run 'vitest' run --passWithNoTests
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /run/media/hassan/storage/scraper/frontend
+
+ ✓ src/tests/mapConfig.test.ts (10 tests) 19ms
+ ✓ src/tests/mapUtils.test.ts (10 tests) 6ms
+ ✓ src/tests/MapComponent.test.tsx (6 tests) 166ms
+ ✓ src/tests/AdvisoryInformation.test.tsx (6 tests) 291ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  19:11:34
+   Duration  1.63s (transform 372ms, setup 251ms, collect 820ms, tests 482ms, environment 2.41s, prepare 302ms)
+
+Running Backend Tests (Pytest)...
+...............................................                          [100%]
+=============================== warnings summary ===============================
+venv/lib/python3.14/site-packages/starlette/formparsers.py:12
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+venv/lib/python3.14/site-packages/fastapi/routing.py:211: 23 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/fastapi/routing.py:211: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    is_coroutine = asyncio.iscoroutinefunction(dependant.call)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: 2245 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:166: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or inspect.isasyncgenfunction(obj)
+
+venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: 47 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:429: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(func)
+
+tests/test_api.py::test_health_check
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/pytest_asyncio/plugin.py:1001: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+    return asyncio.get_event_loop_policy()
+
+tests/test_api.py: 10 warnings
+tests/test_ffd_advisory_parser.py: 3 warnings
+tests/test_text_export.py: 6 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:42: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return asyncio.iscoroutinefunction(obj) or (
+
+tests/test_api.py::test_health_check
+tests/test_api.py::test_get_sources
+tests/test_api.py::test_admin_auth
+tests/test_ffd_advisory_parser.py::test_structured_advisory_is_persisted_during_processing
+tests/test_text_export.py::test_export_api_endpoints
+tests/test_text_export.py::test_path_traversal_prevention
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/starlette/_utils.py:43: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    callable(obj) and asyncio.iscoroutinefunction(obj.__call__)
+
+tests/test_api.py: 12 warnings
+tests/test_ffd_advisory_parser.py: 4 warnings
+tests/test_text_export.py: 8 warnings
+  /run/media/hassan/storage/scraper/backend/venv/lib/python3.14/site-packages/apscheduler/util.py:400: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    return iscoroutinefunction(f)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+47 passed, 2366 warnings in 60.93s (0:01:00)
+Run 10 passed successfully.
+ALL 10 RUNS PASSED SUCCESSFULLY!

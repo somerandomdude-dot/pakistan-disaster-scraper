@@ -584,7 +584,7 @@ export default function MapComponent({
         <span><i className="bg-orange-600" />High</span>
         <span><i className="bg-amber-600" />Medium</span>
         <span><i className="bg-blue-600" />Low</span>
-        <span><i className="bg-slate-500" />Unknown</span>
+        <span><i className="bg-background0" />Unknown</span>
       </div>
 
       {SHOW_DIAGNOSTICS && (

@@ -12,6 +12,35 @@ export function useActiveAlerts(params?: Record<string, string | number>) {
   });
 }
 
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
+export function useLiveAlerts() {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    // In production, this would be an environment variable
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/api/v1/ws/alerts";
+    const socket = new WebSocket(wsUrl);
+
+    socket.onmessage = (event) => {
+      try {
+        const payload = JSON.parse(event.data);
+        if (payload.action === "created" || payload.action === "updated") {
+          // Instantly invalidate active alerts so React Query refetches immediately
+          queryClient.invalidateQueries({ queryKey: ["alerts"] });
+        }
+      } catch (error) {
+        console.error("Error parsing WS message:", error);
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [queryClient]);
+}
+
 export function useAlertHistory(params?: Record<string, string | number>) {
   return useQuery({
     queryKey: ["alerts", "history", params],

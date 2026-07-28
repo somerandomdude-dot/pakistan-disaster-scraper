@@ -10,7 +10,7 @@ export default function SourceHealthPanel({ sources }: { sources: Source[] }) {
   return (
     <Card>
       <CardContent className="p-4">
-        <div className="flex items-center gap-2 text-slate-800 font-semibold mb-4">
+        <div className="flex items-center gap-2 text-text-primary font-semibold mb-4">
           <Activity className="h-4 w-4" />
           <h3>Source Health</h3>
         </div>
@@ -21,15 +21,15 @@ export default function SourceHealthPanel({ sources }: { sources: Source[] }) {
             const isDegraded = !isUnhealthy && source.consecutive_failures > 0;
             
             return (
-              <div key={source.id} className="flex flex-col gap-1 pb-3 border-b border-slate-100 last:border-0 last:pb-0">
+              <div key={source.id} className="flex flex-col gap-1 pb-3 border-b border-slate-100 dark:border-slate-800 last:border-0 last:pb-0">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-slate-900 truncate pr-2">{source.name}</span>
+                  <span className="text-sm font-medium text-text-primary truncate pr-2">{source.name}</span>
                   <Badge variant={isUnhealthy ? "unhealthy" : isDegraded ? "medium" : "healthy"} className="text-[10px] shrink-0">
                     {isUnhealthy ? "UNAVAILABLE" : isDegraded ? "RETRYING" : "OPERATIONAL"}
                   </Badge>
                 </div>
                 
-                <div className="flex items-center text-xs text-slate-500 gap-1 mt-0.5">
+                <div className="flex items-center text-xs text-text-secondary gap-1 mt-0.5">
                   <Clock className="h-3 w-3" />
                   <span>Checked {getRelativeTime(source.last_checked_at)}</span>
                 </div>

@@ -40,8 +40,8 @@ export default function AffectedLocationsSection({ locations }: { locations: Ale
       <h2 id="locations-heading" className="section-heading">Affected locations</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         {groups.map(([type, items]) => (
-          <div key={type} className="border-t border-slate-300 pt-2">
-            <h3 className="text-xs font-bold uppercase tracking-wide text-slate-600">
+          <div key={type} className="border-t border-slate-300 dark:border-slate-600 pt-2">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-text-secondary">
               {type.replaceAll("_", " ")}
             </h3>
             <ul className="mt-2 space-y-2">
@@ -52,11 +52,11 @@ export default function AffectedLocationsSection({ locations }: { locations: Ale
                   location.latitude != null &&
                   location.longitude != null;
                 return (
-                  <li key={`${name}-${index}`} className="text-sm text-slate-900">
+                  <li key={`${name}-${index}`} className="text-sm text-text-primary">
                     <span className="font-medium">{name}</span>
-                    <span className="block text-[11px] text-slate-500">{evidenceLabel(location)}</span>
+                    <span className="block text-[11px] text-text-secondary">{evidenceLabel(location)}</span>
                     {hasVerifiedCoordinates && (
-                      <span className="block font-mono text-[10px] text-slate-500">
+                      <span className="block font-mono text-[10px] text-text-secondary">
                         {location.latitude?.toFixed(4)}, {location.longitude?.toFixed(4)}
                       </span>
                     )}
@@ -69,11 +69,11 @@ export default function AffectedLocationsSection({ locations }: { locations: Ale
                 <summary className="cursor-pointer font-semibold text-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                   Show {items.length - 8} more
                 </summary>
-                <ul className="mt-2 space-y-1 text-slate-700">
+                <ul className="mt-2 space-y-1 text-text-secondary">
                   {items.slice(8).map((location, index) => (
                     <li key={`${location.location_id || location.raw_location}-${index}`}>
                       {location.canonical_name || location.raw_location}
-                      <span className="text-slate-500"> — {evidenceLabel(location)}</span>
+                      <span className="text-text-secondary"> — {evidenceLabel(location)}</span>
                     </li>
                   ))}
                 </ul>

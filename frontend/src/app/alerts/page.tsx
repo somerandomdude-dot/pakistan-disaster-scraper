@@ -27,7 +27,7 @@ function AlertsContent() {
           <p className="page-description">Current public alerts across Pakistan, consolidated from monitored official sources.</p>
         </div>
         {alerts && (
-          <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded border border-slate-200">
+          <span className="text-xs font-mono font-semibold text-text-secondary bg-slate-100 dark:bg-slate-800/60 px-2.5 py-1 rounded border border-slate-200 dark:border-slate-700">
             {alerts.length} Active
           </span>
         )}
@@ -38,9 +38,9 @@ function AlertsContent() {
           <AlertFilters />
         </div>
 
-        <div className="lg:col-span-3 bg-white border border-slate-200/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
+        <div className="lg:col-span-3 bg-panel border border-slate-200 dark:border-slate-700/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
           {isLoading ? (
-            <div className="p-12 text-center text-slate-500 text-xs animate-pulse">Loading active advisories...</div>
+            <div className="p-12 text-center text-text-secondary text-xs animate-pulse">Loading active advisories...</div>
           ) : error ? (
             <div className="p-8 text-center text-red-600 text-xs">Failed to load advisories from backend.</div>
           ) : (
@@ -64,7 +64,7 @@ function AlertsContent() {
 
 export default function AlertsPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse text-sm font-medium">Loading active alerts...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-text-secondary animate-pulse text-sm font-medium">Loading active alerts...</div>}>
       <AlertsContent />
     </Suspense>
   );

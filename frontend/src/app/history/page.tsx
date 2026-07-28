@@ -23,18 +23,18 @@ export default function HistoryPage() {
           </p>
         </div>
         {alerts && (
-          <span className="text-xs font-mono font-semibold text-slate-700 bg-slate-100 px-3 py-1.5 rounded border border-slate-200">
+          <span className="text-xs font-mono font-semibold text-text-secondary bg-slate-100 dark:bg-slate-800/60 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700">
             {alerts.length} Total Historical Logged Advisories
           </span>
         )}
       </div>
 
       {isLoading ? (
-        <div className="p-12 text-center text-slate-500 animate-pulse text-xs bg-white border border-slate-200 rounded-md">
+        <div className="p-12 text-center text-text-secondary animate-pulse text-xs bg-panel border border-slate-200 dark:border-slate-700 rounded-md">
           Loading historical advisory database...
         </div>
       ) : error ? (
-        <div className="p-8 text-center text-red-600 text-xs bg-white border border-slate-200 rounded-md">
+        <div className="p-8 text-center text-red-600 text-xs bg-panel border border-slate-200 dark:border-slate-700 rounded-md">
           Failed to load historical advisory data from backend.
         </div>
       ) : (

@@ -40,11 +40,11 @@ export default function SourcesPage() {
 
       {/* Main Grid */}
       {isLoading ? (
-        <div className="p-12 text-center text-slate-500 animate-pulse text-xs bg-white border border-slate-200 rounded-md">
+        <div className="p-12 text-center text-text-secondary animate-pulse text-xs bg-panel border border-slate-200 dark:border-slate-700 rounded-md">
           Loading connected data source status...
         </div>
       ) : error ? (
-        <div className="p-8 text-center text-red-600 text-xs bg-white border border-slate-200 rounded-md">
+        <div className="p-8 text-center text-red-600 text-xs bg-panel border border-slate-200 dark:border-slate-700 rounded-md">
           Failed to retrieve scraper source health from API backend.
         </div>
       ) : (
@@ -59,9 +59,9 @@ export default function SourcesPage() {
                 <CardContent className="p-5 space-y-4">
                   
                   {/* Title & Status */}
-                  <div className="flex justify-between items-start gap-2 border-b border-slate-100 pb-3">
+                  <div className="flex justify-between items-start gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <h3 className="font-bold text-slate-900 text-sm leading-snug">
+                      <h3 className="font-bold text-text-primary text-sm leading-snug">
                         {source.name}
                       </h3>
                       <a
@@ -80,36 +80,36 @@ export default function SourcesPage() {
                   </div>
 
                   {/* Operational Metrics */}
-                  <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded border border-slate-100">
+                  <div className="grid grid-cols-2 gap-3 text-xs bg-background p-3 rounded border border-slate-100 dark:border-slate-800">
                     <div>
-                      <span className="block text-[10px] text-slate-500 font-medium uppercase tracking-wider">Polling Interval</span>
-                      <span className="font-semibold text-slate-800 flex items-center gap-1 mt-0.5">
+                      <span className="block text-[10px] text-text-secondary font-medium uppercase tracking-wider">Polling Interval</span>
+                      <span className="font-semibold text-text-primary flex items-center gap-1 mt-0.5">
                         <RefreshCw className="h-3 w-3 text-slate-400" /> Every {source.polling_interval_minutes} mins
                       </span>
                     </div>
 
                     <div>
-                      <span className="block text-[10px] text-slate-500 font-medium uppercase tracking-wider">Consecutive Failures</span>
-                      <span className={`font-semibold mt-0.5 block ${source.consecutive_failures > 0 ? "text-red-600 font-bold" : "text-slate-800"}`}>
+                      <span className="block text-[10px] text-text-secondary font-medium uppercase tracking-wider">Consecutive Failures</span>
+                      <span className={`font-semibold mt-0.5 block ${source.consecutive_failures > 0 ? "text-red-600 font-bold" : "text-text-primary"}`}>
                         {source.consecutive_failures} {source.consecutive_failures === 1 ? "failure" : "failures"}
                       </span>
                     </div>
                   </div>
 
                   {/* Timestamps */}
-                  <div className="space-y-1.5 text-xs text-slate-600">
+                  <div className="space-y-1.5 text-xs text-text-secondary">
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-500 flex items-center gap-1">
+                      <span className="text-text-secondary flex items-center gap-1">
                         <Clock className="h-3.5 w-3.5 text-slate-400" /> Last Checked:
                       </span>
-                      <span className="font-mono text-slate-800">{getRelativeTime(source.last_checked_at)}</span>
+                      <span className="font-mono text-text-primary">{getRelativeTime(source.last_checked_at)}</span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-500 flex items-center gap-1">
+                      <span className="text-text-secondary flex items-center gap-1">
                         <CheckCircle2 className="h-3.5 w-3.5 text-green-600" /> Last Successful Scrape:
                       </span>
-                      <span className="font-mono text-slate-800">{getRelativeTime(source.last_success_at)}</span>
+                      <span className="font-mono text-text-primary">{getRelativeTime(source.last_success_at)}</span>
                     </div>
                   </div>
 

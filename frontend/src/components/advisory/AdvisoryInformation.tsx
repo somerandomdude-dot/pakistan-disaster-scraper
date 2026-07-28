@@ -33,7 +33,7 @@ export default function AdvisoryInformation({ alert }: { alert: Alert }) {
       {!advisory && fallback.length > 0 && (
         <section aria-labelledby="available-summary-heading">
           <h2 id="available-summary-heading" className="section-heading">Available alert summary</h2>
-          <ul className="space-y-2 text-sm leading-6 text-slate-700">
+          <ul className="space-y-2 text-sm leading-6 text-text-secondary">
             {fallback.map((sentence, index) => <li key={`${sentence}-${index}`}>{sentence}</li>)}
           </ul>
         </section>

@@ -133,7 +133,7 @@ export default function CitySearchCombobox({
 
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
-      <label htmlFor={comboboxId} className="block text-xs font-semibold text-slate-700 mb-1">
+      <label htmlFor={comboboxId} className="block text-xs font-semibold text-text-secondary mb-1">
         City / Location Search
       </label>
       
@@ -158,7 +158,7 @@ export default function CitySearchCombobox({
           }}
           onKeyDown={handleKeyDown}
           placeholder="Search city (e.g. Lahore, Karachi, Peshawar)..."
-          className="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+          className="w-full pl-9 pr-8 py-2 bg-background border border-slate-200 dark:border-slate-700 rounded-md text-sm text-text-primary placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
         />
 
         {isSearching && (
@@ -169,7 +169,7 @@ export default function CitySearchCombobox({
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 p-0.5 rounded-full"
+            className="absolute right-2.5 top-2.5 text-slate-400 hover:text-text-secondary p-0.5 rounded-full"
             aria-label="Clear city search"
           >
             <X className="h-3.5 w-3.5" />
@@ -182,7 +182,7 @@ export default function CitySearchCombobox({
         <ul
           id={`${comboboxId}-listbox`}
           role="listbox"
-          className="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-md shadow-lg max-h-60 overflow-y-auto py-1 text-sm"
+          className="absolute z-50 mt-1 w-full bg-panel border border-slate-200 dark:border-slate-700 rounded-md shadow-lg max-h-60 overflow-y-auto py-1 text-sm"
         >
           {suggestions.length > 0 ? (
             suggestions.map((item, index) => {
@@ -195,22 +195,22 @@ export default function CitySearchCombobox({
                   aria-selected={isHighlighted}
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setHighlightedIndex(index)}
-                  className={`px-3 py-2 cursor-pointer flex items-center justify-between text-slate-800 transition-colors ${
-                    isHighlighted ? "bg-blue-50 text-blue-900 font-medium" : "hover:bg-slate-50"
+                  className={`px-3 py-2 cursor-pointer flex items-center justify-between text-text-primary transition-colors ${
+                    isHighlighted ? "bg-blue-50 text-blue-900 font-medium" : "hover:bg-background"
                   }`}
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
                     <span className="truncate">{item.name}</span>
                   </div>
-                  <span className="text-xs text-slate-500 font-normal shrink-0 ml-2">
+                  <span className="text-xs text-text-secondary font-normal shrink-0 ml-2">
                     {item.district}, {item.province}
                   </span>
                 </li>
               );
             })
           ) : (
-            <li className="px-3 py-3 text-xs text-slate-500 text-center italic">
+            <li className="px-3 py-3 text-xs text-text-secondary text-center italic">
               No matching city found
             </li>
           )}

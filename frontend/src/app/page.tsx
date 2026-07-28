@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useActiveAlerts, useSources, useSummaryMetrics } from "@/lib/hooks/queries";
+import { useActiveAlerts, useSources, useSummaryMetrics, useLiveAlerts } from "@/lib/hooks/queries";
 import { Alert } from "@/lib/api/schemas";
 
 import AlertSummaryBanner from "@/components/dashboard/AlertSummaryBanner";
@@ -23,6 +23,9 @@ function DashboardContent() {
   searchParams.forEach((value, key) => {
     params[key] = value;
   });
+
+  // Start real-time WebSocket connection
+  useLiveAlerts();
 
   const { data: alerts, isLoading: isLoadingAlerts, error: alertsError } = useActiveAlerts(params);
   const { data: sources, isLoading: isLoadingSources } = useSources();
@@ -50,7 +53,7 @@ function DashboardContent() {
               Verified public advisories, affected areas, and source status in one operational view.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-xs text-text-secondary">
             <span className="status-dot status-dot--live" />
             Live monitoring enabled
           </div>
@@ -60,17 +63,21 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* Column 1: Active Alerts Vertical List */}
-          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[650px] bg-white border border-slate-200/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
-            <div className="px-4 py-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="lg:col-span-4 xl:col-span-3 flex flex-col h-[650px] bg-panel border border-slate-200 dark:border-slate-700/80 rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04)] overflow-hidden">
+            <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h2 className="font-semibold text-slate-900 text-sm">Active advisories</h2>
-                <p className="text-[11px] text-slate-500 mt-0.5">Newest reports first</p>
+                <h2 className="font-semibold text-text-primary text-sm">Active advisories</h2>
+                <p className="text-[11px] text-text-secondary mt-0.5">Newest reports first</p>
               </div>
-              {alerts && (
-                <span className="text-xs text-slate-500 font-mono font-medium bg-slate-200/60 px-2 py-0.5 rounded">
+              {alerts ? (
+                <span className="text-xs text-green-600 dark:text-green-400 font-mono font-medium bg-slate-200/60 dark:bg-slate-700/50 px-2 py-0.5 rounded">
                   {alerts.length} active
                 </span>
-              )}
+              ) : alertsError ? (
+                <span className="text-xs text-red-600 dark:text-red-400 font-mono font-medium bg-slate-200/60 dark:bg-slate-700/50 px-2 py-0.5 rounded">
+                  Error
+                </span>
+              ) : null}
             </div>
 
             <div className="flex-1 overflow-y-auto">
@@ -78,11 +85,11 @@ function DashboardContent() {
                 <div className="p-4 space-y-4">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <div key={i} className="animate-pulse flex gap-3">
-                      <div className="w-5 h-5 bg-slate-200 rounded-full shrink-0"></div>
+                      <div className="w-5 h-5 bg-slate-200 dark:bg-slate-700/60 rounded-full shrink-0"></div>
                       <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                        <div className="h-3 bg-slate-200 rounded w-full"></div>
-                        <div className="h-3 bg-slate-200 rounded w-5/6"></div>
+                        <div className="h-4 bg-slate-200 dark:bg-slate-700/60 rounded w-3/4"></div>
+                        <div className="h-3 bg-slate-200 dark:bg-slate-700/60 rounded w-full"></div>
+                        <div className="h-3 bg-slate-200 dark:bg-slate-700/60 rounded w-5/6"></div>
                       </div>
                     </div>
                   ))}
@@ -103,7 +110,7 @@ function DashboardContent() {
           {/* Column 2: Interactive Alert Map */}
           <div className="lg:col-span-8 xl:col-span-6 h-[480px] lg:h-[650px]">
             {isLoadingAlerts ? (
-              <div className="w-full h-full bg-slate-100 border border-slate-200 rounded-md flex items-center justify-center text-slate-400 text-xs animate-pulse">
+              <div className="w-full h-full bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-md flex items-center justify-center text-slate-400 text-xs animate-pulse">
                 Initializing Alert Map...
               </div>
             ) : (
@@ -154,7 +161,7 @@ export default function Dashboard() {
   return (
     <Suspense
       fallback={
-        <div className="p-8 text-center text-slate-500 animate-pulse text-sm font-medium">
+        <div className="p-8 text-center text-text-secondary animate-pulse text-sm font-medium">
           Loading Pakistan Disaster Alert Dashboard...
         </div>
       }

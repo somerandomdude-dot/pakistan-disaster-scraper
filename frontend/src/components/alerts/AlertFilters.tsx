@@ -96,15 +96,15 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
       <CardContent className="p-5 space-y-4">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2 text-slate-900 font-semibold text-sm">
-            <SlidersHorizontal className="h-4 w-4 text-slate-500" />
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+          <div className="flex items-center gap-2 text-text-primary font-semibold text-sm">
+            <SlidersHorizontal className="h-4 w-4 text-text-secondary" />
             <h3>Filter advisories</h3>
           </div>
           {hasActiveFilters && (
             <button
               onClick={handleReset}
-              className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 font-medium transition-colors"
+              className="text-xs text-text-secondary hover:text-text-primary flex items-center gap-1 font-medium transition-colors"
             >
               <RotateCcw className="h-3 w-3" /> Reset
             </button>
@@ -116,13 +116,13 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
 
         {/* Province Select */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1">
+          <label className="block text-xs font-semibold text-text-secondary mb-1">
             Province / Region
           </label>
           <select
             value={province}
             onChange={(e) => updateParam("province", e.target.value)}
-            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
+            className="w-full px-3 py-2 bg-panel border border-slate-300 dark:border-slate-600 rounded-lg text-xs text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Provinces</option>
             {PROVINCES.map((p) => (
@@ -133,13 +133,13 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
 
         {/* Hazard Type Select */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1">
+          <label className="block text-xs font-semibold text-text-secondary mb-1">
             Hazard Category
           </label>
           <select
             value={hazardType}
             onChange={(e) => updateParam("hazard_type", e.target.value)}
-            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
+            className="w-full px-3 py-2 bg-panel border border-slate-300 dark:border-slate-600 rounded-lg text-xs text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Hazard Types</option>
             {HAZARD_TYPES.map((t) => (
@@ -152,13 +152,13 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
 
         {/* Severity Select */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1">
+          <label className="block text-xs font-semibold text-text-secondary mb-1">
             Severity Level
           </label>
           <select
             value={severity}
             onChange={(e) => updateParam("severity", e.target.value)}
-            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
+            className="w-full px-3 py-2 bg-panel border border-slate-300 dark:border-slate-600 rounded-lg text-xs text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Severities</option>
             {SEVERITIES.map((s) => (
@@ -171,13 +171,13 @@ export default function AlertFilters({ onSelectCityCoords }: AlertFiltersProps) 
 
         {/* Status Select */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1">
+          <label className="block text-xs font-semibold text-text-secondary mb-1">
             Alert Status
           </label>
           <select
             value={status}
             onChange={(e) => updateParam("status", e.target.value)}
-            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
+            className="w-full px-3 py-2 bg-panel border border-slate-300 dark:border-slate-600 rounded-lg text-xs text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
           >
             <option value="">All Statuses</option>
             <option value="active">Active Only</option>

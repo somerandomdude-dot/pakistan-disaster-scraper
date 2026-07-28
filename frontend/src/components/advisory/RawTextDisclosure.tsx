@@ -38,32 +38,32 @@ export default function RawTextDisclosure({
 
   return (
     <details
-      className="border border-slate-200"
+      className="border border-slate-200 dark:border-slate-700"
       onToggle={(event) => {
         setOpen(event.currentTarget.open);
         if (event.currentTarget.open) void loadText();
       }}
     >
-      <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
+      <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
         View original extracted text
       </summary>
       {open && (
-        <div className="border-t border-slate-200 bg-slate-50 p-3">
+        <div className="border-t border-slate-200 dark:border-slate-700 bg-background p-3">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <span className="text-[11px] font-bold uppercase tracking-wide text-slate-500">Source text</span>
+            <span className="text-[11px] font-bold uppercase tracking-wide text-text-secondary">Source text</span>
             {loadedText && <button
               type="button"
               onClick={copyText}
               aria-label="Copy original extracted text"
-              className="border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-800 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="border border-slate-300 dark:border-slate-600 bg-panel px-2.5 py-1 text-xs font-semibold text-text-primary hover:bg-slate-100 dark:bg-slate-800/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               {copied ? "Copied" : "Copy Text"}
             </button>}
           </div>
-          {loading && <p className="text-xs text-slate-600">Loading source text…</p>}
+          {loading && <p className="text-xs text-text-secondary">Loading source text…</p>}
           {error && <p role="alert" className="text-xs text-red-700">Original text could not be loaded.</p>}
           {!loading && !error && loadedText && (
-            <pre className="max-h-80 max-w-full overflow-y-auto whitespace-pre-wrap break-words border border-slate-200 bg-white p-3 font-mono text-[11px] leading-5 text-slate-700">
+            <pre className="max-h-80 max-w-full overflow-y-auto whitespace-pre-wrap break-words border border-slate-200 dark:border-slate-700 bg-panel p-3 font-mono text-[11px] leading-5 text-text-secondary">
               {loadedText}
             </pre>
           )}

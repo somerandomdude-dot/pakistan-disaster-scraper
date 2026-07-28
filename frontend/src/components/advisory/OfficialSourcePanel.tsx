@@ -10,12 +10,12 @@ export default function OfficialSourcePanel({
   const url = advisory?.source.url || alert.source_url;
   const sourceName = advisory?.source.name || alert.source?.name;
   return (
-    <section aria-labelledby="source-heading" className="border border-slate-200 bg-slate-50 p-4">
+    <section aria-labelledby="source-heading" className="border border-slate-200 dark:border-slate-700 bg-background p-4">
       <h2 id="source-heading" className="text-sm font-semibold text-slate-950">Official source information</h2>
       <dl className="mt-2 grid gap-2 text-sm sm:grid-cols-3">
-        {sourceName && <div><dt className="text-xs text-slate-500">Source</dt><dd>{sourceName}</dd></div>}
-        {advisory?.source.department && <div><dt className="text-xs text-slate-500">Department</dt><dd>{advisory.source.department}</dd></div>}
-        {advisory?.source.document_type && <div><dt className="text-xs text-slate-500">Document type</dt><dd>{advisory.source.document_type}</dd></div>}
+        {sourceName && <div><dt className="text-xs text-text-secondary">Source</dt><dd>{sourceName}</dd></div>}
+        {advisory?.source.department && <div><dt className="text-xs text-text-secondary">Department</dt><dd>{advisory.source.department}</dd></div>}
+        {advisory?.source.document_type && <div><dt className="text-xs text-text-secondary">Document type</dt><dd>{advisory.source.document_type}</dd></div>}
       </dl>
       {url && (
         <a
@@ -27,7 +27,7 @@ export default function OfficialSourcePanel({
           View Official Source
         </a>
       )}
-      <p className="mt-2 text-xs text-slate-500">This dashboard is an unofficial presentation of public advisory information.</p>
+      <p className="mt-2 text-xs text-text-secondary">This dashboard is an unofficial presentation of public advisory information.</p>
     </section>
   );
 }
