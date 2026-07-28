@@ -17,6 +17,7 @@ from app.processing.validator import Validator
 from app.processing.location_matcher import matcher_instance
 from app.processing.deduplicator import Deduplicator
 from app.services.text_export_service import TextExportService
+from app.services.websocket import broadcast_alert
 from app.processing.ffd_advisory_parser import parse_ffd_advisory
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,11 @@ class AlertProcessor:
         """
         Process a list of scraped alerts through the full pipeline.
         Returns statistics on created, updated, ignored, and rejected.
+
+        Side effect: pushes a WebSocket event for each created or
+        updated alert so connected dashboards update in real time.
+        Broadcasts are best-effort — a WS failure never aborts the
+        scrape loop or rolls back the DB write.
         """
         stats = {"created": 0, "updated": 0, "ignored": 0, "incomplete": 0, "rejected": 0}
 
@@ -43,28 +49,33 @@ class AlertProcessor:
                     alert_data.structured_advisory = parse_ffd_advisory(
                         alert_data.raw_text, alert_data.source_url
                     )
-                
+
                 # 2. Location Matching
                 alert_data = matcher_instance.process(alert_data)
-                
+
                 # 3. Validation
                 alert_data = Validator.process(alert_data)
-                
+
                 if alert_data.status == "rejected":
                     stats["rejected"] += 1
                     continue
                 elif alert_data.status == "incomplete":
                     stats["incomplete"] += 1
                     # We still store incomplete alerts for review, but don't publish them
-                    
+
                 # 4. Deduplication / Hash Generation
                 alert_data = Deduplicator.process(alert_data)
                 alert_data.location_cache_key = matcher_instance.matcher.cache_key(alert_data.content_hash)
-                
-                # 5. Database interaction
+
+                # 5. Database interaction (returns the ORM object we need to broadcast)
                 result = self._save_alert(alert_data, raw_document)
-                stats[result] += 1
-                
+                stats[result.action] += 1
+
+                # 6. Push live update — ignored duplicates are skipped
+                # intentionally (clients already have them).
+                if result.action in ("created", "updated"):
+                    self._safe_broadcast(result.action, result.alert)
+
             except Exception as e:
                 logger.error(f"Error processing alert {alert_data.source_alert_id}: {e}", exc_info=True)
                 stats["rejected"] += 1
@@ -72,14 +83,62 @@ class AlertProcessor:
 
         return stats
 
-    def _save_alert(self, alert_data: AlertCreate, raw_document: RawDocument = None) -> str:
+    @staticmethod
+    async def _broadcast(event_type: str, alert: Alert) -> None:
+        """Coroutine that actually invokes the WS helper.
+
+        Kept as a static method so the caller (``process_alerts``) can
+        pass it to ``loop.create_task`` (or ``asyncio.run`` outside a
+        running loop) via ``_safe_broadcast``. The local import avoids
+        a potential import cycle.
+        """
+        from app.services.websocket import broadcast_alert  # local import avoids cycles
+        await broadcast_alert(event_type, alert)  # type: ignore[arg-type]
+
+    def _safe_broadcast(self, event_type: str, alert: Alert) -> None:
+        """Fire the WS broadcast, swallowing any errors.
+
+        ``process_alerts`` is sync. In production it runs on the
+        FastAPI event loop (APScheduler is ``AsyncIOScheduler``), so we
+        schedule the coroutine with ``loop.create_task`` rather than
+        ``asyncio.run`` — the latter would raise because we're already
+        inside a running loop.
+
+        In unit-test contexts there may be no running loop; ``asyncio.run``
+        handles that path. Any error in either branch is logged and
+        swallowed so a WS failure can never break the scrape pipeline.
+        """
+        import asyncio
+        coro = self._broadcast(event_type, alert)
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop is not None:
+            # We're on the FastAPI / scheduler loop — schedule and move on.
+            try:
+                loop.create_task(coro)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Failed to schedule WS broadcast: %s", exc)
+        else:
+            # No loop running (e.g. unit tests). Drive to completion.
+            try:
+                asyncio.run(coro)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("WS broadcast failed for alert %s: %s", alert.id, exc)
+
+    def _save_alert(self, alert_data: AlertCreate, raw_document: RawDocument = None) -> "_SaveResult":
         """
         Check for duplicates, handle revisions, and save to DB.
-        Returns the action taken: "created", "updated", or "ignored".
+
+        Returns a ``_SaveResult`` carrying the action ("created",
+        "updated", "ignored") plus the affected ``Alert`` ORM object so
+        the caller can broadcast without a second DB round-trip.
         """
         # Look for existing alert
         query = self.db.query(Alert).filter(Alert.source_id == alert_data.source_id)
-        
+
         if alert_data.source_alert_id:
             query = query.filter(Alert.source_alert_id == alert_data.source_alert_id)
         else:
@@ -88,7 +147,7 @@ class AlertProcessor:
                 Alert.title == alert_data.title,
                 Alert.issued_at == alert_data.issued_at
             )
-            
+
         existing_alert = query.first()
 
         if not existing_alert:
@@ -99,7 +158,7 @@ class AlertProcessor:
                 TextExportService.export_alert(self.db, new_alert, action="CREATED")
             except Exception as e:
                 logger.error(f"Error calling text export service for alert {new_alert.id}: {e}")
-            return "created"
+            return _SaveResult(action="created", alert=new_alert)
 
         resolution_record = existing_alert.location_resolution_record
         if (
@@ -109,13 +168,13 @@ class AlertProcessor:
             and existing_alert.structured_advisory == alert_data.structured_advisory
         ):
             # Exact duplicate
-            return "ignored"
+            return _SaveResult(action="ignored", alert=existing_alert)
         if existing_alert.content_hash == alert_data.content_hash:
             existing_alert.structured_advisory = alert_data.structured_advisory
             self._replace_locations(existing_alert, alert_data)
             self._save_resolution(existing_alert, alert_data)
             self.db.commit()
-            return "updated"
+            return _SaveResult(action="updated", alert=existing_alert)
 
         # Content changed, update existing and create revision
         changed_fields = []
@@ -165,7 +224,7 @@ class AlertProcessor:
             TextExportService.export_alert(self.db, existing_alert, action="UPDATED")
         except Exception as e:
             logger.error(f"Error calling text export service for updated alert {existing_alert.id}: {e}")
-        return "updated"
+        return _SaveResult(action="updated", alert=existing_alert)
 
     def _create_db_alert(self, alert_data: AlertCreate):
         db_alert = Alert(
@@ -252,3 +311,22 @@ class AlertProcessor:
         record.algorithm_version = resolution.get("algorithm_version", "unknown")
         record.dataset_version = resolution.get("dataset_version", "unknown")
         record.cache_key = alert_data.location_cache_key or ""
+
+
+class _SaveResult:
+    """What ``_save_alert`` returns to the caller.
+
+    Carries both the bookkeeping string (``created``/``updated``/
+    ``ignored``) and the live ``Alert`` ORM instance so the caller
+    can broadcast without re-querying. Using a small class instead of
+    a tuple keeps the call sites self-documenting.
+    """
+
+    __slots__ = ("action", "alert")
+
+    def __init__(self, action: str, alert: Alert) -> None:
+        self.action = action
+        self.alert = alert
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return f"_SaveResult(action={self.action!r}, alert_id={self.alert.id})"

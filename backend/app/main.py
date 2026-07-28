@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import alerts, sources, admin
+from app.api import alerts, sources, admin, ws as ws_api
 import logging
 
 logger = logging.getLogger(__name__)
@@ -116,3 +116,8 @@ def health_check():
 app.include_router(alerts.router, prefix="/api/v1/alerts", tags=["Alerts"])
 app.include_router(sources.router, prefix="/api/v1/sources", tags=["Sources"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])
+app.include_router(
+    ws_api.router,
+    prefix="/api/v1",
+    tags=["WebSocket"],
+)

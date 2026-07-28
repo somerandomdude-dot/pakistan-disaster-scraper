@@ -49,3 +49,9 @@ postgres_data/
 *.sqlite3
 *.db
 backend/storage/
+
+# Node / npm leftovers from one-off installs
+node-v*/
+.npm-cache/
+.npm-global/
+.config/
