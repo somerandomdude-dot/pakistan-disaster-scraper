@@ -88,8 +88,8 @@ describe("MapLibre GL Map Utility & Rule Tests", () => {
     // Verify [longitude, latitude] ordering
     expect(feature.geometry.coordinates[0]).toBeCloseTo(74.5229);
     expect(feature.geometry.coordinates[1]).toBeCloseTo(32.4945);
-    expect(feature.properties.severity).toBe("high");
-    expect(feature.properties.hazard_type).toBe("flood");
+    expect(feature.properties!.severity).toBe("high");
+    expect(feature.properties!.hazard_type).toBe("flood");
   });
 
   test("invalid, missing, and out-of-region coordinates are ignored without guessing", () => {
