@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15
+    image: postgis/postgis:15-3.4
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -26,11 +26,13 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/disaster_alerts
       APP_ENV: development
+      GEOIP_DATABASE_PATH: /app/data/GeoLite2-City.mmdb
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - .:/app
+      - ./app/data:/app/data:ro
 
 volumes:
   postgres_data:

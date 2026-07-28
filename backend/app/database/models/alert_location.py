@@ -6,7 +6,12 @@ class AlertLocation(Base):
     __tablename__ = "alert_locations"
 
     id = Column(Integer, primary_key=True, index=True)
-    alert_id = Column(Integer, ForeignKey("alerts.id", ondelete="CASCADE"), nullable=False)
+    alert_id = Column(
+        Integer,
+        ForeignKey("alerts.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
     province = Column(String, nullable=True, index=True)
     district = Column(String, nullable=True, index=True)
     city = Column(String, nullable=True)

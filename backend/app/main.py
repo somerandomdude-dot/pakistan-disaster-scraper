@@ -1,20 +1,24 @@
+import json
+import logging
+import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import inspect, text
+
+from app.api import admin, alerts, nearby_alerts, sources, ws as ws_api
 from app.core.config import settings
-from app.api import alerts, sources, admin, ws as ws_api
-import logging
+from app.database.base import Base
+from app.database.models.source import Source
+from app.database.session import SessionLocal, engine
+from app.database.spatial import ensure_postgis_schema
+from app.jobs.scheduler import start_scheduler, stop_scheduler
+from app.locations.index import warm_location_index
+from app.services.geoip_service import geoip_service
 
 logger = logging.getLogger(__name__)
 
-from contextlib import asynccontextmanager
-from app.jobs.scheduler import start_scheduler, stop_scheduler
-from app.database.session import SessionLocal, engine
-from app.database.base import Base
-from app.database.models.source import Source
-from app.locations.index import warm_location_index
-from sqlalchemy import inspect, text
-import json
-import os
 
 def init_sources():
     Base.metadata.create_all(bind=engine)
@@ -25,7 +29,11 @@ def init_sources():
             with open(sources_file, "r") as f:
                 sources_data = json.load(f)
                 for s_data in sources_data:
-                    existing = db.query(Source).filter(Source.name == s_data["name"]).first()
+                    existing = (
+                        db.query(Source)
+                        .filter(Source.name == s_data["name"])
+                        .first()
+                    )
                     if not existing:
                         new_source = Source(
                             name=s_data["name"],
@@ -33,7 +41,7 @@ def init_sources():
                             scrape_url=s_data["scrape_url"],
                             source_type=s_data["source_type"],
                             polling_interval_minutes=s_data["polling_interval_minutes"],
-                            is_active=True
+                            is_active=True,
                         )
                         db.add(new_source)
             db.commit()
@@ -64,7 +72,15 @@ def ensure_location_schema():
     with engine.begin() as connection:
         for name, sql_type in typed_columns.items():
             if name not in existing:
-                connection.execute(text(f"ALTER TABLE alert_locations ADD COLUMN {name} {sql_type}"))
+                connection.execute(
+                    text(f"ALTER TABLE alert_locations ADD COLUMN {name} {sql_type}")
+                )
+        connection.execute(
+            text(
+                "CREATE INDEX IF NOT EXISTS ix_alert_locations_alert_id "
+                "ON alert_locations (alert_id)"
+            )
+        )
 
 
 def ensure_alert_schema():
@@ -75,7 +91,10 @@ def ensure_alert_schema():
     existing = {column["name"] for column in inspector.get_columns("alerts")}
     if "structured_advisory" not in existing:
         with engine.begin() as connection:
-            connection.execute(text("ALTER TABLE alerts ADD COLUMN structured_advisory JSON"))
+            connection.execute(
+                text("ALTER TABLE alerts ADD COLUMN structured_advisory JSON")
+            )
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -83,6 +102,9 @@ async def lifespan(app: FastAPI):
     init_sources()
     ensure_location_schema()
     ensure_alert_schema()
+    ensure_postgis_schema(engine)
+    geoip_service.start()
+    app.state.geoip_service = geoip_service
     index = warm_location_index()
     logger.info(
         "Location index loaded: %s records in %.2f ms",
@@ -90,15 +112,18 @@ async def lifespan(app: FastAPI):
         index.load_time_ms,
     )
     scheduler = start_scheduler()
-    yield
-    # Shutdown
-    stop_scheduler(scheduler)
+    try:
+        yield
+    finally:
+        # Shutdown
+        stop_scheduler(scheduler)
+        geoip_service.close()
 
 app = FastAPI(
     title="Pakistan Natural Disaster Alerts API",
     description="Unofficial third-party system processing publicly available information from official sources.",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -109,10 +134,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
+
+app.include_router(nearby_alerts.router, prefix="/api/v1/alerts", tags=["Alerts"])
 app.include_router(alerts.router, prefix="/api/v1/alerts", tags=["Alerts"])
 app.include_router(sources.router, prefix="/api/v1/sources", tags=["Sources"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])

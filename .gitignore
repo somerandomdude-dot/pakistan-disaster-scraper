@@ -49,6 +49,7 @@ postgres_data/
 *.sqlite3
 *.db
 backend/storage/
+**/GeoLite2-City.mmdb
 
 # Node / npm leftovers from one-off installs
 node-v*/
