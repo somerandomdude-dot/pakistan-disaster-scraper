@@ -1,4 +1,5 @@
-import { Alert } from "@/lib/api/schemas";
+import { Alert } from "../api/schemas";
+import type * as GeoJSON from "geojson";
 
 export const MIN_ZOOM = 5;
 export const MAX_ZOOM = 12;
