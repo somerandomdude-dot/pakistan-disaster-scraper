@@ -3,6 +3,7 @@ import type {
   GeoJSONSource,
   Map as MapLibreMap,
 } from "maplibre-gl";
+import type * as GeoJSON from "geojson";
 
 export const ALERT_SOURCE_ID = "alerts";
 export const CLUSTER_OUTER_PULSE_LAYER_ID = "alert-cluster-pulse-outer";
