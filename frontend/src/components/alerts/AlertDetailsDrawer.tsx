@@ -22,18 +22,17 @@ export default function AlertDetailsDrawer({ alert, onClose }: AlertDetailsDrawe
   if (!alert) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end overflow-hidden">
-      <button
-        type="button"
-        className="fixed inset-0 cursor-default bg-slate-950/40"
+    <div className="fixed inset-0 z-50 flex justify-end overflow-hidden pointer-events-none">
+      <div
+        className="fixed inset-0 cursor-default bg-transparent pointer-events-auto"
         onClick={onClose}
-        aria-label="Close advisory details"
+        aria-hidden="true"
       />
       <section
         role="dialog"
         aria-modal="true"
         aria-label={`Advisory details: ${alert.title}`}
-        className="relative z-10 flex h-full w-full max-w-4xl flex-col border-l border-slate-300 bg-white shadow-xl"
+        className="relative z-10 flex h-full w-full max-w-4xl flex-col border-l border-slate-300 bg-white shadow-xl pointer-events-auto"
       >
         <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3 sm:px-6">
           <span className="text-sm font-semibold text-slate-800">Advisory information</span>
