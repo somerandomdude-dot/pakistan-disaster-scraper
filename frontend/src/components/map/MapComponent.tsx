@@ -22,6 +22,7 @@ import {
   ensureAlertSourceAndLayers,
   selectAlertFeature,
   setAlertData,
+  setAlertPulsePhase,
 } from "@/lib/maps/alertLayers";
 import {
   classifyMapLibreError,
@@ -156,6 +157,43 @@ export default function MapComponent({
     let cancelled = false;
     let resizeObserver: ResizeObserver | null = null;
     let map: maplibregl.Map | null = null;
+    let pulseAnimationFrame: number | null = null;
+    let lastPulseUpdate = 0;
+    const motionPreference =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+
+    const stopMarkerPulse = () => {
+      if (pulseAnimationFrame !== null) {
+        cancelAnimationFrame(pulseAnimationFrame);
+        pulseAnimationFrame = null;
+      }
+    };
+
+    const startMarkerPulse = () => {
+      if (!map) return;
+      stopMarkerPulse();
+
+      if (!motionPreference || motionPreference.matches) {
+        setAlertPulsePhase(map, 0.5);
+        return;
+      }
+
+      lastPulseUpdate = 0;
+      const animate = (timestamp: number) => {
+        if (!map || cancelled) return;
+        if (timestamp - lastPulseUpdate >= 50) {
+          const phase = (Math.sin(timestamp / 700) + 1) / 2;
+          setAlertPulsePhase(map, phase);
+          lastPulseUpdate = timestamp;
+        }
+        pulseAnimationFrame = requestAnimationFrame(animate);
+      };
+      pulseAnimationFrame = requestAnimationFrame(animate);
+    };
+
+    const handleMotionPreferenceChange = () => startMarkerPulse();
 
     const updateCameraDiagnostics = () => {
       if (!map) return;
@@ -339,6 +377,7 @@ export default function MapComponent({
         map.on("style.load", restoreRequiredLayers);
         map.on("load", () => {
           restoreRequiredLayers();
+          startMarkerPulse();
           map?.resize();
           setMapError((current) => (usingOfflineStyle || current?.fatal ? current : null));
           setDiagnostics((current) => ({
@@ -357,6 +396,7 @@ export default function MapComponent({
           window.addEventListener("resize", map.resize);
         }
         document.addEventListener("fullscreenchange", handleFullscreenChange);
+        motionPreference?.addEventListener("change", handleMotionPreferenceChange);
       } catch (error) {
         if (cancelled) return;
         const configurationError =
@@ -386,8 +426,10 @@ export default function MapComponent({
 
     return () => {
       cancelled = true;
+      stopMarkerPulse();
       resizeObserver?.disconnect();
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      motionPreference?.removeEventListener("change", handleMotionPreferenceChange);
       if (map && typeof ResizeObserver === "undefined") {
         window.removeEventListener("resize", map.resize);
       }
@@ -473,6 +515,7 @@ export default function MapComponent({
       data-map-initialized={diagnostics.initialized}
       data-map-style-loaded={diagnostics.styleLoaded}
       data-map-alert-source-loaded={diagnostics.alertSourceLoaded}
+      data-map-marker-style="pulsing-data-points"
       data-map-feature-count={diagnostics.alertFeatureCount}
       data-map-zoom={diagnostics.zoom}
       data-map-center={`${diagnostics.center[0]},${diagnostics.center[1]}`}

@@ -23,6 +23,7 @@ const maplibreMock = vi.hoisted(() => {
     easeTo = vi.fn();
     addControl = vi.fn();
     setFilter = vi.fn();
+    setPaintProperty = vi.fn();
     getCanvas = vi.fn(() => ({ style: { cursor: "" } }));
     getCenter = vi.fn(() => ({ lng: 69.3451, lat: 30.3753 }));
     getZoom = vi.fn(() => 5.8);
@@ -139,10 +140,26 @@ describe("MapComponent lifecycle", () => {
   });
 
   test("initializes once and renders the basemap with zero alerts", async () => {
-    const { map, getByLabelText } = await loadMap(<MapComponent alerts={[]} />);
+    const { map, getByLabelText, container } = await loadMap(<MapComponent alerts={[]} />);
     expect(maplibreMock.setWorkerUrl).toHaveBeenCalledWith("/maplibre-gl-worker.js");
     expect(map.options).toMatchObject({ minZoom: 5, maxZoom: 12, center: [69.3451, 30.3753] });
     expect(map.sources.has("alerts")).toBe(true);
+    expect(map.layers).toEqual(
+      new Set([
+        "alert-cluster-pulse-outer",
+        "alert-cluster-pulse-inner",
+        "alert-clusters",
+        "alert-cluster-count",
+        "alert-point-pulse-outer",
+        "alert-point-pulse-inner",
+        "alert-points",
+        "selected-alert",
+      ]),
+    );
+    expect(container.querySelector(".map-shell")).toHaveAttribute(
+      "data-map-marker-style",
+      "pulsing-data-points",
+    );
     expect(getByLabelText("Interactive disaster alert map").parentElement).toHaveAttribute(
       "data-map-feature-count",
       "0",

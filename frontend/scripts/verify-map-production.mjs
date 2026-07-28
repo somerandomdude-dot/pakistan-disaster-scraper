@@ -7,6 +7,8 @@ const chromePath =
 const screenshotPath =
   process.env.MAP_TEST_SCREENSHOT ||
   "D:\\Codex\\pakistan-disaster-scraper-runtime\\map-production.png";
+const markerScreenshotPath = screenshotPath.replace(/(\.[^.]+)$/, "-marker$1");
+const clusterScreenshotPath = screenshotPath.replace(/(\.[^.]+)$/, "-cluster$1");
 const viewport = {
   width: Number(process.env.MAP_TEST_VIEWPORT_WIDTH || 1440),
   height: Number(process.env.MAP_TEST_VIEWPORT_HEIGHT || 1000),
@@ -33,6 +35,11 @@ const validAlert = {
     },
   ],
 };
+const clusteredAlerts = Array.from({ length: 21 }, (_, index) => ({
+  ...validAlert,
+  id: validAlert.id + index,
+  title: `Cluster marker verification ${index + 1}`,
+}));
 
 async function openScenario(browser, alerts) {
   const page = await browser.newPage({ viewport });
@@ -69,7 +76,10 @@ async function openScenario(browser, alerts) {
   page.on("pageerror", (error) => consoleErrors.push(error.message));
   page.on("requestfailed", (request) => {
     const failure = request.failure()?.errorText || "";
-    if (failure === "net::ERR_ABORTED" && request.url().includes("tiles.openfreemap.org")) {
+    if (
+      failure === "net::ERR_ABORTED" &&
+      (request.url().includes("tiles.openfreemap.org") || request.url().includes("_rsc="))
+    ) {
       return;
     }
     failedRequests.push(`${request.resourceType()} ${request.url()} ${failure}`);
@@ -96,11 +106,29 @@ async function openScenario(browser, alerts) {
   await page.goto(baseUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
   const shell = page.locator(".map-shell");
   await shell.waitFor({ state: "visible", timeout: 30_000 });
-  await page.waitForFunction(
-    () => document.querySelector(".map-shell")?.getAttribute("data-map-style-loaded") === "true",
-    undefined,
-    { timeout: 60_000 },
-  );
+  try {
+    await page.waitForFunction(
+      () => document.querySelector(".map-shell")?.getAttribute("data-map-style-loaded") === "true",
+      undefined,
+      { timeout: 60_000 },
+    );
+  } catch (error) {
+    const state = await shell.evaluate((node) => ({
+      initialized: node.getAttribute("data-map-initialized"),
+      styleLoaded: node.getAttribute("data-map-style-loaded"),
+      warning: node.querySelector(".map-warning")?.textContent || "",
+      fallback: node.querySelector(".map-fallback")?.textContent || "",
+    }));
+    throw new Error(
+      `Map did not become ready: ${JSON.stringify({
+        state,
+        consoleErrors,
+        failedRequests,
+        badResponses,
+      })}`,
+      { cause: error },
+    );
+  }
   await page.waitForTimeout(2_000);
 
   return { page, shell, consoleErrors, failedRequests, badResponses, mapResponses };
@@ -139,6 +167,7 @@ try {
       canvasHeight: canvas?.getBoundingClientRect().height || 0,
       featureCount: Number(node.getAttribute("data-map-feature-count")),
       sourceLoaded: node.getAttribute("data-map-alert-source-loaded"),
+      markerStyle: node.getAttribute("data-map-marker-style"),
       mapCount: document.querySelectorAll(".maplibregl-map").length,
       hasMapLibreCss,
     };
@@ -146,6 +175,11 @@ try {
 
   assert.equal(zeroState.featureCount, 0, "zero-alert scenario must contain an empty GeoJSON source");
   assert.equal(zeroState.sourceLoaded, "true", "alert source must load even when it is empty");
+  assert.equal(
+    zeroState.markerStyle,
+    "pulsing-data-points",
+    "the concentric pulsing marker style must be active",
+  );
   assert.equal(zeroState.mapCount, 1, "MapLibre must initialize exactly once");
   assert.ok(zeroState.width > 0 && zeroState.height >= 500, "map container must have a real size");
   assert.ok(zeroState.canvasWidth > 0 && zeroState.canvasHeight >= 500, "map canvas must have a real size");
@@ -175,6 +209,40 @@ try {
   }
   await zero.page.close();
 
+  const cluster = await openScenario(browser, clusteredAlerts);
+  await cluster.page.waitForFunction(
+    () => document.querySelector(".map-shell")?.getAttribute("data-map-feature-count") === "21",
+    undefined,
+    { timeout: 15_000 },
+  );
+  assert.equal(await cluster.shell.getAttribute("data-map-marker-style"), "pulsing-data-points");
+  assert.equal(cluster.consoleErrors.length, 0, `console errors: ${cluster.consoleErrors.join("\n")}`);
+  const clusterSearch = cluster.page.getByRole("combobox", { name: "City / Location Search" });
+  await clusterSearch.fill("Lahore");
+  await cluster.page.getByRole("option", { name: /Lahore/ }).click();
+  await cluster.page.waitForFunction(
+    () => {
+      const value = document.querySelector(".map-shell")?.getAttribute("data-map-center");
+      if (!value) return false;
+      const [lng, lat] = value.split(",").map(Number);
+      return Math.abs(lng - 74.3587) < 0.01 && Math.abs(lat - 31.5204) < 0.01;
+    },
+    undefined,
+    { timeout: 15_000 },
+  );
+  const clusterZoomOut = cluster.page.locator(".maplibregl-ctrl-zoom-out");
+  await clusterZoomOut.click();
+  await cluster.page.waitForTimeout(400);
+  await clusterZoomOut.click();
+  await cluster.page.waitForFunction(
+    () => Number(document.querySelector(".map-shell")?.getAttribute("data-map-zoom")) <= 9.1,
+    undefined,
+    { timeout: 10_000 },
+  );
+  await cluster.page.waitForTimeout(800);
+  await cluster.shell.screenshot({ path: clusterScreenshotPath });
+  await cluster.page.close();
+
   const marker = await openScenario(browser, [validAlert]);
   await marker.page.waitForFunction(
     () => document.querySelector(".map-shell")?.getAttribute("data-map-feature-count") === "1",
@@ -182,6 +250,7 @@ try {
     { timeout: 15_000 },
   );
   assert.equal(await marker.shell.getAttribute("data-map-alert-source-loaded"), "true");
+  assert.equal(await marker.shell.getAttribute("data-map-marker-style"), "pulsing-data-points");
 
   const search = marker.page.getByRole("combobox", { name: "City / Location Search" });
   await search.fill("Lahore");
@@ -198,6 +267,8 @@ try {
     undefined,
     { timeout: 15_000 },
   );
+  await marker.page.waitForTimeout(800);
+  await marker.shell.screenshot({ path: markerScreenshotPath });
 
   await marker.page.getByRole("button", { name: "Reset map view to Pakistan center" }).click();
   await marker.page.waitForFunction(
@@ -229,6 +300,8 @@ try {
     maximumObservedZoom: finalZoom,
     mapResponses: marker.mapResponses.length,
     screenshotPath,
+    markerScreenshotPath,
+    clusterScreenshotPath,
   };
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   await marker.page.close();
