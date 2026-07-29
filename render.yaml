@@ -1,9 +1,11 @@
-services:
+databases:
   # 1. The PostgreSQL Database
-  - type: psql
-    name: disaster-database
+  - name: disaster-database
+    databaseName: disaster_alerts
+    user: admin
     plan: free
 
+services:
   # 2. The FastAPI Backend
   - type: web
     name: disaster-backend
