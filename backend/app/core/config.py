@@ -39,6 +39,14 @@ class Settings(BaseSettings):
     SCHEDULER_PMD_WEATHER_INTERVAL_MINUTES: int = 20
 
     @model_validator(mode="after")
+    def fix_database_url(self):
+        if self.DATABASE_URL.startswith("postgres://"):
+            self.DATABASE_URL = self.DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
+        elif self.DATABASE_URL.startswith("postgresql://"):
+            self.DATABASE_URL = self.DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
+        return self
+
+    @model_validator(mode="after")
     def validate_nearby_limits(self):
         if self.NEARBY_ALERT_DEFAULT_LIMIT > self.NEARBY_ALERT_MAX_LIMIT:
             raise ValueError(
