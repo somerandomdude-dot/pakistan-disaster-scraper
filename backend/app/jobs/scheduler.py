@@ -43,13 +43,14 @@ def setup_scheduler(scheduler: AsyncIOScheduler):
             job_id = f"scraper_source_{source.id}"
             interval_minutes = effective_poll_interval(source.polling_interval_minutes)
             
-            from datetime import datetime, timezone
-            # Run immediately on startup, then at standard interval
+            from datetime import datetime, timezone, timedelta
+            # Stagger initial run by 15 seconds per source to prevent OOM spikes on startup
+            start_delay = 10 + (source.id * 15)
             scheduler.add_job(
                 scheduled_scraper_job,
                 'interval',
                 minutes=interval_minutes,
-                next_run_time=datetime.now(timezone.utc),
+                next_run_time=datetime.now(timezone.utc) + timedelta(seconds=start_delay),
                 id=job_id,
                 args=[source.id],
                 replace_existing=True,
