@@ -1,4 +1,4 @@
-import { AlertSchema, SourceSchema } from "./schemas";
+import { AlertSchema, SourceSchema, Alert } from "./schemas";
 import { z } from "zod";
 import { supabase } from "./supabaseClient";
 
@@ -20,6 +20,47 @@ export const api = {
     if (!parsed.success) {
       console.error("Zod Schema Validation Error on getAlerts:", parsed.error);
       return data;
+    }
+    return parsed.data;
+  },
+
+  getMapAlerts: async (params?: Record<string, string | number>) => {
+    // 7-day rolling window cutoff
+    const days = params?.days ? Number(params.days) : 7;
+    const cutoffIso = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+    
+    let query = supabase
+      .from("alerts")
+      .select("*, locations:alert_locations(*), source:sources(*)")
+      .not("status", "in", '("rejected","invalid")');
+
+    if (params?.show_cancelled !== "true") {
+      query = query.neq("status", "cancelled");
+    }
+
+    if (params?.hazard_type) {
+      query = query.eq("hazard_type", String(params.hazard_type));
+    }
+    if (params?.severity) {
+      query = query.eq("normalized_severity", String(params.severity));
+    }
+    if (params?.status) {
+      query = query.eq("status", String(params.status));
+    }
+
+    // Query alerts within rolling cutoff
+    query = query.or(`effective_event_at.gte.${cutoffIso},issued_at.gte.${cutoffIso}`);
+
+    const { data, error } = await query;
+    if (error) {
+      console.error("Supabase Error on getMapAlerts:", error);
+      throw error;
+    }
+
+    const parsed = z.array(AlertSchema).safeParse(data);
+    if (!parsed.success) {
+      console.error("Zod Schema Validation Error on getMapAlerts:", parsed.error);
+      return (data || []) as Alert[];
     }
     return parsed.data;
   },

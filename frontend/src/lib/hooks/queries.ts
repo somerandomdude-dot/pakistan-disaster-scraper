@@ -3,12 +3,30 @@ import { api } from "../api/client";
 import { Alert, Source } from "../api/schemas";
 import { parseApiDate } from "../utils";
 
+import { filterMapAlertsForSevenDays } from "../utils/alertTime";
+
 export function useActiveAlerts(params?: Record<string, string | number>) {
   return useQuery({
     queryKey: ["alerts", "active", params],
     queryFn: () => api.getAlerts(params),
     refetchInterval: 10 * 1000, // Near instant auto-refetch every 10 seconds
     staleTime: 5 * 1000,
+  });
+}
+
+export function useMapAlerts(params?: Record<string, string | number>) {
+  // Bucket rolling window cache key per minute to recalculate rolling cutoff cleanly
+  const minuteBucket = Math.floor(Date.now() / 60000);
+  return useQuery({
+    queryKey: ["alerts", "map", params, minuteBucket],
+    queryFn: async () => {
+      const data = await api.getMapAlerts(params);
+      return filterMapAlertsForSevenDays(data, {
+        showCancelled: params?.show_cancelled === "true",
+      });
+    },
+    refetchInterval: 60 * 1000, // Refresh map alerts every 60 seconds
+    staleTime: 30 * 1000,
   });
 }
 
@@ -116,5 +134,28 @@ export function useSummaryMetrics(alerts: Alert[] | undefined, sources: Source[]
     healthy_sources_count,
     unhealthy_sources_count,
     latest_update_time,
+  };
+}
+
+export function useMapSummaryMetrics(mapAlerts: Alert[] | undefined) {
+  if (!mapAlerts) return null;
+
+  const validMapAlerts = filterMapAlertsForSevenDays(mapAlerts);
+  const total_map_alerts = validMapAlerts.length;
+  const critical_map_alerts = validMapAlerts.filter(
+    (a) => a.normalized_severity === "critical"
+  ).length;
+
+  const affectedDistricts = new Set<string>();
+  validMapAlerts.forEach((alert) => {
+    alert.locations?.forEach((loc) => {
+      if (loc.district) affectedDistricts.add(loc.district);
+    });
+  });
+
+  return {
+    total_map_alerts,
+    critical_map_alerts,
+    affected_districts_count: affectedDistricts.size,
   };
 }

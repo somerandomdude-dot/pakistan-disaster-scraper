@@ -17,6 +17,7 @@ class Alert(Base):
     issued_at = Column(DateTime(timezone=True), nullable=False, index=True)
     starts_at = Column(DateTime(timezone=True), nullable=True)
     expires_at = Column(DateTime(timezone=True), nullable=True, index=True)
+    effective_event_at = Column(DateTime(timezone=True), nullable=True, index=True)
     
     status = Column(String, nullable=False, default="pending", index=True) # pending, approved, active, expired, cancelled, rejected
     source_url = Column(String, nullable=False)

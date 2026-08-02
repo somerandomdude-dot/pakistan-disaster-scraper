@@ -42,7 +42,7 @@ def test_typed_resolution_is_persisted_and_reused(db_session, pmd_source):
     stored = db_session.query(Alert).filter(
         Alert.source_alert_id == "typed-location-cache"
     ).first()
-    assert stored.location_resolution["algorithm_version"] == "typed-aho-1"
+    assert stored.location_resolution["algorithm_version"] == "typed-aho-2"
     assert stored.location_resolution["dataset_version"].startswith("geonames-pk-")
     pattoki = next(
         item for item in stored.location_resolution["cities"]

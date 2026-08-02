@@ -41,6 +41,7 @@ class AlertBase(BaseModel):
     issued_at: datetime
     starts_at: Optional[datetime] = None
     expires_at: Optional[datetime] = None
+    effective_event_at: Optional[datetime] = None
     status: str
     source_url: str
     raw_text: Optional[str] = None
@@ -82,9 +83,47 @@ class AlertSource(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class AlertMapItem(BaseModel):
+    id: int
+    alert_id: int
+    title: str
+    description: Optional[str] = None
+    hazard_type: str
+    official_severity: Optional[str] = None
+    normalized_severity: str
+    status: str
+    source_name: str
+    source_url: str
+    effective_event_at: datetime
+    issued_at: Optional[datetime] = None
+    starts_at: Optional[datetime] = None
+    expires_at: Optional[datetime] = None
+    latitude: float
+    longitude: float
+    province: Optional[str] = None
+    district: Optional[str] = None
+    city: Optional[str] = None
+    is_inferred: Optional[bool] = None
+    resolution_source: Optional[str] = None
+    resolution_confidence: Optional[str] = None
+    locations: List[AlertLocation] = Field(default_factory=list)
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AlertMapResponse(BaseModel):
+    days: int
+    window_start_utc: datetime
+    window_end_utc: datetime
+    window_label_pkt: str
+    total_count: int
+    alerts: List[AlertMapItem]
+
+
 Alert.model_rebuild()
 
 
 class AlertRawText(BaseModel):
     alert_id: int
     raw_text: Optional[str] = None
+

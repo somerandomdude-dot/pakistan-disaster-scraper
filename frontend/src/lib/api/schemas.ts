@@ -97,6 +97,7 @@ export const AlertSchema = z.object({
   issued_at: z.string().nullable().optional(),
   starts_at: z.string().nullable().optional(),
   expires_at: z.string().nullable().optional(),
+  effective_event_at: z.string().nullable().optional(),
   status: z.string(),
   source_url: z.string().nullable().optional(),
   raw_text: z.string().nullable().optional(),

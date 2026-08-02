@@ -16,6 +16,10 @@ import {
   PAKISTAN_CENTER,
 } from "@/lib/utils/mapUtils";
 import {
+  filterMapAlertsForSevenDays,
+  formatPakistanDateRange,
+} from "@/lib/utils/alertTime";
+import {
   ALERT_POINTS_LAYER_ID,
   ALERT_SOURCE_ID,
   CLUSTERS_LAYER_ID,
@@ -146,8 +150,16 @@ export default function MapComponent({
     pmtilesRegistered: false,
   });
 
-  const geojsonData = useMemo(() => alertsToGeoJSON(alerts || []), [alerts]);
-  latestAlertsRef.current = alerts || [];
+  const filteredSevenDayAlerts = useMemo(
+    () => filterMapAlertsForSevenDays(alerts || []),
+    [alerts]
+  );
+
+  const geojsonData = useMemo(
+    () => alertsToGeoJSON(filteredSevenDayAlerts),
+    [filteredSevenDayAlerts]
+  );
+  latestAlertsRef.current = filteredSevenDayAlerts;
   latestSelectAlertRef.current = onSelectAlert;
   latestGeoJsonRef.current = geojsonData;
 
@@ -556,6 +568,20 @@ export default function MapComponent({
         <div className="map-warning" role="status">
           {mapError.message}
           {SHOW_DIAGNOSTICS && <code>{mapError.code}</code>}
+        </div>
+      )}
+
+      {/* Rolling 7-day Filter Indicator */}
+      <div className="map-rolling-badge" aria-label="Time window information">
+        <span className="map-rolling-badge__label">Showing alerts from the last 7 days</span>
+        <span className="map-rolling-badge__time" title="Current rolling 168-hour window in Pakistan Standard Time">
+          {formatPakistanDateRange()}
+        </span>
+      </div>
+
+      {diagnostics.styleLoaded && !mapError && filteredSevenDayAlerts.length === 0 && (
+        <div className="map-empty-state" role="status">
+          <span>No mapped alerts were reported during the last 7 days.</span>
         </div>
       )}
 

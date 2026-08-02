@@ -2,7 +2,13 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useActiveAlerts, useSources, useSummaryMetrics, useLiveAlerts } from "@/lib/hooks/queries";
+import {
+  useActiveAlerts,
+  useMapAlerts,
+  useSources,
+  useSummaryMetrics,
+  useLiveAlerts,
+} from "@/lib/hooks/queries";
 import { Alert } from "@/lib/api/schemas";
 
 import AlertSummaryBanner from "@/components/dashboard/AlertSummaryBanner";
@@ -28,6 +34,7 @@ function DashboardContent() {
   useLiveAlerts();
 
   const { data: alerts, isLoading: isLoadingAlerts, error: alertsError } = useActiveAlerts(params);
+  const { data: mapAlerts, isLoading: isLoadingMapAlerts } = useMapAlerts(params);
   const { data: sources, isLoading: isLoadingSources } = useSources();
   const metrics = useSummaryMetrics(alerts, sources);
   const selectedCity = findPakistanCity(
@@ -109,13 +116,13 @@ function DashboardContent() {
 
           {/* Column 2: Interactive Alert Map */}
           <div className="lg:col-span-8 xl:col-span-6 h-[480px] lg:h-[650px]">
-            {isLoadingAlerts ? (
+            {isLoadingMapAlerts ? (
               <div className="w-full h-full bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-md flex items-center justify-center text-slate-400 text-xs animate-pulse">
                 Initializing Alert Map...
               </div>
             ) : (
               <InteractiveAlertMap
-                alerts={alerts || []}
+                alerts={mapAlerts || []}
                 selectedCityCoords={
                   selectedCity
                     ? { lat: selectedCity.latitude, lng: selectedCity.longitude }

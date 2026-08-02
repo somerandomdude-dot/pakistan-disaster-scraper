@@ -19,6 +19,7 @@ from app.processing.deduplicator import Deduplicator
 from app.services.text_export_service import TextExportService
 from app.services.websocket import broadcast_alert
 from app.processing.ffd_advisory_parser import parse_ffd_advisory
+from app.services.alert_time import get_effective_alert_timestamp
 
 logger = logging.getLogger(__name__)
 
@@ -209,6 +210,7 @@ class AlertProcessor:
         existing_alert.issued_at = alert_data.issued_at
         existing_alert.starts_at = alert_data.starts_at
         existing_alert.expires_at = alert_data.expires_at
+        existing_alert.effective_event_at = get_effective_alert_timestamp(alert_data)
         existing_alert.status = alert_data.status
         existing_alert.raw_text = alert_data.raw_text
         existing_alert.structured_advisory = alert_data.structured_advisory
@@ -227,6 +229,7 @@ class AlertProcessor:
         return _SaveResult(action="updated", alert=existing_alert)
 
     def _create_db_alert(self, alert_data: AlertCreate):
+        effective_event_at = get_effective_alert_timestamp(alert_data)
         db_alert = Alert(
             source_id=alert_data.source_id,
             source_alert_id=alert_data.source_alert_id,
@@ -238,6 +241,7 @@ class AlertProcessor:
             issued_at=alert_data.issued_at,
             starts_at=alert_data.starts_at,
             expires_at=alert_data.expires_at,
+            effective_event_at=effective_event_at,
             status=alert_data.status,
             source_url=alert_data.source_url,
             raw_text=alert_data.raw_text,

@@ -1,17 +1,175 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session, selectinload
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from typing import List, Optional
 from datetime import datetime, timezone
 from app.database.session import get_db
 from app.database.models.alert import Alert
 from app.database.models.alert_location import AlertLocation
-from app.schemas.alert import Alert as AlertSchema, AlertRawText
+from app.database.models.source import Source
+from app.schemas.alert import (
+    Alert as AlertSchema,
+    AlertRawText,
+    AlertMapItem,
+    AlertMapResponse,
+    AlertLocation as AlertLocationSchema,
+)
+from app.services.alert_time import (
+    compute_rolling_cutoff,
+    get_effective_alert_timestamp,
+    format_pakistan_window_label,
+    is_valid_pakistan_coordinate,
+)
 
 router = APIRouter()
 
 # Severity ordering used for client-side sort hint (returned in X-Severity-Order header)
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
+
+
+@router.get("/map", response_model=AlertMapResponse)
+def get_map_alerts(
+    days: int = Query(7, ge=1, le=90, description="Rolling window in days (default 7)"),
+    hours: Optional[int] = Query(None, ge=1, le=2160, description="Rolling window in hours"),
+    issued_from: Optional[datetime] = Query(None, description="Optional custom reference datetime"),
+    province: Optional[str] = None,
+    district: Optional[str] = None,
+    city: Optional[str] = None,
+    hazard_type: Optional[str] = None,
+    severity: Optional[str] = None,
+    source: Optional[str] = None,
+    status: Optional[str] = None,
+    show_cancelled: bool = Query(False, description="Include cancelled alerts if True"),
+    limit: int = Query(500, le=1000),
+    db: Session = Depends(get_db),
+):
+    """
+    Return disaster alerts strictly within the rolling window (default: 7 days / 168 hours).
+    Older alerts and invalid/rejected records are excluded.
+    Only includes alerts with valid geographical coordinates in Pakistan.
+    """
+    window_days = (hours / 24.0) if hours is not None else float(days)
+    cutoff_utc, max_future_utc = compute_rolling_cutoff(
+        reference_time=issued_from, days=window_days
+    )
+
+    query = db.query(Alert).options(
+        selectinload(Alert.locations),
+        selectinload(Alert.location_resolution_record),
+        selectinload(Alert.source),
+    )
+
+    # Exclude rejected/invalid alerts
+    query = query.filter(Alert.status.not_in(["rejected", "invalid"]))
+
+    # Exclude cancelled by default
+    if not show_cancelled:
+        query = query.filter(Alert.status != "cancelled")
+
+    if status:
+        query = query.filter(Alert.status == status)
+
+    if hazard_type:
+        query = query.filter(Alert.hazard_type == hazard_type)
+
+    if severity:
+        query = query.filter(Alert.normalized_severity == severity)
+
+    if source:
+        query = query.join(Alert.source).filter(
+            or_(Source.name.ilike(f"%{source}%"), Source.source_type.ilike(f"%{source}%"))
+        )
+
+    # Rolling window filter using effective timestamp fallback
+    effective_expr = func.coalesce(
+        Alert.effective_event_at, Alert.issued_at, Alert.starts_at, Alert.created_at
+    )
+    query = query.filter(effective_expr >= cutoff_utc, effective_expr <= max_future_utc)
+
+    if province or district or city:
+        query = query.join(Alert.locations)
+        if province:
+            query = query.filter(AlertLocation.province.ilike(f"%{province}%"))
+        if district:
+            query = query.filter(AlertLocation.district.ilike(f"%{district}%"))
+        if city:
+            query = query.filter(AlertLocation.city.ilike(f"%{city}%"))
+
+    alerts_db = query.order_by(effective_expr.desc()).limit(limit).all()
+
+    map_items: list[AlertMapItem] = []
+    for a in alerts_db:
+        eff_dt = a.effective_event_at or get_effective_alert_timestamp(a)
+        if not eff_dt or eff_dt < cutoff_utc or eff_dt > max_future_utc:
+            continue
+
+        # Find primary coordinates
+        lat = a.latitude
+        lng = a.longitude
+        if not is_valid_pakistan_coordinate(lat, lng):
+            # Fallback to first valid location item
+            valid_loc = next(
+                (
+                    loc
+                    for loc in (a.locations or [])
+                    if is_valid_pakistan_coordinate(loc.latitude, loc.longitude)
+                ),
+                None,
+            )
+            if valid_loc:
+                lat = valid_loc.latitude
+                lng = valid_loc.longitude
+            else:
+                # No valid coordinates in Pakistan, skip from map
+                continue
+
+        source_name = a.source.name if a.source else "Official Source"
+        map_items.append(
+            AlertMapItem(
+                id=a.id,
+                alert_id=a.id,
+                title=a.title,
+                description=a.description,
+                hazard_type=a.hazard_type,
+                official_severity=a.official_severity,
+                normalized_severity=a.normalized_severity,
+                status=a.status,
+                source_name=source_name,
+                source_url=a.source_url or "",
+                effective_event_at=eff_dt,
+                issued_at=a.issued_at,
+                starts_at=a.starts_at,
+                expires_at=a.expires_at,
+                latitude=float(lat),
+                longitude=float(lng),
+                province=a.resolved_province or (a.locations[0].province if a.locations else None),
+                district=a.resolved_district or (a.locations[0].district if a.locations else None),
+                city=a.resolved_city or (a.locations[0].city if a.locations else None),
+                is_inferred=a.is_inferred,
+                resolution_source=a.resolution_source,
+                resolution_confidence=a.resolution_confidence,
+                locations=[
+                    AlertLocationSchema.model_validate(loc) for loc in (a.locations or [])
+                ],
+            )
+        )
+
+    # Sort map items by severity then newest first
+    map_items.sort(
+        key=lambda m: (
+            SEVERITY_ORDER.get(m.normalized_severity, 99),
+            -(m.effective_event_at.timestamp() if m.effective_event_at else 0),
+        )
+    )
+
+    return AlertMapResponse(
+        days=int(window_days),
+        window_start_utc=cutoff_utc,
+        window_end_utc=max_future_utc,
+        window_label_pkt=format_pakistan_window_label(reference_time=issued_from, days=window_days),
+        total_count=len(map_items),
+        alerts=map_items,
+    )
 
 
 def _list_payload(alerts: list[Alert]) -> list[AlertSchema]:

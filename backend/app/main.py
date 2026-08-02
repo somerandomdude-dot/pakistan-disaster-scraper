@@ -84,16 +84,31 @@ def ensure_location_schema():
 
 
 def ensure_alert_schema():
-    """Add advisory JSON storage to existing databases without data loss."""
+    """Add advisory JSON storage, effective timestamp column, and indices without data loss."""
     inspector = inspect(engine)
     if "alerts" not in inspector.get_table_names():
         return
     existing = {column["name"] for column in inspector.get_columns("alerts")}
-    if "structured_advisory" not in existing:
-        with engine.begin() as connection:
+    with engine.begin() as connection:
+        if "structured_advisory" not in existing:
             connection.execute(
                 text("ALTER TABLE alerts ADD COLUMN structured_advisory JSON")
             )
+        if "effective_event_at" not in existing:
+            connection.execute(
+                text("ALTER TABLE alerts ADD COLUMN effective_event_at TIMESTAMP WITH TIME ZONE")
+            )
+        # Ensure timestamp index exists
+        connection.execute(
+            text("CREATE INDEX IF NOT EXISTS ix_alerts_effective_event_at ON alerts (effective_event_at)")
+        )
+        connection.execute(
+            text("CREATE INDEX IF NOT EXISTS ix_alerts_effective_status ON alerts (effective_event_at, status)")
+        )
+        # Backfill any records where effective_event_at is NULL
+        connection.execute(
+            text("UPDATE alerts SET effective_event_at = COALESCE(issued_at, starts_at, created_at) WHERE effective_event_at IS NULL")
+        )
 
 
 @asynccontextmanager

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { useActiveAlerts } from "@/lib/hooks/queries";
+import { useMapAlerts } from "@/lib/hooks/queries";
 import InteractiveAlertMap from "@/components/map/InteractiveAlertMap";
 import { useSearchParams } from "next/navigation";
 import AlertFilters from "@/components/alerts/AlertFilters";
@@ -17,7 +17,7 @@ function MapContent() {
     params[key] = value;
   });
 
-  const { data: alerts, isLoading } = useActiveAlerts(params);
+  const { data: alerts, isLoading } = useMapAlerts(params);
   const selectedCity = findPakistanCity(
     searchParams.get("city"),
     searchParams.get("district"),

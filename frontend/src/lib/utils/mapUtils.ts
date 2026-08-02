@@ -88,12 +88,18 @@ export function alertsToGeoJSON(alerts: Alert[]): GeoJSON.FeatureCollection<GeoJ
             type: "Point",
             coordinates: [lng, lat], // MapLibre: [longitude, latitude]
           },
-          properties: {
+            properties: {
             alert_id: alert.id,
             title: alert.title,
             description: alert.description || "Not provided by source.",
             hazard_type: alert.hazard_type,
             severity: alert.normalized_severity,
+            official_severity: alert.official_severity || "",
+            status: alert.status,
+            effective_event_at: alert.effective_event_at || alert.issued_at || "",
+            issued_at: alert.issued_at || "",
+            starts_at: alert.starts_at || "",
+            expires_at: alert.expires_at || "",
             location_name: loc.city || loc.district || loc.province || loc.raw_location || "Advisory Location",
             source: alert.source?.name || "Official Source",
             source_url: alert.source_url || "",
