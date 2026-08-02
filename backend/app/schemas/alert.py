@@ -47,6 +47,14 @@ class AlertBase(BaseModel):
     structured_advisory: Optional[dict[str, Any]] = None
     content_hash: str
     validation_errors: Optional[str] = None
+    resolved_district: Optional[str] = None
+    resolved_city: Optional[str] = None
+    resolved_province: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    resolution_source: Optional[str] = None
+    resolution_confidence: Optional[str] = None
+    is_inferred: Optional[bool] = None
 
 class AlertCreate(AlertBase):
     source_id: int
@@ -61,6 +69,7 @@ class Alert(AlertBase):
     updated_at: Optional[datetime] = None
     locations: List[AlertLocation] = Field(default_factory=list)
     location_resolution: Optional[dict[str, Any]] = None
+    primary_location: Optional[dict[str, Any]] = None
     source: Optional["AlertSource"] = None
 
     model_config = ConfigDict(from_attributes=True)

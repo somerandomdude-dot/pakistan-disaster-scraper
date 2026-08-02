@@ -72,6 +72,19 @@ export const StructuredAdvisorySchema = z.object({
   }).default({}),
 });
 
+export const PrimaryLocationSchema = z.object({
+  district: z.string().nullable().optional(),
+  city: z.string().nullable().optional(),
+  province: z.string().nullable().optional(),
+  latitude: z.number().nullable().optional(),
+  longitude: z.number().nullable().optional(),
+  source: z.string().nullable().optional(),
+  confidence: z.string().nullable().optional(),
+  is_inferred: z.boolean().nullable().optional(),
+  label: z.string().nullable().optional(),
+  method: z.string().nullable().optional(),
+});
+
 export const AlertSchema = z.object({
   id: z.number(),
   source_id: z.number().optional(),
@@ -92,6 +105,15 @@ export const AlertSchema = z.object({
   validation_errors: z.string().nullable().optional(),
   created_at: z.string().nullable().optional(),
   updated_at: z.string().nullable().optional(),
+  resolved_district: z.string().nullable().optional(),
+  resolved_city: z.string().nullable().optional(),
+  resolved_province: z.string().nullable().optional(),
+  latitude: z.number().nullable().optional(),
+  longitude: z.number().nullable().optional(),
+  resolution_source: z.string().nullable().optional(),
+  resolution_confidence: z.string().nullable().optional(),
+  is_inferred: z.boolean().nullable().optional(),
+  primary_location: PrimaryLocationSchema.nullable().optional(),
   locations: z.array(AlertLocationSchema).default([]),
   location_resolution: z.record(z.any()).nullable().optional(),
   source: z.object({
@@ -100,6 +122,7 @@ export const AlertSchema = z.object({
   }).nullable().optional(),
 });
 
+export type PrimaryLocation = z.infer<typeof PrimaryLocationSchema>;
 export type Alert = z.infer<typeof AlertSchema>;
 export type AlertLocation = z.infer<typeof AlertLocationSchema>;
 export type StructuredAdvisory = z.infer<typeof StructuredAdvisorySchema>;

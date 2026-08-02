@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     ADMIN_API_KEY: str
     LOG_LEVEL: str = "INFO"
     SCRAPER_USER_AGENT: str = "PakistanDisasterAlertBot/1.0"
-    REQUEST_TIMEOUT_SECONDS: int = 20
+    REQUEST_TIMEOUT_SECONDS: int = 60
     MAX_RETRIES: int = 3
     ALLOWED_ORIGINS: List[str] = ["http://localhost:3000"]
     HTTP_PROXY: Optional[str] = None

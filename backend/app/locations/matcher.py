@@ -6,9 +6,10 @@ from dataclasses import asdict, dataclass
 from typing import Any, Iterable
 
 from app.locations.index import IndexMatch, LocationEntity, LocationIndex, get_location_index
+from app.locations.resolver import LocationResolver, PrimaryLocation
 
 
-EXTRACTION_ALGORITHM_VERSION = "typed-aho-1"
+EXTRACTION_ALGORITHM_VERSION = "typed-aho-2"
 IGNORED_TYPES = {"COUNTRY", "ISSUING_OFFICE", "GOVERNMENT_AGENCY", "WEATHER_OFFICE"}
 COLLECTION_BY_TYPE = {
     "CITY": "cities", "TOWN": "cities", "VILLAGE": "cities", "LOCALITY": "cities",
@@ -23,6 +24,7 @@ EVIDENCE_WEIGHTS = {
     "DESCRIPTION": 60,
     "SAFETY_INSTRUCTIONS": 40,
     "RAW_TEXT": 20,
+    "RIVER_MAPPING": 50,
 }
 
 
@@ -49,6 +51,7 @@ class LocationMention:
 class TypedLocationMatcher:
     def __init__(self, index: LocationIndex | None = None):
         self.index = index or get_location_index()
+        self.resolver = LocationResolver(self.index)
         self.dataset_version = self.index.dataset_version
         self.algorithm_version = EXTRACTION_ALGORITHM_VERSION
 
@@ -64,6 +67,7 @@ class TypedLocationMatcher:
         description: str = "",
         safety_instructions: str = "",
         raw_text: str = "",
+        structured_advisory: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         mentions: list[LocationMention] = []
         unresolved: list[dict[str, Any]] = []
@@ -108,7 +112,16 @@ class TypedLocationMatcher:
             if existing is None or mention.evidence_score > existing.evidence_score:
                 target[mention.location_id] = mention
 
+        primary = self.resolver.resolve(
+            structured_locations=structured_locations,
+            title=title,
+            description=description,
+            raw_text=raw_text,
+            structured_advisory=structured_advisory,
+        )
+
         result: dict[str, Any] = {
+            "primary_location": primary.to_dict(),
             "cities": [], "tehsils": [], "districts": [], "divisions": [],
             "provinces": [], "geographic_features": [],
             "ignored_entities": [asdict(item) for item in ignored.values()],

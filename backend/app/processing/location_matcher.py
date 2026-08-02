@@ -30,6 +30,7 @@ class LocationMatcher:
             title=alert.title,
             description=alert.description or "",
             raw_text=alert.raw_text or "",
+            structured_advisory=alert.structured_advisory,
         )
         alert.locations = self._to_alert_locations(result)
         alert.location_resolution = result

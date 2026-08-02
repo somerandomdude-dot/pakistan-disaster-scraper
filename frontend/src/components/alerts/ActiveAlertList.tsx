@@ -32,9 +32,16 @@ interface AlertListItemProps {
 }
 
 export function AlertListItem({ alert, onSelect }: AlertListItemProps) {
-  const highestLocation = alert.locations[0] 
-    ? (alert.locations[0].city || alert.locations[0].district || alert.locations[0].province || alert.locations[0].raw_location || "Multiple Areas")
-    : "Multiple Areas";
+  const primaryLoc = alert.primary_location || (alert.location_resolution as any)?.primary_location;
+  const bestLocation = primaryLoc
+    ? (primaryLoc.city && primaryLoc.district && primaryLoc.city.toLowerCase() !== primaryLoc.district.toLowerCase()
+        ? `${primaryLoc.city}, ${primaryLoc.district}`
+        : primaryLoc.district || primaryLoc.city || primaryLoc.province || "Multiple Areas")
+    : (alert.resolved_city && alert.resolved_district && alert.resolved_city.toLowerCase() !== alert.resolved_district.toLowerCase()
+        ? `${alert.resolved_city}, ${alert.resolved_district}`
+        : alert.resolved_district || alert.resolved_city || alert.resolved_province || (alert.locations[0]
+            ? (alert.locations[0].city || alert.locations[0].district || alert.locations[0].province || alert.locations[0].raw_location || "Multiple Areas")
+            : "Multiple Areas"));
 
   return (
     <div
@@ -65,7 +72,7 @@ export function AlertListItem({ alert, onSelect }: AlertListItemProps) {
               {alert.hazard_type.replace(/_/g, " ").toUpperCase()}
             </span>
             <span>•</span>
-            <span className="truncate max-w-[110px]">{highestLocation}</span>
+            <span className="truncate max-w-[120px]">{bestLocation}</span>
             <span>•</span>
             <span>{alert.source?.name || "Official Source"}</span>
             <span className="ml-auto text-slate-400 font-mono">

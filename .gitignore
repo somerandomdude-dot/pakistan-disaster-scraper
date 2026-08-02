@@ -48,7 +48,10 @@ postgres_data/
 *.csv
 *.sqlite3
 *.db
+*.db-journal
 backend/storage/
+backend/supabase/.temp/
+backend/supabase/.branches/
 **/GeoLite2-City.mmdb
 
 # Node / npm leftovers from one-off installs

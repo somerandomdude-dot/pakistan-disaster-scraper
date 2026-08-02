@@ -41,3 +41,48 @@ class Alert(Base):
     @property
     def location_resolution(self):
         return self.location_resolution_record.as_dict() if self.location_resolution_record else None
+
+    @property
+    def primary_location(self) -> dict | None:
+        res = self.location_resolution
+        return res.get("primary_location") if res else None
+
+    @property
+    def resolved_district(self) -> str | None:
+        primary = self.primary_location
+        return primary.get("district") if primary else None
+
+    @property
+    def resolved_city(self) -> str | None:
+        primary = self.primary_location
+        return primary.get("city") if primary else None
+
+    @property
+    def resolved_province(self) -> str | None:
+        primary = self.primary_location
+        return primary.get("province") if primary else None
+
+    @property
+    def latitude(self) -> float | None:
+        primary = self.primary_location
+        return primary.get("latitude") if primary else None
+
+    @property
+    def longitude(self) -> float | None:
+        primary = self.primary_location
+        return primary.get("longitude") if primary else None
+
+    @property
+    def resolution_source(self) -> str | None:
+        primary = self.primary_location
+        return primary.get("source") if primary else None
+
+    @property
+    def resolution_confidence(self) -> str | None:
+        primary = self.primary_location
+        return primary.get("confidence") if primary else None
+
+    @property
+    def is_inferred(self) -> bool | None:
+        primary = self.primary_location
+        return primary.get("is_inferred") if primary else None

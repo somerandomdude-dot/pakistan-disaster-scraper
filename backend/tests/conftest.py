@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,9 +10,11 @@ from app.main import app
 import httpx
 from datetime import datetime, timezone
 
+TEST_SQLITE_URL = "sqlite:///:memory:"
+
 @pytest.fixture(scope="session")
 def engine():
-    return create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False})
+    return create_engine(TEST_SQLITE_URL, connect_args={"check_same_thread": False})
 
 @pytest.fixture(scope="session")
 def tables(engine):
@@ -40,8 +43,16 @@ def client(db_session):
         yield db_session
         
     app.dependency_overrides[get_db] = override_get_db
-    with TestClient(app) as c:
+
+    with patch("app.main.init_sources"), \
+         patch("app.main.ensure_location_schema"), \
+         patch("app.main.ensure_alert_schema"), \
+         patch("app.main.ensure_postgis_schema"), \
+         patch("app.main.start_scheduler"), \
+         patch("app.main.stop_scheduler"), \
+         TestClient(app) as c:
         yield c
+
     app.dependency_overrides.clear()
 
 @pytest.fixture

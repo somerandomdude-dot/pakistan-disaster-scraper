@@ -42,7 +42,18 @@ export default function AdvisoryInformation({ alert }: { alert: Alert }) {
       {advisory && <RainfallForecastSection forecast={advisory.rainfall_forecast} />}
       {advisory && <HydrologicalSituation items={advisory.hydrological_summary} />}
       {advisory && <WarningPanel warning={advisory.warning} />}
-      <AffectedLocationsSection locations={alert.locations || []} />
+      <AffectedLocationsSection
+        locations={alert.locations || []}
+        primaryLocation={alert.primary_location || (alert.location_resolution as any)?.primary_location}
+        resolvedDistrict={alert.resolved_district}
+        resolvedCity={alert.resolved_city}
+        resolvedProvince={alert.resolved_province}
+        latitude={alert.latitude}
+        longitude={alert.longitude}
+        resolutionSource={alert.resolution_source}
+        resolutionConfidence={alert.resolution_confidence}
+        isInferred={alert.is_inferred}
+      />
       {advisory && <BulletinMetadata alert={alert} advisory={advisory} />}
       <OfficialSourcePanel alert={alert} advisory={advisory} />
       <RawTextDisclosure alertId={alert.id} rawText={alert.raw_text} />

@@ -15,6 +15,64 @@ from app.locations.normalization import normalize_location_name, normalize_text
 RUNTIME_INDEX_PATH = Path(__file__).resolve().parents[1] / "data/generated/pakistan_locations.msgpack.zst"
 SHORT_VERIFIED_ALIASES = {"kp", "gb", "pb", "pmd", "ndma", "ffd", "isb", "lhr", "khi", "kpk", "ict", "ajk"}
 
+# Pakistan geographic bounding box for coordinate verification
+PAKISTAN_LAT_MIN = 23.0
+PAKISTAN_LAT_MAX = 38.0
+PAKISTAN_LNG_MIN = 60.0
+PAKISTAN_LNG_MAX = 78.5
+
+
+def is_valid_pakistan_coords(lat: float | None, lng: float | None) -> bool:
+    if lat is None or lng is None:
+        return False
+    return (
+        PAKISTAN_LAT_MIN <= lat <= PAKISTAN_LAT_MAX
+        and PAKISTAN_LNG_MIN <= lng <= PAKISTAN_LNG_MAX
+    )
+
+
+# Deterministic mapping of hydrological gauging stations / barrages / dams to primary district
+STATION_TO_DISTRICT: dict[str, str] = {
+    "tarbela": "Haripur",
+    "kalabagh": "Mianwali",
+    "chashma": "Mianwali",
+    "taunsa": "Muzaffargarh",
+    "guddu": "Kashmore",
+    "sukkur": "Sukkur",
+    "sukkur barrage": "Sukkur",
+    "kotri": "Jamshoro",
+    "kotri barrage": "Jamshoro",
+    "nowshera": "Nowshera",
+    "mangla": "Mirpur",
+    "rasul": "Mandi Bahauddin",
+    "marala": "Sialkot",
+    "khanki": "Gujranwala",
+    "qadirabad": "Mandi Bahauddin",
+    "trimmu": "Jhang",
+    "panjnad": "Bahawalpur",
+    "jassar": "Narowal",
+    "shahdara": "Lahore",
+    "balloki": "Kasur",
+    "sidhnai": "Khanewal",
+    "ganda singh wala": "Kasur",
+    "sulemanki": "Okara",
+    "islam": "Vehari",
+    "warsak": "Peshawar",
+    "chiniot bridge": "Chiniot",
+}
+
+# Major rivers mapping to primary districts in Pakistan
+RIVER_TO_PRIMARY_DISTRICTS: dict[str, list[str]] = {
+    "indus": ["Haripur", "Mianwali", "Muzaffargarh", "Kashmore", "Sukkur", "Jamshoro"],
+    "chenab": ["Sialkot", "Gujranwala", "Mandi Bahauddin", "Hafizabad", "Chiniot", "Jhang", "Muzaffargarh"],
+    "jhelum": ["Muzaffarabad", "Mirpur", "Jhelum", "Mandi Bahauddin", "Sargodha", "Jhang"],
+    "ravi": ["Narowal", "Lahore", "Kasur", "Okara", "Sahiwal", "Khanewal"],
+    "sutlej": ["Kasur", "Okara", "Pakpattan", "Vehari", "Bahawalnagar", "Bahawalpur"],
+    "kabul": ["Peshawar", "Nowshera", "Charsadda"],
+    "swat": ["Swat", "Charsadda"],
+}
+
+
 
 @dataclass(frozen=True, slots=True)
 class LocationEntity:
@@ -103,6 +161,34 @@ class LocationIndex:
             if entity.entity_type == "DIVISION" and entity.province_id
         }
 
+        # Index district entities and precompute district-to-cities mappings
+        self.district_entities: dict[int, LocationEntity] = {
+            entity.numeric_id: entity
+            for entity in self.locations.values()
+            if entity.entity_type == "DISTRICT"
+        }
+        self.district_name_to_id: dict[str, int] = {}
+        for entity in self.district_entities.values():
+            self.district_name_to_id[entity.normalized_name] = entity.numeric_id
+            self.district_name_to_id[entity.canonical_name.casefold()] = entity.numeric_id
+
+        self.district_to_cities: dict[int, list[LocationEntity]] = {}
+        for entity in self.locations.values():
+            if entity.entity_type in {"CITY", "TOWN"} and entity.district_id:
+                self.district_to_cities.setdefault(entity.district_id, []).append(entity)
+
+        for district_id, city_list in self.district_to_cities.items():
+            dist_entity = self.district_entities.get(district_id)
+            dist_canonical = dist_entity.canonical_name.casefold() if dist_entity else ""
+            city_list.sort(
+                key=lambda item: (
+                    1 if item.canonical_name.casefold() == dist_canonical else 0,
+                    item.population_rounded_thousands or 0,
+                    1 if item.entity_type == "CITY" else 0,
+                ),
+                reverse=True,
+            )
+
     @classmethod
     def load(cls, path: Path = RUNTIME_INDEX_PATH) -> "LocationIndex":
         started = time.perf_counter()
@@ -113,6 +199,31 @@ class LocationIndex:
 
     def entity(self, numeric_id: int | None) -> LocationEntity | None:
         return self.locations.get(numeric_id) if numeric_id else None
+
+    def get_district_entity(self, name_or_id: str | int | None) -> LocationEntity | None:
+        if name_or_id is None:
+            return None
+        if isinstance(name_or_id, int):
+            return self.district_entities.get(name_or_id)
+        norm = normalize_location_name(name_or_id)
+        numeric_id = self.district_name_to_id.get(norm) or self.district_name_to_id.get(name_or_id.casefold())
+        if numeric_id:
+            return self.district_entities.get(numeric_id)
+        # Direct lookup with preferred type
+        found = self.lookup(name_or_id, preferred_types={"DISTRICT"})
+        if found and found.entity_type == "DISTRICT":
+            return found
+        return None
+
+    def get_district_top_city(self, district_id: int | None) -> LocationEntity | None:
+        if district_id is None:
+            return None
+        cities = self.district_to_cities.get(district_id)
+        if cities:
+            return cities[0]
+        # Fallback to any child entity with coordinates or the district entity itself
+        district = self.entity(district_id)
+        return district
 
     def parent_names(self, entity: LocationEntity) -> tuple[str | None, str | None, str | None]:
         district = self.entity(entity.district_id)
